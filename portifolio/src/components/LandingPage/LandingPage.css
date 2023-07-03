@@ -1,0 +1,11 @@
+/* Add this to your global CSS file, or at the top of your LandingPage.css file */
+
+/* LandingPage.css */
+.landing-page-container {
+  height: 100vh; /* viewport height */
+  max-width: 100vw; /* viewport width */
+  overflow-x: hidden; /* hide horizontal scrollbar */
+  position: relative; /* establish new positioning context */
+  padding-bottom: 1px; /* prevent unwanted scroll */
+
+}

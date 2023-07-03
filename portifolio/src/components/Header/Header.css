@@ -1,0 +1,46 @@
+/* Header.css */
+header {
+    position: fixed;
+    top: 0;
+    right: 0;
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+    width: 100%;
+    z-index: 1; /* Make sure the header is above other elements */
+}
+  
+nav ul {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    padding: 0;
+}
+  
+nav ul li {
+    margin: 0 10px;
+}
+  
+nav ul li a {
+    display: inline-block;
+    background: transparent;
+    border: none;
+    color: #D7D7D7;
+    font-size: 17px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    padding: 10px 20px;
+    border-radius: 50px;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+    text-decoration: none; /* Remove the underline */
+}
+
+nav ul li a:hover {
+    transform: scale(1.22);
+}
+  
+nav ul li:last-child a {
+    background: #FFBE00;
+    color: #011526;
+}

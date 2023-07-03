@@ -1,0 +1,26 @@
+/* LandingPage.css */
+.additional-section {
+  background: #011526;
+  color: #FFF;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align items to the start (left) */
+  justify-content: flex-start; /* Align content to the start (top) */
+  text-align: left; /* Align text to the left */
+}
+
+.additional-section h2 {
+  font-size: 40px;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 700;
+}
+
+.additional-section p {
+  font-size: 20px;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 400;
+  max-width: 80%; /* Adjust as needed */
+  margin: 0; /* Remove auto margin */
+  text-align: justify; /* Add this line */
+}
