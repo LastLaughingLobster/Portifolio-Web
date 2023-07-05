@@ -44,3 +44,8 @@ nav ul li:last-child a {
     background: #FFBE00;
     color: #011526;
 }
+
+nav ul li a.not-home {
+    color: #011526;
+}
+

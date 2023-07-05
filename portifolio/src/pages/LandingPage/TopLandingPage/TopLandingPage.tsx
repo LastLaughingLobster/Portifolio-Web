@@ -1,7 +1,7 @@
 // TopLandingPage.tsx
 import React, { FunctionComponent } from 'react';
 import './TopLandingPage.css';
-import SocialButton from '../../SocialButton/SocialButton';
+import SocialButton from '../../../components/SocialButton/SocialButton';
 
 const TopLandingPage: FunctionComponent = () => {
     return (
