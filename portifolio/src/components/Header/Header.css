@@ -43,6 +43,7 @@ nav ul li a:hover {
 nav ul li:last-child a {
     background: #FFBE00;
     color: #011526;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2); /* Added a subtle shadow for depth */
 }
 
 nav ul li a.not-home {

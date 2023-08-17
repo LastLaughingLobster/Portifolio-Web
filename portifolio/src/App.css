@@ -36,3 +36,31 @@
     transform: rotate(360deg);
   }
 }
+/* For Webkit Browsers: Chrome, Safari, newer versions of Opera, almost all versions of Edge. */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;  /* Making the track transparent */
+}
+
+::-webkit-scrollbar-thumb {
+  background: transparent; 
+  border-radius: 6px;       /* Half of the width to make it fully rounded */
+}
+
+body:hover::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+body:hover {
+  scrollbar-color: #888 transparent;   /* Transparent track for Firefox */
+}
+

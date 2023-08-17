@@ -7,6 +7,8 @@ import LandingPage from './pages/LandingPage/LandingPage';
 import SkillsPage from './pages/SkillsPage/SkillsPage';
 import PlaygroundPage from './pages/PlaygroundPage/PlaygroundPage';
 import ContactPage from './pages/ContactPage/ContactPage';
+import './App.css';
+
 
 const Main: FunctionComponent = () => {
   const location = useLocation();

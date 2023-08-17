@@ -23,7 +23,6 @@ const SkillsPage = () => {
       </div>
       <div className='section'>
         <h2>Back End</h2>
-        {/* Add your images and paragraphs here */}
       </div>
       <div className='logo-grid'>
         <div className='logo-row'>
@@ -37,9 +36,36 @@ const SkillsPage = () => {
           <LogoImage logo="/images/logos/springBoot.png" name="Spring Boot" />
         </div>
       </div>
+      <div className='section data-science'>
+        <h2>Data Science</h2>
+      </div>
+      <div className='logo-grid'>
+        <div className='logo-row'>
+          <LogoImage logo="/images/logos/scikit-learn.png" name="Scikit-learn"/>
+          <LogoImage logo="/images/logos/pandas.png" name="Pandas" />
+          <LogoImage logo="/images/logos/numpy.png" name="Numpy" />
+        </div>
+        <div className='logo-row'>
+          <LogoImage logo="/images/logos/tensorflow.png" name="TensorFlow" />
+          <LogoImage logo="/images/logos/opencv.png" name="OpenCV" />
+          <LogoImage logo="/images/logos/mediaPipe.png" name="MediaPipe" />
+        </div>
+      </div>
+
+      {/* Game Development Section */}
+      <div className='section game-dev'>
+        <h2>Game Development</h2>
+      </div>
+      <div className='logo-grid'>
+        <div className='logo-row'>
+          <LogoImage logo="/images/logos/Godot.png" name="Godot" />
+          <LogoImage logo="/images/logos/P5js.png" name="P5.js" />
+          <LogoImage logo="/images/logos/cpp.png" name="C++" />
+        </div>
+      </div>
+
       <div className='section'>
         <h2>Miscellaneous</h2>
-        {/* Add your images and paragraphs here */}
       </div>
     </div>
   );

@@ -4,8 +4,16 @@
 .landing-page-container {
   height: 100vh; /* viewport height */
   max-width: 100vw; /* viewport width */
-  overflow-x: hidden; /* hide horizontal scrollbar */
   position: relative; /* establish new positioning context */
   padding-bottom: 1px; /* prevent unwanted scroll */
+}
 
+/* Initially set the scrollbar to be transparent */
+::-webkit-scrollbar-thumb {
+  background: transparent; 
+}
+
+/* Only show the scrollbar when the user hovers over the scrollable area */
+scrollable-element:hover::-webkit-scrollbar-thumb {
+  background: #888; 
 }
