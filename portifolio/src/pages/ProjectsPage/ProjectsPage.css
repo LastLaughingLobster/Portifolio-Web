@@ -1,0 +1,99 @@
+/* ProjectsCarousel.css */
+
+.carousel-container {
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    align-items: center;
+    position: relative;
+    margin: 3rem 0;
+    padding: 2rem 5%; /* padding around the carousel */
+    background: #D7D7D7;
+    border-radius: 20px; /* adding rounded corners */
+}
+
+.carousel-button {
+    border: none;
+    background: #011526;
+    color: #D7D7D7;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 1.2rem;
+    padding: 0.5rem 1.5rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    z-index: 5; /* Keep the buttons above the cards */
+    border-radius: 30px; /* Making the buttons rounder */
+}
+
+.carousel-button:hover {
+    transform: scale(1.05);
+}
+
+.carousel-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 2rem;
+    background: #D7D7D7;
+    border-radius: 15px; /* adding rounded corners */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.project-image {
+    width: 70%;
+    height: auto;
+    margin-bottom: 1.5rem;
+    border-radius: 15px;
+    object-fit: cover;
+}
+
+.carousel-card h2 {
+    color: #011526;
+    text-align: center;
+    font-size: 2rem;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.carousel-card p {
+    color: #909090;
+    text-align: center;
+    font-size: 1.2rem;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    margin-bottom: 2rem;
+}
+
+.project-links {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px;
+}
+
+.project-links a {
+    color: #011526;
+    text-decoration: none;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.project-links a:hover {
+    color: #D7D7D7;
+}
+
+.carousel-prev {
+    position: absolute;
+    left: 10px; /* Move the button 10px away from the left edge */
+}
+
+.carousel-next {
+    position: absolute;
+    right: 10px; /* Move the button 10px away from the right edge */
+}

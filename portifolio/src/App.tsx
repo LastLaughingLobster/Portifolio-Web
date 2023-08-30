@@ -7,6 +7,7 @@ import LandingPage from './pages/LandingPage/LandingPage';
 import SkillsPage from './pages/SkillsPage/SkillsPage';
 import PlaygroundPage from './pages/PlaygroundPage/PlaygroundPage';
 import ContactPage from './pages/ContactPage/ContactPage';
+import ProjectsPage from './pages/ProjectsPage/ProjectsPage';
 import './App.css';
 
 
@@ -22,6 +23,7 @@ const Main: FunctionComponent = () => {
         <Route path="/skills" element={<SkillsPage />} />
         <Route path="/playground" element={<PlaygroundPage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/projects" element={<ProjectsPage />} />
       </Routes>
     </>
   );
