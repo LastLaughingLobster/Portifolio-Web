@@ -29,8 +29,10 @@
 /* This creates a container with a 16:9 aspect ratio */
 .canvas-container {
     position: relative;
-    width: 100%; 
-    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    width: 100%;
+    max-width: 100%;
+    min-width: 1000px;
+   
     background: #D7D7D7;
     margin: 0 auto; /* Center the canvas horizontally */
 }

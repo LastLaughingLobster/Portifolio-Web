@@ -5,7 +5,7 @@ import './Header.css';
 
 const Header: FunctionComponent = () => {
   const location = useLocation();
-  const isHomePage = location.pathname === '/';
+  const isHomePage = location.pathname === '/Portifolio-Web';
 
   return (
     <header>

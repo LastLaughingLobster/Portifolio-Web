@@ -17,14 +17,10 @@ const Main: FunctionComponent = () => {
   return (
     <>
       <Header />
-      {location.pathname !== '/' && <HomeButton />}
+      {location.pathname !== '/Portifolio-Web' && <HomeButton />}
       
-      <Router basename="/Portifolio-Web">
-        <Main />
-      </Router>
-
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+        <Route path="/Portifolio-Web" element={<LandingPage />} />
         <Route path="/skills" element={<SkillsPage />} />
         <Route path="/playground" element={<PlaygroundPage />} />
         <Route path="/contact" element={<ContactPage />} />

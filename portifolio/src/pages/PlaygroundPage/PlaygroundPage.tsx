@@ -29,14 +29,16 @@ const Playground: React.FC = () => {
 
   let looperIncrement = 0;
 
+  let width;
+  let height;
 
   const setup = (p5: p5Types, canvasParentRef: Element) => {
     p5Ref.current = p5;
 
     p5.frameRate(60);
 
-    const width = canvasRef.current?.offsetWidth || 1280;
-    const height = (width * 9) / 16;
+    width = canvasRef.current?.offsetWidth || 1280;
+    height = (width * 9) / 16;
 
     const canvas = p5.createCanvas(width, height);
     canvas.parent(canvasParentRef);
@@ -78,14 +80,16 @@ const Playground: React.FC = () => {
   const flipCellState = (p5: p5Types) => {
     const x = Math.floor(p5.mouseX / w);
     const y = Math.floor(p5.mouseY / w);
-    if (x < columns && y < rows) {
+    
+    // Check if x and y are within the valid range before accessing board's indices
+    if (x >= 0 && x < columns && y >= 0 && y < rows) {
         if (p5.mouseButton === p5.LEFT) {
             board.current[x][y] = 1; // activate cell
         } else if (p5.mouseButton === p5.RIGHT) {
             board.current[x][y] = 0; // deactivate cell
         }
     }
-  };
+};
 
   const mousePressed = (p5: p5Types) => {
     flipCellState(p5);
