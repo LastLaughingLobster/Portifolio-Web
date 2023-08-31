@@ -6,7 +6,7 @@ import './HomeButton.css';
 const HomeButton: FunctionComponent = () => {
   return (
     <Link to="/" className="home-button">
-      <img src="/images/logos/home.png" alt="Home" />
+      <img src= { process.env.PUBLIC_URL + "/images/logos/home.png"} alt="Home" />
     </Link>
   );
 };

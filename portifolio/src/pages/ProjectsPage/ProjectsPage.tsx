@@ -57,7 +57,7 @@ const ProjectsPage: React.FunctionComponent = () => {
             <button onClick={handlePrev} className="carousel-button carousel-prev">Prev</button>
             
             <div className="carousel-card">
-                <img src={projectsData[currentIndex].imageUrl} alt={projectsData[currentIndex].title} className="project-image" />
+                <img src={process.env.PUBLIC_URL + projectsData[currentIndex].imageUrl} alt={projectsData[currentIndex].title} className="project-image" />
                 <h2>{projectsData[currentIndex].title}</h2>
                 <p>{projectsData[currentIndex].description}</p>
                 <div className="project-links">

@@ -13,13 +13,13 @@ const TopLandingPage: FunctionComponent = () => {
               <h3>Computer Scientist and Beyond</h3>
             </div>
             <div className="social-buttons">
-              <SocialButton image="/images/logos/twitter.png" alt="Twitter" url="https://twitter.com/?lang=en" />
-              <SocialButton image="/images/logos/git.png" alt="GitHub" url="https://github.com" />
-              <SocialButton image="/images/logos/linkedin.png" alt="LinkedIn" url="https://linkedin.com" />
+              <SocialButton image={ process.env.PUBLIC_URL + "/images/logos/twitter.png" } alt="Twitter" url="https://twitter.com/?lang=en" />
+              <SocialButton image={ process.env.PUBLIC_URL + "/images/logos/git.png" } alt="GitHub" url="https://github.com" />
+              <SocialButton image={ process.env.PUBLIC_URL + "/images/logos/linkedin.png" } alt="LinkedIn" url="https://linkedin.com" />
             </div>
           </div>
           <div className="empty-section">
-            <img src="/images/Photos/me.png" alt="Your Name" />
+            <img src={ process.env.PUBLIC_URL + "/images/Photos/me.png"} alt="Your Name" />
           </div>
         </div>
       );

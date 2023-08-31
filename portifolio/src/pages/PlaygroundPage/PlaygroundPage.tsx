@@ -177,17 +177,20 @@ const Playground: React.FC = () => {
     <div className="playground-container">
       <h2>🔨 This page is still under construction! 🔨</h2>
       <h3>In the mean time you can interact with this Conway's Game of Life Implementation 😄</h3>
-      <div className="canvas-container" ref={canvasRef}>
-        <Sketch setup={setup} draw={draw} mousePressed={mousePressed} mouseReleased={mouseReleased} />
-      </div>
-      <div className="control-buttons">
-        <button onClick={handleReset}>Reset</button>
-        <button onClick={() => setIsPaused(!isPaused)}>
-          {isPaused ? "Resume" : "Pause / Draw"}
-        </button>
-        <button onClick={erase}>Erase</button>
+      <div className="canvas-and-controls">
+          <div className="canvas-container" ref={canvasRef}>
+              <Sketch setup={setup} draw={draw} mousePressed={mousePressed} mouseReleased={mouseReleased} />
+          </div>
+          <div className="control-buttons">
+              <button onClick={handleReset}>Reset</button>
+              <button onClick={() => setIsPaused(!isPaused)}>
+                  {isPaused ? "Resume" : "Pause / Draw"}
+              </button>
+              <button onClick={erase}>Erase</button>
+          </div>
       </div>
     </div>
+
   );
 };
 

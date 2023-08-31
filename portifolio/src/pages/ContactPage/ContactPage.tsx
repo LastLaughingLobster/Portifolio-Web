@@ -53,9 +53,9 @@ const ContactPage: React.FC = () => {
             {/* Social Media Links */}
             
             <div className="social-buttons">
-                <SocialButton image="/images/logos/twitter.png" alt="Twitter" url="https://twitter.com/?lang=en" />
-                <SocialButton image="/images/logos/git.png" alt="GitHub" url="https://github.com" />
-                <SocialButton image="/images/logos/linkedin.png" alt="LinkedIn" url="https://linkedin.com" />
+                <SocialButton image= { process.env.PUBLIC_URL + "/images/logos/twitter.png" } alt="Twitter" url="https://twitter.com/?lang=en" />
+                <SocialButton image= { process.env.PUBLIC_URL + "/images/logos/git.png" } alt="GitHub" url="https://github.com" />
+                <SocialButton image= { process.env.PUBLIC_URL + "/images/logos/linkedin.png" } alt="LinkedIn" url="https://linkedin.com" />
             </div>
 
             {/* Optional Map */}

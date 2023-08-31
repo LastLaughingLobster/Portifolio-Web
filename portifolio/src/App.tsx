@@ -18,6 +18,11 @@ const Main: FunctionComponent = () => {
     <>
       <Header />
       {location.pathname !== '/' && <HomeButton />}
+      
+      <Router basename="/Portifolio-Web">
+        <Main />
+      </Router>
+
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/skills" element={<SkillsPage />} />

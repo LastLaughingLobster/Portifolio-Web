@@ -11,14 +11,14 @@ const SkillsPage = () => {
       </div>
       <div className='logo-grid'>
         <div className='logo-row'>
-          <LogoImage logo="/images/logos/js.png" name="JavaScript" />
-          <LogoImage logo="/images/logos/css.png" name="CSS" />
-          <LogoImage logo="/images/logos/html.png" name="HTML" />
+          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/js.png"} name="JavaScript" />
+          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/css.png"} name="CSS" />
+          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/html.png"} name="HTML" />
         </div>
         <div className='logo-row'>
-          <LogoImage logo="/images/logos/react.png" name="React" />
-          <LogoImage logo="/images/logos/angular.png" name="Angular" />
-          <LogoImage logo="/images/logos/ts.png" name="TypeScript" />
+          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/react.png"} name="React" />
+          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/angular.png"} name="Angular" />
+          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/ts.png"} name="TypeScript" />
         </div>
       </div>
       <div className='section'>
@@ -26,14 +26,14 @@ const SkillsPage = () => {
       </div>
       <div className='logo-grid'>
         <div className='logo-row'>
-          <LogoImage logo="/images/logos/csharp.png" name="C#" />
-          <LogoImage logo="/images/logos/net.png" name=".NET" />
-          <LogoImage logo="/images/logos/rabbit.png" name="RabbitMQ" />
+          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/csharp.png"} name="C#" />
+          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/net.png"} name=".NET" />
+          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/rabbit.png"} name="RabbitMQ" />
         </div>
         <div className='logo-row'>
-          <LogoImage logo="/images/logos/python.png" name="Python" />
-          <LogoImage logo="/images/logos/fastapi.png" name="Fast API" />
-          <LogoImage logo="/images/logos/springBoot.png" name="Spring Boot" />
+          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/python.png"} name="Python" />
+          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/fastapi.png"} name="Fast API" />
+          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/springBoot.png"} name="Spring Boot" />
         </div>
       </div>
       <div className='section data-science'>
@@ -41,14 +41,14 @@ const SkillsPage = () => {
       </div>
       <div className='logo-grid'>
         <div className='logo-row'>
-          <LogoImage logo="/images/logos/scikit-learn.png" name="Scikit-learn"/>
-          <LogoImage logo="/images/logos/pandas.png" name="Pandas" />
-          <LogoImage logo="/images/logos/numpy.png" name="Numpy" />
+          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/scikit-learn.png"} name="Scikit-learn"/>
+          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/pandas.png"} name="Pandas" />
+          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/numpy.png"} name="Numpy" />
         </div>
         <div className='logo-row'>
-          <LogoImage logo="/images/logos/tensorflow.png" name="TensorFlow" />
-          <LogoImage logo="/images/logos/opencv.png" name="OpenCV" />
-          <LogoImage logo="/images/logos/mediaPipe.png" name="MediaPipe" />
+          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/tensorflow.png"} name="TensorFlow" />
+          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/opencv.png"} name="OpenCV" />
+          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/mediaPipe.png"} name="MediaPipe" />
         </div>
       </div>
 
@@ -58,9 +58,9 @@ const SkillsPage = () => {
       </div>
       <div className='logo-grid'>
         <div className='logo-row'>
-          <LogoImage logo="/images/logos/Godot.png" name="Godot" />
-          <LogoImage logo="/images/logos/P5js.png" name="P5.js" />
-          <LogoImage logo="/images/logos/cpp.png" name="C++" />
+          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/Godot.png"} name="Godot" />
+          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/P5js.png"} name="P5.js" />
+          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/cpp.png"} name="C++" />
         </div>
       </div>
 
