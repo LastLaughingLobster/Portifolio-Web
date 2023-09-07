@@ -19,39 +19,46 @@ const ThreeCube = () => {
         const raycaster = useRef(new THREE.Raycaster());
         const mouse = useRef(new THREE.Vector2());
 
+        raycaster.current.near = 0.1;
+        raycaster.current.far = 10;
+
+
         const handleMouseDown = (event: MouseEvent) => {
-            // 1. Update mouse position based on the event
-            mouse.current.x = (event.clientX / window.innerWidth) * 2 - 1;
-            mouse.current.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-            // 2. Adjusting is already done in the above step
-
-            console.log(camera);
-
-            // 3. Update the ray with the camera and mouse position
-            raycaster.current.setFromCamera(mouse.current, camera);
-
-            const intersects = raycaster.current.intersectObjects(
-                meshRefs.current.map(ref => ref.current).filter(Boolean) as THREE.Mesh[]
-            );
-
+            const canvas = event.target as HTMLCanvasElement;  // Cast the event target to a canvas element
+            const rect = canvas.getBoundingClientRect();
+        
+            // Convert the mouse position to normalized device coordinates
+            mouse.current.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+            mouse.current.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+        
+            // Ensure the camera's world matrix is updated with the latest position
+            if (camera) {
+                camera.updateMatrixWorld();
+                raycaster.current.setFromCamera(mouse.current, camera);
+            }
+        
+            // Get all the meshes from the meshRefs
+            const meshes = meshRefs.current.map(ref => ref.current).filter(Boolean) as THREE.Mesh[];
+            const intersects = raycaster.current.intersectObjects(meshes);
+        
             if (intersects.length > 0) {
                 const intersection = intersects[0];
-
-                if (intersection.face) {
-                    const intersectedMesh = intersection.object as THREE.Mesh;
-                    const materials = intersectedMesh.material as THREE.MeshStandardMaterial[]; // <-- Specific type assertion
-                    const faceIndex = intersection.face.materialIndex;
-
-                    materials[faceIndex].color.set(0xFFC0CB); // Pink
-
-                    console.log(`Clicked on ${intersectedMesh.name}`);
-                    console.log(`Face Index: ${faceIndex}`);
+                const clickedCubelet = intersection.object as THREE.Mesh;
+                const clickedFaceMaterialIndex = intersection.face?.materialIndex;
+        
+                console.log("Clicked on: ", clickedCubelet.name);
+        
+                if (typeof clickedFaceMaterialIndex === 'number') {
+                    const materials = clickedCubelet.material as THREE.Material[];
+                    (materials[clickedFaceMaterialIndex] as THREE.MeshStandardMaterial).color.set('pink');
+                    materials[clickedFaceMaterialIndex].needsUpdate = true;
+        
+                    console.log("Clicked face material index: ", clickedFaceMaterialIndex);
+                } else {
+                    console.log("Face material index not found!");
                 }
-
-
             } else {
-                console.log("No intersection found");
+                console.log("No intersection found!");
             }
         };
 
