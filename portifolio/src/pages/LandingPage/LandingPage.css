@@ -2,8 +2,9 @@
 
 /* LandingPage.css */
 .landing-page-container {
-  height: 100vh; /* viewport height */
-  max-width: 100vw; /* viewport width */
+  margin-top: 3%;
+  width: 100%; /* Take up 90% of the viewport width */
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
   position: relative; /* establish new positioning context */
   padding-bottom: 1px; /* prevent unwanted scroll */
 }

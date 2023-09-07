@@ -1,0 +1,88 @@
+.background-container {
+    position: fixed;
+    /* Make it span the entire viewport */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.left-background {
+    flex: 1;
+    background: #D7D7D7;
+    margin-right: -10%;
+    height: 150%;
+    transform: rotate(-11deg);
+    transform-origin: center;
+}
+
+.rainbow-section {
+    /* ... other properties ... */
+    animation: slideDown 1s forwards;
+    animation-timing-function: ease-out;
+}
+
+
+.rainbow-section {
+    display: flex;
+    flex: 0.2;  /* Ensuring it maintains this ratio */
+    height: 150%;
+    transform: rotate(-11deg) translate(300%, -15%);
+    /* Moving it 15% to the right and 15% up */
+    transform-origin: center;
+    position: relative;  /* Make sure it's positioned */
+    z-index: 2;  /* Elevate it above the blue section */
+}
+
+.rainbow-color {
+    flex: 1;
+    height: 100%;
+}
+
+.right-background {
+    flex: 1.5;
+    background: #011526;
+    height: 150%;
+    width: 300%;
+    transform: rotate(-11deg) translate(30%, -15%);
+    /* Moving it 15% to the right and 15% up */
+    transform-origin: center;
+    z-index: 1;  /* This will keep it below the rainbow section */
+}
+
+/* ... Existing styles ... */
+
+/* ... Existing styles ... */
+
+@media only screen and (max-width: 960px) {
+
+    .left-background {
+      display: none;
+    }
+  
+    .right-background {
+      flex: 1; /* Take the full viewport width */
+      width: 100%;
+      transform: rotate(0deg) translate(0%, 0%); /* Reset the rotation and translation */
+      /* Adding the gradient */
+      background: linear-gradient(to bottom, #011526, #D7D7D7); 
+    }
+  
+    .rainbow-section {
+      flex-direction: row; /* Arrange the rainbow colors horizontally */
+      width: 100%; /* Take the full width */
+      height: 3%; /* Let's give it a fixed height (this can be adjusted as per your preference) */
+      transform: rotate(0deg) translate(0%, 0%); /* Reset the rotation and translation */
+      position: absolute; /* Absolute positioning */
+      bottom: 0; /* Stick it to the bottom */
+    }
+  
+    .rainbow-color {
+      height: 100%; /* Each color block should take the full height of the rainbow-section */
+    }
+  }
+  
+  

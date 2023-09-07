@@ -1,7 +1,3 @@
-body {
-  background-color: #D7D7D7; /* Set the background color of the page */
-}
-
 .skills-page {
   display: flex;
   flex-direction: column;
@@ -9,37 +5,42 @@ body {
   justify-content: center;
   width: 100%;
   padding-top: 10%;
+  height: 100vh; /* To ensure it spans the full height of the viewport */
 }
 
-.section {
-  width: 20%;
-  border: 8px solid #011526;
-  border-radius: 10px; /* Added border radius for rounded corners */
-  background: #D7D7D7;
-  margin: 20px 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
+.content-container {
+  display: flex; /* Set up a row of two items */
+  width: 90%; /* Take up 90% of the viewport width */
+  height: 100%;
+  /*padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  position: relative; /* So that the child elements can be positioned relative to this */
+  justify-content: space-between; /* Space between the two sections */
 }
 
-.section h2 {
-  margin: 20px 0;
+.text-section-skills {
+  width: 55%; /* Each section will take up 40% of the viewport width */
+  height: 100%; /* Take the full height of their container */
+  border: 1px solid black; /* Just for visualization, you can remove this later */
+  box-sizing: border-box; /* To ensure border doesn't add extra width */
+  position: absolute; /* Absolute positioning inside the relative parent */
+  bottom: 0; /* Anchoring to the bottom of the parent */
 }
 
-.logo-grid {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  margin: 6% 0;
-  width: 75%; /* Match the width of the .section class */
+.p5-canvas {
+  width: 40%; /* Each section will take up 40% of the viewport width */
+  height: 100%; /* Take the full height of their container */
+  border: 1px solid black; /* Just for visualization, you can remove this later */
+  box-sizing: border-box; /* To ensure border doesn't add extra width */
+  position: absolute; /* Absolute positioning inside the relative parent */
+  bottom: 0; /* Anchoring to the bottom of the parent */
 }
 
-.logo-row {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin: 3% 0;
-  width: 100%;
+.text-section-skills {
+  left: 0; /* Anchoring text-section to the left of the parent */
 }
+
+.p5-canvas {
+  right: 0; /* Anchoring p5-canvas to the right of the parent */
+}
+
+/* Rest of your styles remain the same */

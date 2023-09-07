@@ -1,8 +1,8 @@
 body {
     background-color: #D7D7D7; /* Set the background color of the page */
-}
-
-.skills-page {
+  }
+  
+  .skills-page {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -11,9 +11,10 @@ body {
     padding-top: 10%;
   }
   
-.section {
+  .section {
     width: 20%;
-    border: 8px solid black;
+    border: 8px solid #011526;
+    border-radius: 10px; /* Added border radius for rounded corners */
     background: #D7D7D7;
     margin: 20px 0;
     display: flex;
@@ -23,19 +24,19 @@ body {
     padding: 20px;
   }
   
-.section h2 {
+  .section h2 {
     margin: 20px 0;
   }
   
-.logo-grid {
+  .logo-grid {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     margin: 6% 0;
     width: 75%; /* Match the width of the .section class */
   }
-
-.logo-row {
+  
+  .logo-row {
     display: flex;
     flex-direction: row;
     justify-content: space-between;

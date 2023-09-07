@@ -13,6 +13,10 @@
   }
 }
 
+body {
+  background-color: #D7D7D7; /* Set the background color of the page */
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;

@@ -34,3 +34,8 @@
     transform: scale(1.22);
   }
   
+@media only screen and (max-width: 960px) {
+  .home-button {
+      display: none;
+  }
+}
