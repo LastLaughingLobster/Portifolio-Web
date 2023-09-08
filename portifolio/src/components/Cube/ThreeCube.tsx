@@ -4,14 +4,40 @@ import { PerspectiveCamera, CameraControls } from '@react-three/drei';
 import Cube from './Cube';
 import { COLORS } from './../../consts/cube';
 import * as THREE from 'three';
+import { Axis, Direction, Layer, RotationState } from './../../types/CubeType';
+
 
 
 const ThreeCube = () => {
     const [cubesMatrix, setCubesMatrix] = useState<React.ReactElement[]>([]);
+    const [rotation, setRotation] = useState<RotationState>({
+        axis: null,
+        direction: 1,
+        layer: null
+    });
+    
+    const initialMousePosition = useRef(new THREE.Vector2());
 
     const cameraRef = useRef(new THREE.PerspectiveCamera());
     const meshRefs = useRef<React.RefObject<THREE.Mesh>[]>([]);
 
+    useEffect(() => {
+        // Initialize cubesMatrix when component mounts
+        const initCubes = generateCubes();
+        setCubesMatrix(initCubes);
+        
+        // Potentially other initial setup code...
+    
+        return () => {
+            // Cleanup code, if necessary...
+        }
+    }, []); // Empty dependency array means this will run only once when the component mounts
+    
+    useEffect(() => {
+        // This will run every time the rotation changes
+        rotateLayer();
+    }, [rotation]);
+    
 
     // Create a child component for the raycasting logic
     function RaycastHandler() {
@@ -24,6 +50,9 @@ const ThreeCube = () => {
 
 
         const handleMouseDown = (event: MouseEvent) => {
+            
+            initialMousePosition.current.copy(mouse.current);
+
             const canvas = event.target as HTMLCanvasElement;  // Cast the event target to a canvas element
             const rect = canvas.getBoundingClientRect();
         
@@ -49,9 +78,9 @@ const ThreeCube = () => {
                 console.log("Clicked on: ", clickedCubelet.name);
         
                 if (typeof clickedFaceMaterialIndex === 'number') {
-                    const materials = clickedCubelet.material as THREE.Material[];
-                    (materials[clickedFaceMaterialIndex] as THREE.MeshStandardMaterial).color.set('pink');
-                    materials[clickedFaceMaterialIndex].needsUpdate = true;
+                    //const materials = clickedCubelet.material as THREE.Material[];
+                    //(materials[clickedFaceMaterialIndex] as THREE.MeshStandardMaterial).color.set('pink');
+                    //materials[clickedFaceMaterialIndex].needsUpdate = true;
         
                     console.log("Clicked face material index: ", clickedFaceMaterialIndex);
                 } else {
@@ -75,16 +104,44 @@ const ThreeCube = () => {
         return null;
     }
 
-
-    useEffect(() => {
-        // Initialize cubesMatrix or other side effects here
-        const initCubes = generateCubes();
-        setCubesMatrix(initCubes);
-
-        // Any other side effect, like adding event listeners or setting up the camera can go here
-    }, []); // 
-
-
+    const rotateLayer = () => {
+        if (rotation.axis === 'X' && rotation.layer === 1) {
+            meshRefs.current.forEach((ref) => {
+                const mesh = ref.current;
+                if (mesh && mesh.position.x === 1) {
+                    
+                    // Step 2: Rotate around the X-axis
+                    const axis = new THREE.Vector3(1, 0, 0); // X-axis
+                    mesh.rotateOnWorldAxis(axis, THREE.MathUtils.degToRad(10 * rotation.direction));
+        
+                    // Check if the cube is not on the axis
+                    if (mesh.position.y !== 0 || mesh.position.z !== 0) {
+                        // Calculate the distance between the cube's current position and the rotation axis
+                        const radius = Math.sqrt(mesh.position.y * mesh.position.y + mesh.position.z * mesh.position.z);
+        
+                        // Get the current angle based on the cube's position.
+                        let angle = Math.atan2(mesh.position.z, mesh.position.y);
+        
+                        // Increment the angle based on rotation direction.
+                        angle += THREE.MathUtils.degToRad(10 * rotation.direction);
+        
+                        // Convert back to Cartesian coordinates.
+                        mesh.position.y = radius * Math.cos(angle);
+                        mesh.position.z = radius * Math.sin(angle);
+                    }
+                    
+                    console.log(mesh.position);
+                }
+            });
+        }
+        // ... handle other layers and axes...
+    };
+    
+    
+    
+    
+    
+    
     const generateMaterials = (x: number, y: number, z: number) => {
         const materials = [
             new THREE.MeshStandardMaterial({ color: new THREE.Color(0x000000) }), // RIGHT
@@ -111,7 +168,7 @@ const ThreeCube = () => {
             for (let y = -1; y <= 1; y++) {
                 for (let z = -1; z <= 1; z++) {
 
-                    if (!(x == 1 && y == 1 && z == 1)) {
+                    if (!(x == 1 && y == 0 && z == 0) ) {
                         //continue;
                     }
 
@@ -136,17 +193,23 @@ const ThreeCube = () => {
     };
 
     return (
-        <Canvas>
-            <ambientLight />
-            <pointLight position={[10, 10, 10]} />
-            <PerspectiveCamera ref={cameraRef} position={[0, 0, 8]}>
-                <CameraControls />
-            </PerspectiveCamera>
-            <RaycastHandler />
-            {cubesMatrix}
-            <primitive object={new THREE.AxesHelper(5)} />
-        </Canvas>
+        <>
+            <Canvas>
+                <ambientLight />
+                <pointLight position={[10, 10, 10]} />
+                <PerspectiveCamera ref={cameraRef} position={[0, 0, 8]}>
+                    <CameraControls />
+                </PerspectiveCamera>
+                <RaycastHandler />
+                {cubesMatrix}
+                <primitive object={new THREE.AxesHelper(5)} />
+            </Canvas>
+            <button onClick={() => setRotation({ axis: 'X', direction: 1, layer: 1 })}>
+                Rotate Right Layer Clockwise
+            </button>
+        </>
     );
+    
 };
 
 export default ThreeCube;

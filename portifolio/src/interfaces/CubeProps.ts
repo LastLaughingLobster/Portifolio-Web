@@ -1,6 +1,5 @@
-import * as THREE from 'three';
-
+// CubeProps.ts
 export interface CubeProps {
     position: [number, number, number];
-    materials: THREE.MeshStandardMaterial[];
+    materials?: THREE.Material[];  // Note the '?', making it optional
 }
