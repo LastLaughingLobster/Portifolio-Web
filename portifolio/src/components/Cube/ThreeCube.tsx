@@ -105,40 +105,91 @@ const ThreeCube = () => {
     }
 
     const rotateLayer = () => {
-        if (rotation.axis === 'X' && rotation.layer === 1) {
-            meshRefs.current.forEach((ref) => {
-                const mesh = ref.current;
-                if (mesh && mesh.position.x === 1) {
-                    
-                    // Step 2: Rotate around the X-axis
-                    const axis = new THREE.Vector3(1, 0, 0); // X-axis
-                    mesh.rotateOnWorldAxis(axis, THREE.MathUtils.degToRad(10 * rotation.direction));
-        
-                    // Check if the cube is not on the axis
-                    if (mesh.position.y !== 0 || mesh.position.z !== 0) {
-                        // Calculate the distance between the cube's current position and the rotation axis
-                        const radius = Math.sqrt(mesh.position.y * mesh.position.y + mesh.position.z * mesh.position.z);
-        
-                        // Get the current angle based on the cube's position.
-                        let angle = Math.atan2(mesh.position.z, mesh.position.y);
-        
-                        // Increment the angle based on rotation direction.
-                        angle += THREE.MathUtils.degToRad(10 * rotation.direction);
-        
-                        // Convert back to Cartesian coordinates.
-                        mesh.position.y = radius * Math.cos(angle);
-                        mesh.position.z = radius * Math.sin(angle);
-                    }
-                    
-                    console.log(mesh.position);
-                }
-            });
+        if (rotation.axis === 'X') {
+            rotateOnXAxis(1, 1, 20);
         }
-        // ... handle other layers and axes...
+        if (rotation.axis === 'Y') {
+            rotateOnYAxis(-1, 1, 90);
+        }
+        if (rotation.axis === 'Z') {
+            rotateOnZAxis(-1, -1, 20);
+        }
     };
     
     
+    const rotateOnXAxis = (layer: number, direction : number, angle : number = Math.PI / 2) => {
+        meshRefs.current.forEach((ref) => {
+            const mesh = ref.current;
+            if (mesh && mesh.position.x === layer) { //layer should determine wich x layer are we rotating. 
+                
+                // Step 2: Rotate around the X-axis
+                const axis = new THREE.Vector3(layer, 0, 0); // Layer determines wich side of the X-axis we are working with
+                mesh.rotateOnWorldAxis(axis, THREE.MathUtils.degToRad(angle * direction));
     
+                // Check if the cube is not on the axis
+                if (mesh.position.y !== 0 || mesh.position.z !== 0) {
+                    // Calculate the distance between the cube's current position and the rotation axis
+                    const radius = Math.sqrt(mesh.position.y * mesh.position.y + mesh.position.z * mesh.position.z);
+    
+                    // Get the current angle based on the cube's position.
+                    let theta = Math.atan2(mesh.position.z, mesh.position.y);
+    
+                    // Increment the theta based on rotation direction.
+                    theta += THREE.MathUtils.degToRad((angle * direction) * layer);
+    
+                    // Convert back to Cartesian coordinates.
+                    mesh.position.y = radius * Math.cos(theta);
+                    mesh.position.z = radius * Math.sin(theta);
+                }
+                
+                console.log(mesh.position);
+            }
+        });
+    }
+
+    const rotateOnYAxis = (layer: number, direction: number, angle: number = Math.PI / 2) => {
+        meshRefs.current.forEach((ref) => {
+            const mesh = ref.current;
+            if (mesh && mesh.position.y === layer) {
+                
+                // Rotate around the Y-axis
+                const axis = new THREE.Vector3(0, layer, 0); 
+                mesh.rotateOnWorldAxis(axis, THREE.MathUtils.degToRad(angle * direction));
+        
+                if (mesh.position.x !== 0 || mesh.position.z !== 0) {
+                    const radius = Math.sqrt(mesh.position.x * mesh.position.x + mesh.position.z * mesh.position.z);
+        
+                    let theta = Math.atan2(mesh.position.z, mesh.position.x);
+                    theta += THREE.MathUtils.degToRad((angle * direction) * -layer);
+        
+                    mesh.position.x = radius * Math.cos(theta);
+                    mesh.position.z = radius * Math.sin(theta);
+                }
+            }
+        });
+    };
+    
+    const rotateOnZAxis = (layer: number, direction: number, angle: number = Math.PI / 2) => {
+        meshRefs.current.forEach((ref) => {
+            const mesh = ref.current;
+            if (mesh && mesh.position.z === layer) {
+                
+                // Rotate around the Z-axis
+                const axis = new THREE.Vector3(0, 0, layer);
+                mesh.rotateOnWorldAxis(axis, THREE.MathUtils.degToRad(angle * direction));
+        
+                if (mesh.position.x !== 0 || mesh.position.y !== 0) {
+                    const radius = Math.sqrt(mesh.position.x * mesh.position.x + mesh.position.y * mesh.position.y);
+        
+                    let theta = Math.atan2(mesh.position.y, mesh.position.x);
+                    theta += THREE.MathUtils.degToRad((angle * direction) * layer);
+        
+                    mesh.position.x = radius * Math.cos(theta);
+                    mesh.position.y = radius * Math.sin(theta);
+                }
+            }
+        });
+    };
     
     
     
@@ -204,7 +255,7 @@ const ThreeCube = () => {
                 {cubesMatrix}
                 <primitive object={new THREE.AxesHelper(5)} />
             </Canvas>
-            <button onClick={() => setRotation({ axis: 'X', direction: 1, layer: 1 })}>
+            <button onClick={() => setRotation({ axis: 'Z', direction: -1, layer: 1 })}>
                 Rotate Right Layer Clockwise
             </button>
         </>
