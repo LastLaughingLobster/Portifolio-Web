@@ -6,3 +6,14 @@ export const COLORS = {
     FRONT: 'red',
     BACK: 'orange'
 };
+
+export const STICKERS = {
+    UP: `${process.env.PUBLIC_URL}/images/colors/white.jpg`,
+    DOWN: `${process.env.PUBLIC_URL}/images/colors/yellow.jpg`,
+    LEFT: `${process.env.PUBLIC_URL}/images/colors/green.jpg`,
+    RIGHT: `${process.env.PUBLIC_URL}/images/colors/blue.jpg`,
+    FRONT: `${process.env.PUBLIC_URL}/images/colors/red.jpg`,
+    BACK: `${process.env.PUBLIC_URL}/images/colors/orange.jpg`,
+    BLACK: `${process.env.PUBLIC_URL}/images/colors/black.jpg`
+};
+
