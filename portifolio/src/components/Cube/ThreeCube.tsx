@@ -6,6 +6,14 @@ import { COLORS, STICKERS } from './../../consts/cube';
 import * as THREE from 'three';
 import { Axis, RotationState } from './../../types/CubeType';
 import Line from './Line';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { Console } from 'console';
+import arrowLookUpRotations from './arrowLookUpRotations';
+
+type ArrowObject = {
+    mesh: THREE.Mesh;
+    rotationCommand: string; // This can be a string representing the type of rotation like "U", "L", "F", etc.
+};
 
 
 const ThreeCube = () => {
@@ -35,10 +43,16 @@ const ThreeCube = () => {
 
     const [currentAngle, setCurrentAngle] = useState(0);
 
-    const rotationDuration = 0.1; //in seconds
+    const rotationDuration = 0.5; //in seconds
 
 
     const moveStringRef = useRef<string>('');
+
+    const arrowRefs = useRef<(THREE.Mesh | null)[]>([]);
+    const [arrows, setArrows] = useState<JSX.Element[]>([]);
+
+    const arrowRotationMap = useRef(new Map()).current;
+
 
     useEffect(() => {
         // Initialize cubesMatrix when component mounts
@@ -64,63 +78,290 @@ const ThreeCube = () => {
 
         raycaster.current.near = 0.1;
         raycaster.current.far = 10;
+        
 
-
-        const handleMouseDown = (event: MouseEvent) => {
-
-            if (isRotating){
-                return
+        function generateArrowsForFace(normal: THREE.Vector3, selectedCubletPosition : THREE.Vector3): THREE.Mesh[] {
+            
+            function getRotationDirection(value : number) {
+                return value > 0 ? "" : "'";
             }
 
-            const canvas = event.target as HTMLCanvasElement;  // Cast the event target to a canvas element
-            const rect = canvas.getBoundingClientRect();
 
-            // Convert the mouse position to normalized device coordinates
+            const arrowMaterial = new THREE.MeshBasicMaterial({color: 0x00ff00});  // Green color for arrows
+            const arrowGeometry = new THREE.ConeGeometry(0.3, 0.3, 2);  // Cone shape for arrows
+        
+            console.log("Normal vector", normal, "Position", selectedCubletPosition);
+        
+            const arrows: THREE.Mesh[] = [];
+            
+            // The distance from the cube face where the arrow will be positioned. Adjust this value as needed.
+            const offsetDistance = 0.6;
+            const radialOffset = 0.5;
+            const offsetVector = normal.clone().multiplyScalar(offsetDistance);
+        
+            // This will determine the position of arrows in front of the face based on the normal.
+            const arrowPosition = selectedCubletPosition.clone().add(offsetVector);
+        
+            if (normal.equals(new THREE.Vector3(1, 0, 0)) || normal.equals(new THREE.Vector3(-1, 0, 0))) {
+                // X-axis
+                const direction = getRotationDirection(normal.x);
+
+                //---------------------------------------------
+                // Up
+                arrows.push(new THREE.Mesh(arrowGeometry, arrowMaterial));
+                arrows[0].position.copy(new THREE.Vector3(
+                    selectedCubletPosition.x + ( offsetDistance * normal.x),
+                    selectedCubletPosition.y + radialOffset,
+                    selectedCubletPosition.z
+                ));
+                // I want to add these parts to a function
+                // Down
+                arrows.push(new THREE.Mesh(arrowGeometry, arrowMaterial));
+                arrows[1].rotation.x = Math.PI;
+                arrows[1].position.copy(new THREE.Vector3(
+                    selectedCubletPosition.x + ( offsetDistance * normal.x),
+                    selectedCubletPosition.y - radialOffset,
+                    selectedCubletPosition.z
+                ));
+        
+                // Front
+                arrows.push(new THREE.Mesh(arrowGeometry, arrowMaterial));
+                arrows[2].rotation.y = Math.PI;
+                arrows[2].rotation.x = Math.PI / 2;
+                arrows[2].position.copy(new THREE.Vector3(
+                    selectedCubletPosition.x + ( offsetDistance * normal.x),
+                    selectedCubletPosition.y,
+                    selectedCubletPosition.z + radialOffset
+                ));
+        
+                // Back
+                arrows.push(new THREE.Mesh(arrowGeometry, arrowMaterial));
+                arrows[3].rotation.y = Math.PI;
+                arrows[3].rotation.x = -Math.PI / 2;
+                arrows[3].position.copy(new THREE.Vector3(
+                    selectedCubletPosition.x + ( offsetDistance * normal.x),
+                    selectedCubletPosition.y,
+                    selectedCubletPosition.z - radialOffset
+                ));
+                 
+            } 
+            else if (normal.equals(new THREE.Vector3(0, 1, 0)) || normal.equals(new THREE.Vector3(0, -1, 0))) {
+                // Y-axis
+                const direction = getRotationDirection(normal.y);
+
+
+                // Left
+                arrows.push(new THREE.Mesh(arrowGeometry, arrowMaterial));
+                arrows[0].rotation.z = Math.PI / 2;
+                arrows[0].position.copy(new THREE.Vector3(
+                    selectedCubletPosition.x - radialOffset,
+                    selectedCubletPosition.y + (offsetDistance * normal.y),
+                    selectedCubletPosition.z
+                ));
+        
+                // Right
+                arrows.push(new THREE.Mesh(arrowGeometry, arrowMaterial));
+                arrows[1].rotation.z = -Math.PI / 2;
+                arrows[1].position.copy(new THREE.Vector3(
+                    selectedCubletPosition.x + radialOffset,
+                    selectedCubletPosition.y + (offsetDistance * normal.y),
+                    selectedCubletPosition.z
+                ));
+        
+                // Front
+                arrows.push(new THREE.Mesh(arrowGeometry, arrowMaterial));
+                arrows[2].rotation.y = Math.PI / 2;
+                arrows[2].rotation.x = Math.PI / 2;
+                arrows[2].position.copy(new THREE.Vector3(
+                    selectedCubletPosition.x,
+                    selectedCubletPosition.y + (offsetDistance * normal.y),
+                    selectedCubletPosition.z + radialOffset
+                ));
+        
+                // Back
+                arrows.push(new THREE.Mesh(arrowGeometry, arrowMaterial));
+                arrows[3].rotation.y = -Math.PI / 2;
+                arrows[3].rotation.x = -Math.PI / 2;
+                arrows[3].position.copy(new THREE.Vector3(
+                    selectedCubletPosition.x,
+                    selectedCubletPosition.y + (offsetDistance * normal.y),
+                    selectedCubletPosition.z - radialOffset
+                ));
+        
+            }
+            else if (normal.equals(new THREE.Vector3(0, 0, 1)) || normal.equals(new THREE.Vector3(0, 0, -1))) {
+                const direction = getRotationDirection(normal.z);
+
+                arrows.push(new THREE.Mesh(arrowGeometry, arrowMaterial));
+                arrows[0].rotation.z = Math.PI / 2;
+                arrows[0].rotation.x = Math.PI / 2;
+                arrows[0].position.copy(new THREE.Vector3(
+                    selectedCubletPosition.x - radialOffset,
+                    selectedCubletPosition.y,
+                    selectedCubletPosition.z + (offsetDistance * normal.z)
+                ));
+
+                arrows.push(new THREE.Mesh(arrowGeometry, arrowMaterial));
+                arrows[1].rotation.z = -Math.PI / 2;
+                arrows[1].rotation.x = Math.PI / 2;
+                arrows[1].position.copy(new THREE.Vector3(
+                    selectedCubletPosition.x + radialOffset,
+                    selectedCubletPosition.y,
+                    selectedCubletPosition.z + (offsetDistance * normal.z)
+                ));
+
+                arrows.push(new THREE.Mesh(arrowGeometry, arrowMaterial));
+                arrows[2].rotation.y = Math.PI / 2;
+                arrows[2].position.copy(new THREE.Vector3(
+                    selectedCubletPosition.x,
+                    selectedCubletPosition.y + radialOffset,
+                    selectedCubletPosition.z + (offsetDistance * normal.z)
+                ));
+
+                arrows.push(new THREE.Mesh(arrowGeometry, arrowMaterial));
+                arrows[3].rotation.z = -Math.PI;
+                arrows[3].rotation.y = Math.PI / 2;
+                arrows[3].position.copy(new THREE.Vector3(
+                    selectedCubletPosition.x,
+                    selectedCubletPosition.y - radialOffset,
+                    selectedCubletPosition.z + (offsetDistance * normal.z)
+                ));
+
+            }
+
+            console.log(getPositionNormalKey(selectedCubletPosition, normal));
+                    
+            const key = getPositionNormalKey(selectedCubletPosition, normal);
+            const rotations = arrowLookUpRotations.get(key);
+            if (rotations){
+                arrowRotationMap.set(arrows[0].position, rotations[0]);
+                arrowRotationMap.set(arrows[1].position, rotations[1]);
+                arrowRotationMap.set(arrows[2].position, rotations[2]);
+                arrowRotationMap.set(arrows[3].position, rotations[3]);
+            }
+
+            console.log()
+            
+            return arrows;
+        }
+
+        const stringifyVector = (vector: THREE.Vector3) => {
+            return `(${vector.x.toFixed(0)},${vector.y.toFixed(0)},${vector.z.toFixed(0)})`;
+        };
+        
+        const getPositionNormalKey = (position: THREE.Vector3, normal: THREE.Vector3) => {
+            return `${stringifyVector(position)}_${stringifyVector(normal)}`;
+        };
+        
+        
+        const clearArrows = () => {
+            arrowRefs.current = [];  // Clear the references
+            setArrows([]);  // Clear the arrow JSX elements
+        };
+
+        function snapNormal(vector: THREE.Vector3): THREE.Vector3 {
+            const absX = Math.abs(vector.x);
+            const absY = Math.abs(vector.y);
+            const absZ = Math.abs(vector.z);
+
+            if (absX > absY && absX > absZ) {
+                return new THREE.Vector3(Math.sign(vector.x), 0, 0);
+            } else if (absY > absX && absY > absZ) {
+                return new THREE.Vector3(0, Math.sign(vector.y), 0);
+            } else {
+                return new THREE.Vector3(0, 0, Math.sign(vector.z));
+            }
+        }
+        
+        
+        const handleMouseDown = (event: MouseEvent) => {
+            if (isRotating){
+                return;
+            }
+        
+            const canvas = event.target as HTMLCanvasElement;
+            const rect = canvas.getBoundingClientRect();
+        
             mouse.current.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
             mouse.current.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-
-            // Ensure the camera's world matrix is updated with the latest position
+        
             if (camera) {
                 camera.updateMatrixWorld();
                 raycaster.current.setFromCamera(mouse.current, camera);
             }
-
-            // Get all the meshes from the meshRefs
-            const meshes = meshRefs.current.map(ref => ref.current).filter(Boolean) as THREE.Mesh[];
-            const intersects = raycaster.current.intersectObjects(meshes);
-
-            if (intersects.length > 0) {
-
-                setCameraEnabled(false);  // Use the setter function here
-                setIsRotating(true);
-                const intersection = intersects[0];
-                const clickedCubelet = intersection.object as THREE.Mesh;
-                const clickedFaceMaterialIndex = intersection.face?.materialIndex;
-
-                if (intersection.face && typeof clickedFaceMaterialIndex === 'number') {
-
-                    //const materials = clickedCubelet.material as THREE.Material[];
-                    //(materials[clickedFaceMaterialIndex] as THREE.MeshStandardMaterial).color.set('pink');
-                    //materials[clickedFaceMaterialIndex].needsUpdate = true;
-
-                    clickedFaceNormal.current.copy(intersection.face.normal);
-
-                    selectedCublet.current = clickedCubelet;
-
-                    initialMousePosition.current.copy(mouse.current);
-
-                    console.log(clickedFaceNormal.current);
-                    console.log("Cube", {
-                        "X": clickedCubelet.position.x
-                        , "Y": clickedCubelet.position.y,
-                        "Z": clickedCubelet.position.z
-                    });
-
-                    // we also need to capture the mouse/pointer position here 
-
+        
+            const arrowMeshes = arrowRefs.current.map(ref => ref).filter(Boolean) as THREE.Mesh[];
+            const cubeletMeshes = meshRefs.current.map(ref => ref.current).filter(Boolean) as THREE.Mesh[];
+        
+            // First, check if any arrow was clicked
+            const arrowIntersects = raycaster.current.intersectObjects(arrowMeshes);
+            if (arrowIntersects.length > 0) {
+                const clickedArrowPosition = arrowIntersects[0].object.position;
+                const rotation = arrowRotationMap.get(clickedArrowPosition);
+                if (rotation) {
+                    // Perform the rotation or handle the rotation command as per your system's design
+                    console.log(`Rotation: ${rotation}`);
+                    clearArrows();
+                    performMove(rotation);
+                    return;  // Exit out of the function after processing the arrow click
                 }
             }
-        };
+        
+            // If no arrow was clicked, then check for cubelets
+            const cubeletIntersects = raycaster.current.intersectObjects(cubeletMeshes);
+            if (cubeletIntersects.length > 0) {
+                const intersection = cubeletIntersects[0];
+                const clickedCubelet = intersection.object as THREE.Mesh;
+
+                // Calculate face direction based on intersection point and cubelet position
+                const faceDirection = new THREE.Vector3().subVectors(intersection.point, clickedCubelet.position);
+                clickedFaceNormal.current = snapNormal(faceDirection);
+
+        
+                
+                selectedCublet.current = clickedCubelet;
+                initialMousePosition.current.copy(mouse.current);
+
+                //For visual debbuging
+                const clickedFaceMaterialIndex = intersection.face?.materialIndex;
+                const materials = clickedCubelet.material as THREE.Material[];
+                
+                if (intersection.face && typeof clickedFaceMaterialIndex === 'number') {
+                    //(materials[clickedFaceMaterialIndex] as THREE.MeshStandardMaterial).color.set('pink');
+                    //materials[clickedFaceMaterialIndex].needsUpdate = true;
+                }
+        
+                clearArrows();
+        
+                // Generate arrows based on the clicked face
+                const newArrows = generateArrowsForFace(clickedFaceNormal.current, selectedCublet.current.position);
+        
+                // Position and add arrows to the scene
+                newArrows.forEach(arrow => {
+                    arrowRefs.current.push(arrow); 
+                });
+        
+                const arrowElements: JSX.Element[] = newArrows.map((arrow, index) => (
+                    <primitive 
+                        key={index} 
+                        object={arrow} 
+                        position={arrow.position}  // Set arrow position same as clicked cubelet
+                        ref={(ref: THREE.Mesh | null) => arrowRefs.current[index] = ref}
+                    />
+                ));
+                
+                setArrows(arrowElements);
+        
+                console.log("Face normal --> ", clickedFaceNormal.current);
+                console.log("Cube", {
+                    "X": clickedCubelet.position.x,
+                    "Y": clickedCubelet.position.y,
+                    "Z": clickedCubelet.position.z
+                });
+            }
+        }
+        
+        
 
         const handleMouseMove = (event: MouseEvent) => {
 
@@ -180,7 +421,7 @@ const ThreeCube = () => {
         const rotationRef = useRef(rotation);
 
         useEffect(() => {
-            // window.addEventListener('mousedown', handleMouseDown);
+            window.addEventListener('mousedown', handleMouseDown);
             // window.addEventListener('mouseup', handleMouseUp);
             // window.addEventListener('mousemove', handleMouseMove);
 
@@ -188,7 +429,7 @@ const ThreeCube = () => {
             rotationRef.current = rotation;
 
             return () => {
-                // window.removeEventListener('mousedown', handleMouseDown);
+                window.removeEventListener('mousedown', handleMouseDown);
                 // window.removeEventListener('mouseup', handleMouseUp);
                 // window.removeEventListener('mousemove', handleMouseMove);
             };
@@ -241,7 +482,7 @@ const ThreeCube = () => {
         const doubleTurn = move.includes("2");
     
         // Angle (default 90 degrees, but 180 degrees for double turns)
-        const angle = doubleTurn ? Math.PI : Math.PI / 2;
+        const angle = doubleTurn ? Math.PI : Math.PI / 2; // Not used in your current code, but just a reference
     
         // Determine which axis and layer to rotate based on the move.
         switch (move[0]) {
@@ -269,14 +510,27 @@ const ThreeCube = () => {
                 setIsRotating(true);
                 setRotation({ axis: 'Z', layer: -1, direction });
                 break;
+            case 'M':
+                setIsRotating(true);
+                setRotation({ axis: 'X', layer: 0, direction });
+                break;
+            case 'E':
+                setIsRotating(true);
+                setRotation({ axis: 'Y', layer: 0, direction });
+                break;
+            case 'S':
+                setIsRotating(true);
+                setRotation({ axis: 'Z', layer: 0, direction });
+                break;
             default:
                 console.warn("Unknown move:", move);
                 return;
         }
     }
+    
 
     function getRandomMove() {
-        const moves = ['U', 'D', 'R', 'L', 'F', 'B'];
+        const moves = ['U', 'D', 'R', 'L', 'F', 'B', 'M', 'E', 'S'];
         const directions = ["", "'"]; // "" for clockwise, "'" for counter-clockwise
         const randomMove = moves[Math.floor(Math.random() * moves.length)];
         const randomDirection = directions[Math.floor(Math.random() * directions.length)];
@@ -340,17 +594,34 @@ const ThreeCube = () => {
         });
     }
     
-    
     const rotateLayerX = () => {
         setIsRotating(true);
         setRotation({
-            axis: 'Y',
+            axis: 'X',
             direction: 1,
-            layer: 1,
+            layer: 0,
         });
     };
 
     const rotateLayerY = () => {
+        setIsRotating(true);
+        setRotation({
+            axis: 'Y',
+            direction: 1,
+            layer: 0,
+        });
+    };
+
+    const rotateLayerZ = () => {
+        setIsRotating(true);
+        setRotation({
+            axis: 'Z',
+            direction: 1,
+            layer: 0,
+        });
+    };
+
+    const rotateLayerXw = () => {
         setIsRotating(true);
         setRotation({
             axis: 'X',
@@ -359,7 +630,16 @@ const ThreeCube = () => {
         });
     };
 
-    const rotateLayerZ = () => {
+    const rotateLayerYw = () => {
+        setIsRotating(true);
+        setRotation({
+            axis: 'Y',
+            direction: 1,
+            layer: 1,
+        });
+    };
+
+    const rotateLayerZw = () => {
         setIsRotating(true);
         setRotation({
             axis: 'Z',
@@ -373,13 +653,15 @@ const ThreeCube = () => {
         meshRefs.current.forEach((ref) => {
             const mesh = ref.current;
             if (mesh && mesh.position.x === layer) { //layer should determine wich x layer are we rotating. 
-
                 // Step 2: Rotate around the X-axis
-                const axis = new THREE.Vector3(layer, 0, 0); // Layer determines wich side of the X-axis we are working with
-                mesh.rotateOnWorldAxis(axis, THREE.MathUtils.degToRad(angle * direction));
+                const axis = new THREE.Vector3(1, 0, 0); // Layer determines wich side of the X-axis we are working with
+                const angleRad = 
+                mesh.rotateOnWorldAxis(axis, THREE.MathUtils.degToRad((angle * direction) * (layer == 0 ? 1 : layer)));
 
                 // Check if the cube is not on the axis
-                if (mesh.position.y !== 0 || mesh.position.z !== 0) {
+                if ((mesh.position.y !== 0 || mesh.position.z !== 0) || !mesh.position.equals(new THREE.Vector3(0,0,0))) {
+                    
+                
                     // Calculate the distance between the cube's current position and the rotation axis
                     const radius = Math.sqrt(mesh.position.y * mesh.position.y + mesh.position.z * mesh.position.z);
 
@@ -387,8 +669,9 @@ const ThreeCube = () => {
                     let theta = Math.atan2(mesh.position.z, mesh.position.y);
 
                     // Increment the theta based on rotation direction.
-                    theta += THREE.MathUtils.degToRad((angle * direction) * layer);
-
+                    
+                    theta += THREE.MathUtils.degToRad((angle * direction) * (layer == 0 ? 1 : layer));
+                    
                     // Convert back to Cartesian coordinates.
                     mesh.position.y = radius * Math.cos(theta);
                     mesh.position.z = radius * Math.sin(theta);
@@ -403,14 +686,15 @@ const ThreeCube = () => {
             if (mesh && mesh.position.y === layer) {
 
                 // Rotate around the Y-axis
-                const axis = new THREE.Vector3(0, layer, 0);
-                mesh.rotateOnWorldAxis(axis, THREE.MathUtils.degToRad(angle * direction));
+                const axis = new THREE.Vector3(0, 1, 0);
+                const angleRad = 
+                mesh.rotateOnWorldAxis(axis, THREE.MathUtils.degToRad((angle * direction) * (layer == 0 ? 1 : layer)));
 
-                if (mesh.position.x !== 0 || mesh.position.z !== 0) {
+                if ((mesh.position.x !== 0 || mesh.position.z !== 0) || !mesh.position.equals(new THREE.Vector3(0,0,0))) {
                     const radius = Math.sqrt(mesh.position.x * mesh.position.x + mesh.position.z * mesh.position.z);
 
                     let theta = Math.atan2(mesh.position.z, mesh.position.x);
-                    theta += THREE.MathUtils.degToRad((angle * direction) * -layer);
+                    theta += THREE.MathUtils.degToRad((angle * direction) * -(layer == 0 ? 1 : layer));
 
                     mesh.position.x = radius * Math.cos(theta);
                     mesh.position.z = radius * Math.sin(theta);
@@ -425,14 +709,15 @@ const ThreeCube = () => {
             if (mesh && mesh.position.z === layer) {
 
                 // Rotate around the Z-axis
-                const axis = new THREE.Vector3(0, 0, layer);
-                mesh.rotateOnWorldAxis(axis, THREE.MathUtils.degToRad(angle * direction));
+                const axis = new THREE.Vector3(0, 0, 1);
+                const angleRad = 
+                mesh.rotateOnWorldAxis(axis, THREE.MathUtils.degToRad((angle * direction) * (layer == 0 ? 1 : layer)));
 
-                if (mesh.position.x !== 0 || mesh.position.y !== 0) {
+                if ((mesh.position.x !== 0 || mesh.position.y !== 0) || !mesh.position.equals(new THREE.Vector3(0,0,0))) {
                     const radius = Math.sqrt(mesh.position.x * mesh.position.x + mesh.position.y * mesh.position.y);
 
                     let theta = Math.atan2(mesh.position.y, mesh.position.x);
-                    theta += THREE.MathUtils.degToRad((angle * direction) * layer);
+                    theta += THREE.MathUtils.degToRad((angle * direction) * (layer == 0 ? 1 : layer));
 
                     mesh.position.x = radius * Math.cos(theta);
                     mesh.position.y = radius * Math.sin(theta);
@@ -508,8 +793,9 @@ const ThreeCube = () => {
                 </PerspectiveCamera>
                 <EventHandler />
                 {cubesMatrix}
+                {arrows}  {/* Render arrows here */}
             </Canvas>
-            <button onClick={() => executeMoves(generateRandomMovesList(40))}>
+            <button onClick={() => executeMoves(generateRandomMovesList(10))}>
                 Scramble
             </button>
             <button onClick={() => executeMoves(invertMoveList(moveStringRef.current))}>
