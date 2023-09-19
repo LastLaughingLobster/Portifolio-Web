@@ -1,10 +1,19 @@
-export const COLORS = {
+export const COLOR_POSITIONS = {
     UP: 'white',
     DOWN: 'yellow',
     LEFT: 'green',
     RIGHT: 'blue',
     FRONT: 'red',
     BACK: 'orange'
+};
+
+export const COLORS = {
+    WHITE: 'white',
+    YELLOW: 'yellow',
+    GREEN: 'green',
+    BLUE: 'blue',
+    RED: 'red',
+    ORANGE: 'orange'
 };
 
 export const STICKERS = {
@@ -16,4 +25,3 @@ export const STICKERS = {
     BACK: `${process.env.PUBLIC_URL}/images/colors/orange.jpg`,
     BLACK: `${process.env.PUBLIC_URL}/images/colors/black.jpg`
 };
-

@@ -1,3 +1,7 @@
+div {
+  border: 1px solid red;
+}
+
 .skills-page {
   display: flex;
   flex-direction: column;
@@ -9,38 +13,53 @@
 }
 
 .content-container {
-  display: flex; /* Set up a row of two items */
-  width: 90%; /* Take up 90% of the viewport width */
+  display: flex; /* We use flexbox to achieve side-by-side layout */
+  width: 90%;
   height: 100%;
-  /*padding-bottom: 56.25%; /* 16:9 aspect ratio */
-  position: relative; /* So that the child elements can be positioned relative to this */
-  justify-content: space-between; /* Space between the two sections */
 }
 
 .text-section-skills {
-  width: 55%; /* Each section will take up 40% of the viewport width */
-  height: 100%; /* Take the full height of their container */
-  border: 1px solid black; /* Just for visualization, you can remove this later */
-  box-sizing: border-box; /* To ensure border doesn't add extra width */
-  position: absolute; /* Absolute positioning inside the relative parent */
-  bottom: 0; /* Anchoring to the bottom of the parent */
+  width: 45%; /* 45% width */
+  height: 100%;
+  box-sizing: border-box;
+  padding: 20px; /* added some padding for better visuals */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.p5-canvas {
-  width: 40%; /* Each section will take up 40% of the viewport width */
-  height: 100%; /* Take the full height of their container */
-  border: 1px solid black; /* Just for visualization, you can remove this later */
-  box-sizing: border-box; /* To ensure border doesn't add extra width */
-  position: absolute; /* Absolute positioning inside the relative parent */
-  bottom: 0; /* Anchoring to the bottom of the parent */
+.three-canvas {
+  width: 55%; /* 50% width */
+  height: 100%;
+  box-sizing: border-box;
+  /* No need for absolute positioning and associated styles */
 }
 
 .text-section-skills {
   left: 0; /* Anchoring text-section to the left of the parent */
 }
 
-.p5-canvas {
+.three-canvas {
   right: 0; /* Anchoring p5-canvas to the right of the parent */
 }
+
+.skill-button {
+  width: 50px; /* example size, adjust as needed */
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s;
+}
+
+/* For each button, set a unique background color */
+.skill-button.backend { background-color: blue; }
+.skill-button.frontend { background-color: white; }
+.skill-button.game-dev { background-color: red; }
+.skill-button.data-sci { background-color: yellow; }
+.skill-button.soft-skills { background-color: green; }
+.skill-button.misc { background-color: orange; }
 
 /* Rest of your styles remain the same */
