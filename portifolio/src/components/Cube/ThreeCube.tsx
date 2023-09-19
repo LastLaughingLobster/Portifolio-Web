@@ -71,6 +71,11 @@ const ThreeCube = ({ focusColor }: Props) => {
         'white': new THREE.Vector3(0, 0, 7.54983443527075)
     }
 
+    const moveList = useRef<string[]>([]);
+    const [isFakeCubeSolved, setIsFakeCubeSolved] = useState(false);
+    const [startedSolving, setStartedSolving] = useState(false);
+
+
     useEffect(() => {
         // Initialize cubesMatrix when component mounts
         const initCubes = generateCubes();
@@ -438,76 +443,82 @@ const ThreeCube = ({ focusColor }: Props) => {
 
         const groupRef = useRef(new TWEEN.Group());
 
-        useEffect(() => {
+        const tranlateCube = (focusColor : CubeColors ) => {
+            //how do we wait here for fakecubeSolve to finish?
+
             const angleThreshhHold = 65.0;
             const animationDuration = 1000;
-            
-            if (focusColor && prevFocusColor.current !== focusColor) {
         
-                if (camera) camera.updateMatrixWorld();
+            if (camera) camera.updateMatrixWorld();
                         
-                const start = colorToPositionMapping[prevFocusColor.current];
-                const angle = getAngleBetweenVectors(start, camera.position);
-                
-                console.warn("Start:", start, 
-                             "\nCamera:", camera.position, 
-                             "\nAngle:", angle);
-        
-                const target = colorToPositionMapping[focusColor];
-        
-                let middlePoint: THREE.Vector3 | undefined = undefined;
-                // hey chat gpt this angle && angle < angleThreshhHold is buggy could you help me? 
-                if (typeof angle === "number" && angle < angleThreshhHold && isOppositeSide(prevFocusColor.current, focusColor)){
-                    middlePoint = colorToPositionMapping[getRandomNonOppositeFace(focusColor)];
-                }
+            const start = colorToPositionMapping[prevFocusColor.current];
+            const angle = getAngleBetweenVectors(start, camera.position);
+            
+            console.warn("Start:", start, 
+                         "\nCamera:", camera.position, 
+                         "\nAngle:", angle);
+    
+            const target = colorToPositionMapping[focusColor];
+    
+            let middlePoint: THREE.Vector3 | undefined = undefined;
+            
+            if (typeof angle === "number" && angle < angleThreshhHold && isOppositeSide(prevFocusColor.current, focusColor)){
+                middlePoint = colorToPositionMapping[getRandomNonOppositeFace(focusColor)];
+            }
 
-                setTrackBallEnabled(false);
-        
-                let completedTweens = 0;
-        
-                const checkAllTweensCompleted = () => {
-                    completedTweens++;
-                    if (completedTweens === 2) {
-                        setTrackBallEnabled(true);
-                        setShouldRotateCamera(false);
-                        prevFocusColor.current = focusColor;
-                    }
-                };
+            setTrackBallEnabled(false);
+    
+            let completedTweens = 0;
+    
+            const checkAllTweensCompleted = () => {
+                completedTweens++;
+                if (completedTweens === 2) {
+                    setTrackBallEnabled(true);
+                    setShouldRotateCamera(false);
+                    prevFocusColor.current = focusColor;
+                    fakeCubeSolve(() => "");
+                }
+            };
 
-        
-                // Modify the tweening logic for camera.position
-                if (middlePoint) {
-                    new TWEEN.Tween(camera.position, groupRef.current)
-                        .to(middlePoint, animationDuration / 2)
-                        .onUpdate(() => camera.lookAt(0, 0, 0))
-                        .onComplete(() => {
-                            new TWEEN.Tween(camera.position, groupRef.current)
-                                .to(target, animationDuration / 2)
-                                .onUpdate(() => camera.lookAt(0, 0, 0))
-                                .onComplete(checkAllTweensCompleted)
-                                .start();
-                        })
-                        .start();
-                } else {
-                    new TWEEN.Tween(camera.position, groupRef.current)
-                        .to(target, animationDuration)
-                        .onUpdate(() => camera.lookAt(0, 0, 0))
-                        .onComplete(checkAllTweensCompleted)
-                        .start();
-                }
-        
-                let targetUpVector = new THREE.Vector3(0, 1, 0);
-                if (focusColor === "red") {
-                    targetUpVector = new THREE.Vector3(1, 0, 0);
-                } else if (focusColor === "orange") {
-                    targetUpVector = new THREE.Vector3(-1, 0, 0);
-                }
-        
-                new TWEEN.Tween(camera.up, groupRef.current)
-                    .to(targetUpVector, animationDuration)
+    
+            // Modify the tweening logic for camera.position
+            if (middlePoint) {
+                new TWEEN.Tween(camera.position, groupRef.current)
+                    .to(middlePoint, animationDuration / 2)
+                    .onUpdate(() => camera.lookAt(0, 0, 0))
+                    .onComplete(() => {
+                        new TWEEN.Tween(camera.position, groupRef.current)
+                            .to(target, animationDuration / 2)
+                            .onUpdate(() => camera.lookAt(0, 0, 0))
+                            .onComplete(checkAllTweensCompleted)
+                            .start();
+                    })
+                    .start();
+            } else {
+                new TWEEN.Tween(camera.position, groupRef.current)
+                    .to(target, animationDuration)
+                    .onUpdate(() => camera.lookAt(0, 0, 0))
                     .onComplete(checkAllTweensCompleted)
                     .start();
-        
+            }
+    
+            let targetUpVector = new THREE.Vector3(0, 1, 0);
+            if (focusColor === "red") {
+                targetUpVector = new THREE.Vector3(1, 0, 0);
+            } else if (focusColor === "orange") {
+                targetUpVector = new THREE.Vector3(-1, 0, 0);
+            }
+    
+            new TWEEN.Tween(camera.up, groupRef.current)
+                .to(targetUpVector, animationDuration)
+                .onComplete(checkAllTweensCompleted)
+                .start();
+        }
+
+        useEffect(() => {
+            const translate = focusColor && prevFocusColor.current !== focusColor;
+            if (translate) {
+                tranlateCube(focusColor);
             }
         }, [focusColor, groupRef, prevFocusColor]);
 
@@ -615,9 +626,17 @@ const ThreeCube = ({ focusColor }: Props) => {
                 console.warn("Unknown move:", move);
                 return;
         }
+
+        moveList.current.push(move);
     }
 
-
+    function fakeCubeSolve(callback: () => void) {
+        const moveListString = moveList.current.join(' ');
+        const invertedMoveList = invertMoveList(moveListString);
+        executeMoves(invertedMoveList);
+        moveList.current = [];
+    }
+    
     function getRandomMove() {
         const moves = ['U', 'D', 'R', 'L', 'F', 'B', 'M', 'E', 'S'];
         const directions = ["", "'"]; // "" for clockwise, "'" for counter-clockwise
@@ -675,7 +694,6 @@ const ThreeCube = ({ focusColor }: Props) => {
 
         moveList.forEach(move => {
             setTimeout(() => {
-                console.log("Trying move:", move);
                 performMove(move);
             }, accumulatedDelay);
 
