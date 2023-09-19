@@ -48,7 +48,7 @@ const ThreeCube = ({ focusColor }: Props) => {
 
     const rotationDuration = 0.2; //in seconds
     const transitionDuration = 1000;
-    const INITIAL_CAMERA_POSITION = new THREE.Vector3(4, 4, 5);
+    const INITIAL_CAMERA_POSITION = new THREE.Vector3(3, 3, 4.5);
 
 
     const moveStringRef = useRef<string>('');
@@ -63,15 +63,15 @@ const ThreeCube = ({ focusColor }: Props) => {
     const prevFocusColor = useRef<CubeColors>("black");
 
     const colorToPositionMapping: ColorMapping = {
-        'red': new THREE.Vector3(0, 7.54983443527075, 0),
-        'green': new THREE.Vector3(7.54983443527075, 0, 0),
-        'blue': new THREE.Vector3(-7.54983443527075, 0, 0),
-        'orange': new THREE.Vector3(0, -7.54983443527075, 0),
-        'yellow': new THREE.Vector3(0, 0, -7.54983443527075),
-        'white': new THREE.Vector3(0, 0, 7.54983443527075)
+        'red': new THREE.Vector3(0, INITIAL_CAMERA_POSITION.length(), 0),
+        'green': new THREE.Vector3(INITIAL_CAMERA_POSITION.length(), 0, 0),
+        'blue': new THREE.Vector3(-INITIAL_CAMERA_POSITION.length(), 0, 0),
+        'orange': new THREE.Vector3(0, -INITIAL_CAMERA_POSITION.length(), 0),
+        'yellow': new THREE.Vector3(0, 0, -INITIAL_CAMERA_POSITION.length()),
+        'white': new THREE.Vector3(0, 0, INITIAL_CAMERA_POSITION.length())
     }
 
-    const moveList = useRef<string[]>([]);
+    const [moveList, setMoveList ] = useState<string[]>([]);
     const [isFakeCubeSolved, setIsFakeCubeSolved] = useState(false);
     const [startedSolving, setStartedSolving] = useState(false);
 
@@ -516,8 +516,8 @@ const ThreeCube = ({ focusColor }: Props) => {
         }
 
         useEffect(() => {
-            const translate = focusColor && prevFocusColor.current !== focusColor;
-            if (translate) {
+
+            if (focusColor && prevFocusColor.current !== focusColor) {
                 tranlateCube(focusColor);
             }
         }, [focusColor, groupRef, prevFocusColor]);
@@ -627,14 +627,16 @@ const ThreeCube = ({ focusColor }: Props) => {
                 return;
         }
 
-        moveList.current.push(move);
+        moveList.push(move);
     }
 
     function fakeCubeSolve(callback: () => void) {
-        const moveListString = moveList.current.join(' ');
+        const moveListString = moveList.join(' ');
         const invertedMoveList = invertMoveList(moveListString);
         executeMoves(invertedMoveList);
-        moveList.current = [];
+        console.log("Movelist: ", moveList)
+        setMoveList([]);
+        console.log("Movelist: ", moveList)
     }
     
     function getRandomMove() {
@@ -659,31 +661,21 @@ const ThreeCube = ({ focusColor }: Props) => {
     }
 
     function invertMove(move: string) {
-        move = move.trim(); // Remove any leading or trailing whitespace
+        move = move.trim(); 
 
-        // If the move is empty after trimming, return it as is
         if (!move) return move;
 
-        // If the move has a "'", then it's counter-clockwise, so we remove the "'" to make it clockwise
-        if (move.includes("'")) {
-            return move.replace("'", "");
-        }
-        // If the move is clockwise (no "'"), then we add a "'" to make it counter-clockwise
-        else {
-            return move + "'";
-        }
+        if (move.includes("'")) return move.replace("'", "");
+    
+        return move + "'"; 
     }
 
 
     function invertMoveList(moveListString: string) {
-        console.log("inside invert", moveListString);
         // Split the move string into individual moves
         const moves = moveListString.split(' ');
-        console.log("Moves", moves);
         // Reverse the array of moves and invert the direction of each move
         const invertedMoves = moves.reverse().map(invertMove);
-
-        console.log(invertedMoves.join(' '));
 
         return invertedMoves.join(' ');
     }
@@ -767,6 +759,31 @@ const ThreeCube = ({ focusColor }: Props) => {
                 }
             }
         });
+    };
+
+    const SKILL_FOLDER_PATH = '/path/to/your/folder/';  // Adjust this path accordingly
+
+    const generateMaterialsForFocusColor = (focusColor: string, x: number, y: number, z: number) => {
+        const baseProperties = {
+            roughness: 1.0,
+            metalness: 2.1
+        };
+
+        const texture = new THREE.TextureLoader().load(`${SKILL_FOLDER_PATH}${focusColor}.jpg`);
+
+        // Split the image based on the cube's position
+        const repeatVector = new THREE.Vector2(1/3, 1/3);
+        texture.repeat.copy(repeatVector);
+        texture.offset.set(x / 3 + 0.5, y / 3 + 0.5);
+        texture.needsUpdate = true;
+
+        // Create materials using the adjusted texture
+        const materials = Array(6).fill(0).map(() => new THREE.MeshPhysicalMaterial({
+            map: texture,
+            ...baseProperties
+        }));
+
+        return materials;
     };
 
 
