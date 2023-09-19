@@ -9,7 +9,17 @@ import { RotationState } from './../../types/CubeType';
 import arrowLookUpRotations from './arrowLookUpRotations';
 
 
-type CubeColors = "red" | "green" | "blue" | "yellow" | "white" | "orange";  // Add other cube colors as needed
+type CubeColors = "red" | "green" | "blue" | "yellow" | "white" | "orange" | "black";  // Add other cube colors as needed
+
+type ColorMapping = {
+    [key: string]: THREE.Vector3;
+    red: THREE.Vector3;
+    green: THREE.Vector3;
+    blue: THREE.Vector3;
+    orange: THREE.Vector3;
+    yellow: THREE.Vector3;
+    white: THREE.Vector3;
+};
 
 interface Props {
     focusColor?: CubeColors;
@@ -50,9 +60,9 @@ const ThreeCube = ({ focusColor }: Props) => {
 
     const [shouldRotateCamera, setShouldRotateCamera] = useState(false);
 
-    const prevFocusColor = useRef("black");
+    const prevFocusColor = useRef<CubeColors>("black");
 
-    const colorToPositionMapping = {
+    const colorToPositionMapping: ColorMapping = {
         'red': new THREE.Vector3(0, 7.54983443527075, 0),
         'green': new THREE.Vector3(7.54983443527075, 0, 0),
         'blue': new THREE.Vector3(-7.54983443527075, 0, 0),
@@ -377,50 +387,114 @@ const ThreeCube = ({ focusColor }: Props) => {
             });
         }
 
+
+        const getAngleBetweenVectors = (pos1?: THREE.Vector3, pos2?: THREE.Vector3, pivot: THREE.Vector3 = new THREE.Vector3(0,0,0)): number | undefined => {
+            // Check if any of the inputs are undefined
+            if (!pos1 || !pos2) {
+                return undefined;
+            }
+        
+            // Create vectors from pivot to pos1 and pivot to pos2
+            const vector1 = pos1.clone().sub(pivot);
+            const vector2 = pos2.clone().sub(pivot);
+        
+            // Calculate the angle in radians between the two vectors
+            const angleRad = vector1.angleTo(vector2);
+        
+            // Convert the angle from radians to degrees
+            const angleDeg = angleRad * (180 / Math.PI);
+        
+            return angleDeg;
+        }
+
+        const isOppositeSide = (color1: CubeColors, color2: CubeColors): boolean => {
+            // Define a mapping of opposite colors
+            const oppositeColors: Record<CubeColors, CubeColors> = {
+                "red": "orange",
+                "orange": "red",
+                "green": "blue",
+                "blue": "green",
+                "yellow": "white",
+                "white": "yellow",
+                "black": "black"  // Assuming black doesn't have an opposite side, or it's opposite to itself
+            };
+        
+            // Check if the color2 is the opposite of color1 using the mapping
+            return oppositeColors[color1] === color2;
+        }
+
+        function getRandomNonOppositeFace(color: CubeColors): CubeColors {
+            const allColors: CubeColors[] = ["red", "green", "blue", "yellow", "white", "orange"];
+            
+            const possibleColors = allColors.filter(c => c !== color && !isOppositeSide(color, c));
+            console.warn("Possible colors for", color, "-> " ,possibleColors);
+            const randomIndex = Math.floor(Math.random() * possibleColors.length);
+            return possibleColors[randomIndex];
+        }
+        
+
         const isRotatingRef = useRef(isRotating);
         const rotationRef = useRef(rotation);
 
         const groupRef = useRef(new TWEEN.Group());
 
         useEffect(() => {
-            console.log("Focus color", focusColor);
+            const angleThreshhHold = 65.0;
+            const animationDuration = 1000;
+            
             if (focusColor && prevFocusColor.current !== focusColor) {
-
-                if (camera) {
-                    camera.updateMatrixWorld();
-                }
-
+        
+                if (camera) camera.updateMatrixWorld();
+                        
+                const start = colorToPositionMapping[prevFocusColor.current];
+                const angle = getAngleBetweenVectors(start, camera.position);
+                
+                console.warn("Start:", start, 
+                             "\nCamera:", camera.position, 
+                             "\nAngle:", angle);
+        
                 const target = colorToPositionMapping[focusColor];
         
+                let middlePoint: THREE.Vector3 | undefined = undefined;
+                // hey chat gpt this angle && angle < angleThreshhHold is buggy could you help me? 
+                if (typeof angle === "number" && angle < angleThreshhHold && isOppositeSide(prevFocusColor.current, focusColor)){
+                    middlePoint = colorToPositionMapping[getRandomNonOppositeFace(focusColor)];
+                }
+
                 setTrackBallEnabled(false);
         
                 let completedTweens = 0;
-
-
-                console.log("I am here 1", completedTweens);
         
                 const checkAllTweensCompleted = () => {
-                    console.log("I am here end inside");
                     completedTweens++;
-                    if (completedTweens === 2) {  // Since you have 2 tweens in the group
+                    if (completedTweens === 2) {
                         setTrackBallEnabled(true);
                         setShouldRotateCamera(false);
                         prevFocusColor.current = focusColor;
                     }
                 };
-                
-                console.log("Camera and Target", camera.position, target, groupRef.current);
-                new TWEEN.Tween(camera.position, groupRef.current)
-                    .to(target, 1000)
-                    .onStart(() => {
-                        console.log("Starting position tween 1");
-                    })
-                    .onUpdate(() => {
-                        console.log("Camera position during tween:", camera.position);
-                        camera.lookAt(0, 0, 0);
-                    })
-                    .onComplete(checkAllTweensCompleted)
-                    .start();
+
+        
+                // Modify the tweening logic for camera.position
+                if (middlePoint) {
+                    new TWEEN.Tween(camera.position, groupRef.current)
+                        .to(middlePoint, animationDuration / 2)
+                        .onUpdate(() => camera.lookAt(0, 0, 0))
+                        .onComplete(() => {
+                            new TWEEN.Tween(camera.position, groupRef.current)
+                                .to(target, animationDuration / 2)
+                                .onUpdate(() => camera.lookAt(0, 0, 0))
+                                .onComplete(checkAllTweensCompleted)
+                                .start();
+                        })
+                        .start();
+                } else {
+                    new TWEEN.Tween(camera.position, groupRef.current)
+                        .to(target, animationDuration)
+                        .onUpdate(() => camera.lookAt(0, 0, 0))
+                        .onComplete(checkAllTweensCompleted)
+                        .start();
+                }
         
                 let targetUpVector = new THREE.Vector3(0, 1, 0);
                 if (focusColor === "red") {
@@ -430,13 +504,10 @@ const ThreeCube = ({ focusColor }: Props) => {
                 }
         
                 new TWEEN.Tween(camera.up, groupRef.current)
-                    .to(targetUpVector, 1000)
-                    .onStart(() => {
-                        console.log("Starting position tween 2");
-                    })
+                    .to(targetUpVector, animationDuration)
                     .onComplete(checkAllTweensCompleted)
                     .start();
-    
+        
             }
         }, [focusColor, groupRef, prevFocusColor]);
 
@@ -684,7 +755,7 @@ const ThreeCube = ({ focusColor }: Props) => {
     const generateMaterials = (x: number, y: number, z: number) => {
         const baseProperties = {
             roughness: 1.0,
-            metalness: 1.9
+            metalness: 2.1
         };
 
         const stickers = [STICKERS.BLACK, STICKERS.BLACK, STICKERS.BLACK, STICKERS.BLACK, STICKERS.BLACK, STICKERS.BLACK];
@@ -698,7 +769,7 @@ const ThreeCube = ({ focusColor }: Props) => {
         if (z === -1) stickers[5] = STICKERS.DOWN;
 
         // Create materials using a for loop
-        const materials = stickers.map(sticker => new THREE.MeshStandardMaterial({
+        const materials = stickers.map(sticker => new THREE.MeshPhysicalMaterial({
             map: new THREE.TextureLoader().load(sticker),
             ...baseProperties
         }));
@@ -739,7 +810,11 @@ const ThreeCube = ({ focusColor }: Props) => {
 
     return (
         <>
-            <Canvas camera={{ position: INITIAL_CAMERA_POSITION }}>
+            <Canvas camera={{
+                position: INITIAL_CAMERA_POSITION,
+                near: 2.0,
+                far: 10
+            }}>
                 <ambientLight intensity={1} />
 
 
