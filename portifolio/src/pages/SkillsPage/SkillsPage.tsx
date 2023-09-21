@@ -25,7 +25,7 @@ const SkillsPage = () => {
         },
         white: {
             header: 'Front End',
-            paragraph: 'This is content for white.'
+            paragraph: 'Some of my front end skills'
         },
         orange: {
             header: 'Game Dev',

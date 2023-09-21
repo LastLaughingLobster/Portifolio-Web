@@ -35,22 +35,22 @@ div {
   margin-top: 20px;
 }
 
-.color-buttons-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
 .three-cube-class {
   width: 60%;
 }
 
+.color-buttons-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+}
+
 
 .color-buttons-container button {
-  border-radius: 5px;  /* Make it a rounded rectangle instead of a circle */
-  width: 70px;        /* Increase size */
-  height: 70px;
+  border-radius: 10px;  /* Make it a rounded rectangle instead of a circle */
+  width: 120px;        /* Increase size */
+  height: 120px;
   border: none;
   background-color: black;  /* Set default background to black */
   position: relative;  /* This is important to position the ::before element correctly */
@@ -58,15 +58,17 @@ div {
   display: flex;
   align-items: center;
   justify-content: center;
+  
 }
 
 /* Create the inner colored square using ::before pseudo-element */
 .color-buttons-container button::before {
   content: "";
-  width: 58px;  /* Size of the inner square */
-  height: 58px;
-  border-radius: 7px;  /* Rounded corners for inner square */
+  width: 100px;  /* Size of the inner square */
+  height: 100px;
+  border-radius: 10px;  /* Rounded corners for inner square */
   position: absolute;
+  
 }
 
 .color-buttons-container .white-button::before {
@@ -92,7 +94,6 @@ div {
 .color-buttons-container .orange-button::before {
   background-color: #FF7900;
 }
-
 
 /* Mobile responsive design */
 @media (max-width: 768px) {

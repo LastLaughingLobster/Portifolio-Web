@@ -25,3 +25,18 @@ export const STICKERS = {
     BACK: `${process.env.PUBLIC_URL}/images/colors/orange.jpg`,
     BLACK: `${process.env.PUBLIC_URL}/images/colors/black.jpg`
 };
+
+export type WholeFaceStickers = {
+    [key: string]: string;
+  };
+  
+
+export const WHOLE_FACE_STICKERS : WholeFaceStickers = {
+    RED: `${process.env.PUBLIC_URL}/images/cubeFaces/red/white_face_sticker.png`,
+    GREEN: `${process.env.PUBLIC_URL}/images/cubeFaces/green/white_face_sticker.png`,
+    BLUE: `${process.env.PUBLIC_URL}/images/cubeFaces/blue/white_face_sticker.png`,
+    YELLOW: `${process.env.PUBLIC_URL}/images/cubeFaces/yellow/white_face_sticker.png`,
+    WHITE: `${process.env.PUBLIC_URL}/images/cubeFaces/white/white_face_sticker.png`,
+    ORANGE: `${process.env.PUBLIC_URL}/images/cubeFaces/orange/white_face_sticker.png`,
+}
+

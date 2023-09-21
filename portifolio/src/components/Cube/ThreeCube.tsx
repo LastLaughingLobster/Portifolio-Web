@@ -3,7 +3,7 @@ import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import { TrackballControls } from '@react-three/drei';
 import Cube from './Cube';
 import * as TWEEN from '@tweenjs/tween.js';
-import { COLORS, STICKERS } from './../../consts/cube';
+import { COLORS, STICKERS, WHOLE_FACE_STICKERS } from './../../consts/cube';
 import * as THREE from 'three';
 import { RotationState } from './../../types/CubeType';
 import arrowLookUpRotations from './arrowLookUpRotations';
@@ -25,8 +25,15 @@ interface Props {
     focusColor?: CubeColors;
 }
 
+type PlaneRefWithColor = {
+    ref: React.RefObject<THREE.Mesh>;
+    color: string;
+};
+  
+
 const ThreeCube = ({ focusColor }: Props) => {
     const [cubesMatrix, setCubesMatrix] = useState<React.ReactElement[]>([]);
+    const [planesMatrix, setPlanesMatrix] = useState<React.ReactElement[]>([]);
     const [trackBallEnabled, setTrackBallEnabled] = useState(true);
     const [cameraPosition, setCameraPosition] = useState(new THREE.Vector3(5, 5, 10));
     const [rotation, setRotation] = useState<RotationState>({
@@ -38,6 +45,8 @@ const ThreeCube = ({ focusColor }: Props) => {
     const initialMousePosition = useRef(new THREE.Vector2());
 
     const meshRefs = useRef<React.RefObject<THREE.Mesh>[]>([]);
+    const planeMeshRefs = useRef<PlaneRefWithColor[]>([]);
+
 
     const [isRotating, setIsRotating] = useState(false);
 
@@ -75,19 +84,25 @@ const ThreeCube = ({ focusColor }: Props) => {
     const [isFakeCubeSolved, setIsFakeCubeSolved] = useState(false);
     const [startedSolving, setStartedSolving] = useState(false);
 
+    const [shouldRenderSpecialFace, setShouldRenderSpecialFace] = useState(false);
+
 
     useEffect(() => {
-        // Initialize cubesMatrix when component mounts
+        // Initialize cubesMatrix and planesMatrix when component mounts
         const initCubes = generateCubes();
+        const initPlanes = generateInvisiblePlanes();  // Assuming generateInvisiblePlanes() returns an array of <mesh> JSX elements
+        
+        console.log(initPlanes);
+        
         setCubesMatrix(initCubes);
-
-        // Potentially other initial setup code...
-
+        setPlanesMatrix(initPlanes);
+        
         return () => {
-            // Cleanup code, if necessary...
-        }
-    }, []); // Empty dependency array means this will run only once when the component mounts
-
+           
+        };
+    }, []);
+    
+  
     const getLengthVector3 = (vector: THREE.Vector3): number => {
         return Math.sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z)
     }
@@ -285,6 +300,7 @@ const ThreeCube = ({ focusColor }: Props) => {
             if (isRotating || shouldRotateCamera) {
                 return;
             }
+
             const canvas = event.target as HTMLCanvasElement;
             const rect = canvas.getBoundingClientRect();
 
@@ -307,6 +323,7 @@ const ThreeCube = ({ focusColor }: Props) => {
                 if (rotation) {
                     // Perform the rotation or handle the rotation command as per your system's design
                     console.log(`Rotation: ${rotation}`);
+                    setPlaneOpacityToZero();
                     clearArrows();
                     performMove(rotation);
                     return;  // Exit out of the function after processing the arrow click
@@ -475,6 +492,7 @@ const ThreeCube = ({ focusColor }: Props) => {
                 if (completedTweens === 2) {
                     setTrackBallEnabled(true);
                     setShouldRotateCamera(false);
+                    setShouldRenderSpecialFace(true);
                     prevFocusColor.current = focusColor;
                     fakeCubeSolve(() => "");
                 }
@@ -516,7 +534,6 @@ const ThreeCube = ({ focusColor }: Props) => {
         }
 
         useEffect(() => {
-
             if (focusColor && prevFocusColor.current !== focusColor) {
                 tranlateCube(focusColor);
             }
@@ -633,10 +650,8 @@ const ThreeCube = ({ focusColor }: Props) => {
     function fakeCubeSolve(callback: () => void) {
         const moveListString = moveList.join(' ');
         const invertedMoveList = invertMoveList(moveListString);
-        executeMoves(invertedMoveList);
-        console.log("Movelist: ", moveList)
+        executeMovesAndSetFace(invertedMoveList);
         setMoveList([]);
-        console.log("Movelist: ", moveList)
     }
     
     function getRandomMove() {
@@ -691,6 +706,24 @@ const ThreeCube = ({ focusColor }: Props) => {
 
             accumulatedDelay += ((rotationDuration * 1000) + 100); // This will ensure that each move is delayed by an additional 3000ms
         });
+    }
+
+    function executeMovesAndSetFace(moves: string) {
+        const moveList = moves.split(' ');
+        let accumulatedDelay = 0;
+
+        moveList.forEach(move => {
+            setTimeout(() => {
+                performMove(move);
+            }, accumulatedDelay);
+
+            accumulatedDelay += ((rotationDuration * 1000) + 100); // This will ensure that each move is delayed by an additional 3000ms
+        });
+
+        setTimeout(() => {
+            if(focusColor)
+                setPlaneOpacityToOneByColor(focusColor.toUpperCase());
+        }, accumulatedDelay);
     }
 
     const rotateOnXAxis = (layer: number, direction: number, angle: number = Math.PI / 2) => {
@@ -761,41 +794,14 @@ const ThreeCube = ({ focusColor }: Props) => {
         });
     };
 
-    const SKILL_FOLDER_PATH = '/path/to/your/folder/';  // Adjust this path accordingly
-
-    const generateMaterialsForFocusColor = (focusColor: string, x: number, y: number, z: number) => {
-        const baseProperties = {
-            roughness: 1.0,
-            metalness: 2.1
-        };
-
-        const texture = new THREE.TextureLoader().load(`${SKILL_FOLDER_PATH}${focusColor}.jpg`);
-
-        // Split the image based on the cube's position
-        const repeatVector = new THREE.Vector2(1/3, 1/3);
-        texture.repeat.copy(repeatVector);
-        texture.offset.set(x / 3 + 0.5, y / 3 + 0.5);
-        texture.needsUpdate = true;
-
-        // Create materials using the adjusted texture
-        const materials = Array(6).fill(0).map(() => new THREE.MeshPhysicalMaterial({
-            map: texture,
-            ...baseProperties
-        }));
-
-        return materials;
-    };
-
-
     const generateMaterials = (x: number, y: number, z: number) => {
         const baseProperties = {
             roughness: 1.0,
             metalness: 2.1
         };
-
+    
         const stickers = [STICKERS.BLACK, STICKERS.BLACK, STICKERS.BLACK, STICKERS.BLACK, STICKERS.BLACK, STICKERS.BLACK];
-
-        // Update the stickers based on the x, y, z position
+    
         if (x === 1) stickers[0] = STICKERS.LEFT;
         if (x === -1) stickers[1] = STICKERS.RIGHT;
         if (y === 1) stickers[2] = STICKERS.FRONT;
@@ -803,45 +809,121 @@ const ThreeCube = ({ focusColor }: Props) => {
         if (z === 1) stickers[4] = STICKERS.UP;
         if (z === -1) stickers[5] = STICKERS.DOWN;
 
-        // Create materials using a for loop
         const materials = stickers.map(sticker => new THREE.MeshPhysicalMaterial({
             map: new THREE.TextureLoader().load(sticker),
             ...baseProperties
         }));
-
+    
         return materials;
     };
 
+    const generateInvisiblePlanes = (): React.ReactElement[] => {
+        const planes: React.ReactElement[] = [];
+    
+        const addPlane = (color: string, position: THREE.Vector3, rotation: THREE.Euler) => {
+            const meshRef = React.createRef<THREE.Mesh>();
+            planeMeshRefs.current.push({ ref: meshRef, color }); // storing ref along with color
+            
+            const geometry = new THREE.PlaneGeometry(3, 3);
+            const material = new THREE.MeshPhysicalMaterial({
+                map: new THREE.TextureLoader().load(WHOLE_FACE_STICKERS[color]),
+                transparent: true,
+                opacity: 0,
+                roughness: 1.0,
+                metalness: 2.1
+            });
+    
+            planes.push(
+                <mesh 
+                    ref={meshRef} 
+                    position={position} 
+                    rotation={rotation} 
+                    material={material} 
+                    geometry={geometry} 
+                    key={color} 
+                />
+            );
+        };
+    
+        addPlane("GREEN", new THREE.Vector3(1.5001, 0, 0), new THREE.Euler(0, Math.PI / 2, 0));
+        addPlane("BLUE", new THREE.Vector3(-1.5001, 0, 0), new THREE.Euler(0, -Math.PI / 2, 0));
+
+        addPlane("ORANGE", new THREE.Vector3(0, -1.5001, 0), new THREE.Euler(Math.PI / 2, 0, Math.PI / 2));
+        addPlane("RED", new THREE.Vector3(0, 1.5001, 0), new THREE.Euler(-Math.PI / 2, 0, -Math.PI / 2));
+
+        addPlane("YELLOW", new THREE.Vector3(0, 0, -1.5001), new THREE.Euler(0, -Math.PI, 0));
+        addPlane("WHITE", new THREE.Vector3(0, 0, 1.5001), new THREE.Euler(2* Math.PI, 0, 0));
+    
+        return planes;
+    };
+    
+    
+    const setPlaneOpacityToZero = () => {
+        planeMeshRefs.current.forEach(({ ref }) => {  // Destructuring to get 'ref'
+            const mesh = ref.current;
+            if (mesh) {
+                if (Array.isArray(mesh.material)) {
+                    mesh.material.forEach(mat => {
+                        mat.opacity = 0;
+                        mat.needsUpdate = true;
+                    });
+                } else {
+                    mesh.material.opacity = 0;
+                    mesh.material.needsUpdate = true;  // Notify Three.js that the material has changed
+                }
+            }
+        });
+    };
+    
+
+    const setPlaneOpacityToOneByColor = (targetColor: string) => {
+        planeMeshRefs.current.forEach(({ ref, color }) => {
+          if (color !== targetColor) return;
+      
+          const mesh = ref.current;
+          if (mesh) {
+            if (Array.isArray(mesh.material)) {
+              mesh.material.forEach(mat => {
+                mat.opacity = 1;
+                mat.needsUpdate = true;
+              });
+            } else {
+              mesh.material.opacity = 1;
+              mesh.material.needsUpdate = true;
+            }
+          }
+        });
+      };      
+      
+    
 
     const generateCubes = () => {
         const out = [];
+        // Step 1: Initial setup with old materials
         for (let x = -1; x <= 1; x++) {
             for (let y = -1; y <= 1; y++) {
                 for (let z = -1; z <= 1; z++) {
-
-                    if (!(x == 1 && y == 0 && z == 0)) {
-                        //continue;
-                    }
-
-                    const materials = generateMaterials(x, y, z);
-
+                    const materials = generateMaterials(x, y, z);  // Use the old function
                     const meshRef = React.createRef<THREE.Mesh>();
                     meshRefs.current.push(meshRef);
-
                     out.push(
                         <Cube
                             position={[x, y, z]}
                             materials={materials}
                             key={`${x}${y}${z}`}
                             forwardedRef={meshRef}
-                            cubeName={`Cube-${x}-${y}-${z}`}  // Add this line
+                            cubeName={`Cube-${x}-${y}-${z}`}
                         />
                     );
                 }
             }
         }
+
+        // add the invisible planes here create a function similar to generate Materials for this pupuse
+    
         return out;
     };
+    
 
     return (
         <>
@@ -851,8 +933,6 @@ const ThreeCube = ({ focusColor }: Props) => {
                 far: 10
             }}>
                 <ambientLight intensity={1} />
-
-
                 <TrackballControls
                     enabled={trackBallEnabled}
                     noPan={true}
@@ -861,10 +941,12 @@ const ThreeCube = ({ focusColor }: Props) => {
                 />
                 <EventHandler />
                 {cubesMatrix}
+                {planesMatrix}  {/* Render the planes */}
                 {arrows}
             </Canvas>
         </>
     );
+    
 
 };
 
