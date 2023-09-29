@@ -32,11 +32,11 @@ export type WholeFaceStickers = {
   
 
 export const WHOLE_FACE_STICKERS : WholeFaceStickers = {
-    RED: `${process.env.PUBLIC_URL}/images/cubeFaces/red/white_face_sticker.png`,
-    GREEN: `${process.env.PUBLIC_URL}/images/cubeFaces/green/white_face_sticker.png`,
-    BLUE: `${process.env.PUBLIC_URL}/images/cubeFaces/blue/white_face_sticker.png`,
-    YELLOW: `${process.env.PUBLIC_URL}/images/cubeFaces/yellow/white_face_sticker.png`,
-    WHITE: `${process.env.PUBLIC_URL}/images/cubeFaces/white/white_face_sticker.png`,
-    ORANGE: `${process.env.PUBLIC_URL}/images/cubeFaces/orange/white_face_sticker.png`,
+    RED: `${process.env.PUBLIC_URL}/images/cubeFaces/red/red.png`,
+    GREEN: `${process.env.PUBLIC_URL}/images/cubeFaces/green/green.png`,
+    BLUE: `${process.env.PUBLIC_URL}/images/cubeFaces/blue/blue.png`,
+    YELLOW: `${process.env.PUBLIC_URL}/images/cubeFaces/yellow/yellow.png`,
+    WHITE: `${process.env.PUBLIC_URL}/images/cubeFaces/white/white.png`,
+    ORANGE: `${process.env.PUBLIC_URL}/images/cubeFaces/orange/orange.png`,
 }
 
