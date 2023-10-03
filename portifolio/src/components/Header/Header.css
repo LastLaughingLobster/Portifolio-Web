@@ -40,13 +40,97 @@ nav ul li a:hover {
     transform: scale(1.22);
 }
   
-nav ul li:last-child a {
+nav ul li a.contact {
     background: #FFBE00;
     color: #011526;
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2); /* Added a subtle shadow for depth */
 }
 
+
+/* By default, hide the mobile home link */
+.mobile-home {
+    display: none;
+}
+
+.mobile-home a {
+    color: #011526;
+}
+
+@media only screen and (max-width: 960px) {
+    .mobile-home {
+        display: block;
+    }
+}
+
+
 nav ul li a.not-home {
     color: #011526;
 }
 
+@media only screen and (max-width: 960px) {
+    nav ul {
+        flex-direction: column;
+        display: none;
+        position: absolute;
+        top: 75%;
+        right: 0;
+        background: transparent;
+        border-radius: 0 0 0 5px;
+    }
+
+    nav ul li {
+        margin: 10px;
+        text-align: right;
+    }
+
+    nav ul.open {
+        display: flex;
+    }
+
+    nav ul.open li {
+        opacity: 0;
+        transform: translateY(-20px);
+        animation: slideDown 0.2s forwards;
+      }
+      
+      nav ul.open li:nth-child(1) { animation-delay: 0.1s; }
+      nav ul.open li:nth-child(2) { animation-delay: 0.2s; }
+      nav ul.open li:nth-child(3) { animation-delay: 0.3s; }
+      nav ul.open li:nth-child(4) { animation-delay: 0.4s; }
+      
+      @keyframes slideDown {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+
+    .hamburger {
+        display: inline-block; 
+        cursor: pointer;
+        font-size: 35px; 
+        background-color: #FFBE00;
+        border-radius: 50%;
+        width: 60px; /* Adjust these values */
+        height: 60px; /* Adjust these values */
+        padding: 0;
+        line-height: 60px; /* Helps center the content vertically */
+        text-align: center; /* Helps center the content horizontally */
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    
+}
+
+/* Initially, set the hamburger menu to be visible */
+.hamburger {
+    display: block;
+}
+
+/* For screens larger than 960px, hide the hamburger icon */
+@media only screen and (min-width: 960px) {
+    .hamburger {
+        display: none;
+    }
+}

@@ -2,42 +2,42 @@
 import React, { useState } from 'react';
 import './ProjectsPage.css';
 
+type LogoName = {
+    logoUrl: string;
+    name: string;
+    color: string;  
+};
+
+
 interface Project {
     title: string;
     description: string;
-    imageUrl: string;
-    liveLink: string;
-    githubLink: string;
+    logosUrl: string[];
+    stack: LogoName[];
 }
 
 const projectsData: Project[] = [
     {
         title: "Dell's SCOUT",
-        description: "Scout was a Account tool desingd for DELL. I worked on CESAR and our client was dell ",
-        imageUrl: "/images/Photos/dell.jpg",
-        liveLink: "https://live-link-1.com",
-        githubLink: "https://github.com/user/project1"
+        description: "Scout was an audit software developed for DELL by CESAR. It served as an internal tool within the company, details of which I am unable to disclose further. I dedicated two and a half years to this project. My journey began as a QA intern for the initial six months, after which I transitioned into the role of a Junior Developer for the subsequent two years. This experience imparted valuable lessons on collaborating within large teams and sharpened my capabilities as a full-stack engineer, though my primary focus remained on the backend. By the end of my tenure, I was independently developing full features and felt prepared to take on greater responsibilities in my career.",
+        logosUrl: ["/images/logos/dell.png","/images/logos/cesar.png"],
+        stack: [
+            { logoUrl: "/images/logos/angular.png", name: "Angular"  , color : "white"},
+            { logoUrl: "/images/logos/net.png", name: ".NET" , color : "blue"},
+            { logoUrl: "/images/logos/rabbit.png", name: "RabbitMQ" , color : "orange"},
+            { logoUrl: "/images/logos/sql.png", name: "MS SQL Server" , color : "yellow"}
+        ]
     },
     {
         title: "Petrobras FlexBoard",
-        description: "A brief description about project 2.",
-        imageUrl: "/images/Photos/flex.jpg",
-        liveLink: "https://live-link-2.com",
-        githubLink: "https://github.com/user/project2"
-    },
-    {
-        title: "Barril Tracking Ekaut",
-        description: "A brief description about project 3.",
-        imageUrl: "/images/Photos/ekaut.jpg",
-        liveLink: "https://live-link-3.com",
-        githubLink: "https://github.com/user/project3"
-    },
-    {
-        title: "LIBRAS Detector",
-        description: "A brief description about project 4.",
-        imageUrl: "/images/Photos/libras.png",
-        liveLink: "https://live-link-4.com",
-        githubLink: "https://github.com/user/project4"
+        description: "Scout was an audit software developed for DELL by CESAR. It served as an internal tool within the company, details of which I am unable to disclose further. I dedicated two and a half years to this project. My journey began as a QA intern for the initial six months, after which I transitioned into the role of a Junior Developer for the subsequent two years. This experience imparted valuable lessons on collaborating within large teams and sharpened my capabilities as a full-stack engineer, though my primary focus remained on the backend. By the end of my tenure, I was independently developing full features and felt prepared to take on greater responsibilities in my career.",
+        logosUrl: ["/images/logos/petrobras.png", "/images/logos/cesar.png"],
+        stack: [
+            { logoUrl: "/images/logos/react.png", name: "React" , color : "blue"},
+            { logoUrl: "/images/logos/springBoot.png", name: "SpringBoot" , color : "green"},
+            { logoUrl: "/images/logos/graphql.png", name: "GraphQL" , color : "grey"},
+            { logoUrl: "/images/logos/oracle.png", name: "Oracle Database" , color : "white"}
+        ]
     }
 ];
 
@@ -54,21 +54,47 @@ const ProjectsPage: React.FunctionComponent = () => {
 
     return (
         <div className="carousel-container">
-            <button onClick={handlePrev} className="carousel-button carousel-prev">Prev</button>
             
             <div className="carousel-card">
-                <img src={process.env.PUBLIC_URL + projectsData[currentIndex].imageUrl} alt={projectsData[currentIndex].title} className="project-image" />
-                <h2>{projectsData[currentIndex].title}</h2>
-                <p>{projectsData[currentIndex].description}</p>
-                <div className="project-links">
-                    <a href={projectsData[currentIndex].liveLink} target="_blank" rel="noopener noreferrer">See it live</a>
-                    <a href={projectsData[currentIndex].githubLink} target="_blank" rel="noopener noreferrer">View on GitHub</a>
+                            
+                {/* And this will be up*/}
+                <div className="details-section">
+                    <h2>{projectsData[currentIndex].title}</h2>
+                    <p>{projectsData[currentIndex].description}</p>
                 </div>
+
+                {/* When in mobile this will be on the bottom*/}
+                <div className="left-section">
+                    <div className="logos-section">
+                        {projectsData[currentIndex].logosUrl.map((logo, index) => (
+                            <img key={index} src={process.env.PUBLIC_URL + logo} alt={`Logo ${index + 1}`} className="project-logo" />
+                        ))}
+                    </div>
+                    <div className="stack-section">
+                        {projectsData[currentIndex].stack.map((tech, index) => (
+                            <div key={index} className="stack-item" style={{ backgroundColor: tech.color }}> 
+                                <img src={process.env.PUBLIC_URL + tech.logoUrl} alt={tech.name} />
+                                <p>{tech.name}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="mobile-buttons">
+                    <button onClick={handlePrev} className="carousel-button carousel-prev-mobile">{"<"}</button>
+                    <button onClick={handleNext} className="carousel-button carousel-next-mobile">{">"}</button>
+                </div>      
             </div>
             
-            <button onClick={handleNext} className="carousel-button carousel-next">Next</button>
+            {/* ... Your existing code ... */}
+
+            <button onClick={handlePrev} className="carousel-button carousel-prev">←</button>
+            <button onClick={handleNext} className="carousel-button carousel-next">→</button>
+        
+
         </div>
     );
+    
 };
 
 export default ProjectsPage;

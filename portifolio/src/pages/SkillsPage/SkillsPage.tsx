@@ -1,74 +1,60 @@
-// SkillsPage.tsx
-import React from 'react';
-import LogoImage from '../../components/LogoImage/LogoImage';
+import React, { useState } from 'react';
+import ThreeCube from '../../components/Cube/ThreeCube';
 import './SkillsPage.css';
 
 const SkillsPage = () => {
-  return (
-    <div className='skills-page'>
-      <div className='section front-end'>
-        <h2>Front End</h2>
-      </div>
-      <div className='logo-grid'>
-        <div className='logo-row'>
-          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/js.png"} name="JavaScript" />
-          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/css.png"} name="CSS" />
-          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/html.png"} name="HTML" />
-        </div>
-        <div className='logo-row'>
-          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/react.png"} name="React" />
-          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/angular.png"} name="Angular" />
-          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/ts.png"} name="TypeScript" />
-        </div>
-      </div>
-      <div className='section'>
-        <h2>Back End</h2>
-      </div>
-      <div className='logo-grid'>
-        <div className='logo-row'>
-          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/csharp.png"} name="C#" />
-          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/net.png"} name=".NET" />
-          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/rabbit.png"} name="RabbitMQ" />
-        </div>
-        <div className='logo-row'>
-          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/python.png"} name="Python" />
-          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/fastapi.png"} name="Fast API" />
-          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/springBoot.png"} name="Spring Boot" />
-        </div>
-      </div>
-      <div className='section data-science'>
-        <h2>Data Science</h2>
-      </div>
-      <div className='logo-grid'>
-        <div className='logo-row'>
-          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/scikit-learn.png"} name="Scikit-learn"/>
-          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/pandas.png"} name="Pandas" />
-          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/numpy.png"} name="Numpy" />
-        </div>
-        <div className='logo-row'>
-          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/tensorflow.png"} name="TensorFlow" />
-          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/opencv.png"} name="OpenCV" />
-          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/mediaPipe.png"} name="MediaPipe" />
-        </div>
-      </div>
+    const [focusColor, setFocusColor] = useState<"red" | "green" | "blue" | "yellow" | "white" | "orange">();
 
-      {/* Game Development Section */}
-      <div className='section game-dev'>
-        <h2>Game Development</h2>
-      </div>
-      <div className='logo-grid'>
-        <div className='logo-row'>
-          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/Godot.png"} name="Godot" />
-          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/P5js.png"} name="P5.js" />
-          <LogoImage logo={ process.env.PUBLIC_URL + "/images/logos/cpp.png"} name="C++" />
-        </div>
-      </div>
+    // Mapping color to its corresponding header and paragraph content
+    const colorContentMapping = {
+        red: {
+            header: 'Misc Skills',
+            paragraph: ''
+        },
+        green: {
+            header: 'Data Science',
+            paragraph: ''
+        },
+        blue: {
+            header: 'Quantum Computing',
+            paragraph: ''
+        },
+        yellow: {
+            header: 'Back End',
+            paragraph: ''
+        },
+        white: {
+            header: 'Front End',
+            paragraph: ''
+        },
+        orange: {
+            header: 'Game Dev',
+            paragraph: ''
+        }
+    };
 
-      <div className='section'>
-        <h2>Miscellaneous</h2>
-      </div>
-    </div>
-  );
+    return (
+        <div className='skills-page'>
+            <div className="content-left">
+                <div className="text">
+                    {/* Displaying content based on the focusColor */}
+                    <h1>{focusColor ? colorContentMapping[focusColor].header : 'Skills'}</h1>
+                    <p>{focusColor ? colorContentMapping[focusColor].paragraph : 'According to the Cambridge Dictionary, a skill is defined as "an ability to perform an activity or job proficiently, especially through practice." Analogous to mastering a Rubik\'s cube, the essence lies in consistent practice. On the cube, you will find a selection of skills I have honed and continue to cultivate as a computer scientist and developer for the past 5 years. You can also play with it : )'}</p>
+                </div>
+                <div className="color-buttons-container">
+                    <button className="white-button" onClick={() => setFocusColor("white")}></button>
+                    <button className="green-button" onClick={() => setFocusColor("green")}></button>
+                    <button className="blue-button" onClick={() => setFocusColor("blue")}></button>
+                    <button className="yellow-button" onClick={() => setFocusColor("yellow")}></button>
+                    <button className="red-button" onClick={() => setFocusColor("red")}></button>
+                    <button className="orange-button" onClick={() => setFocusColor("orange")}></button>
+                </div>
+            </div>
+            <div className="three-cube-class">
+                <ThreeCube focusColor={focusColor} />
+            </div>
+        </div>
+    );
 };
 
 export default SkillsPage;

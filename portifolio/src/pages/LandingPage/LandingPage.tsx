@@ -8,7 +8,6 @@ const LandingPage: FunctionComponent = () => {
   return (
     <div className='landing-page-container'>
       <TopLandingPage />
-      <BottonLandingPage/>
     </div>
   );
 };
