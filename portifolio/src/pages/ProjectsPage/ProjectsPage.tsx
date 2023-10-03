@@ -8,12 +8,19 @@ type LogoName = {
     color: string;  
 };
 
+type Years = {
+    start : string;
+    end: string
+}
+
 
 interface Project {
     title: string;
     description: string;
     logosUrl: string[];
     stack: LogoName[];
+    years: Years;
+
 }
 
 const projectsData: Project[] = [
@@ -26,7 +33,8 @@ const projectsData: Project[] = [
             { logoUrl: "/images/logos/net.png", name: ".NET" , color : "blue"},
             { logoUrl: "/images/logos/rabbit.png", name: "RabbitMQ" , color : "orange"},
             { logoUrl: "/images/logos/sql.png", name: "MS SQL Server" , color : "yellow"}
-        ]
+        ],
+        years: { start : "2020", end : "2022"}
     },
     {
         title: "Petrobras FlexBoard",
@@ -37,9 +45,12 @@ const projectsData: Project[] = [
             { logoUrl: "/images/logos/springBoot.png", name: "SpringBoot" , color : "green"},
             { logoUrl: "/images/logos/graphql.png", name: "GraphQL" , color : "grey"},
             { logoUrl: "/images/logos/oracle.png", name: "Oracle Database" , color : "white"}
-        ]
+        ],
+        years: { start : "2022", end : "2023"}
     }
 ];
+
+const numberOfLines = 6; //Add this to a separete componet latter
 
 const ProjectsPage: React.FunctionComponent = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -61,6 +72,13 @@ const ProjectsPage: React.FunctionComponent = () => {
                 <div className="details-section">
                     <h2>{projectsData[currentIndex].title}</h2>
                     <p>{projectsData[currentIndex].description}</p>
+                    <div className="timeline">
+                        <div className="year" data-year={projectsData[currentIndex].years.start}></div>
+                        {Array.from({ length: numberOfLines }).map((_, index) => (
+                            <div key={index} className="line"></div>
+                        ))}
+                        <div className="year" data-year={projectsData[currentIndex].years.end}></div>
+                    </div>
                 </div>
 
                 {/* When in mobile this will be on the bottom*/}
