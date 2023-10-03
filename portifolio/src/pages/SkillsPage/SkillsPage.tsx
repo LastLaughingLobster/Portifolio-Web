@@ -9,27 +9,27 @@ const SkillsPage = () => {
     const colorContentMapping = {
         red: {
             header: 'Misc Skills',
-            paragraph: 'This is content for red.'
+            paragraph: ''
         },
         green: {
             header: 'Data Science',
-            paragraph: 'This is content for green.'
+            paragraph: ''
         },
         blue: {
             header: 'Quantum Computing',
-            paragraph: 'This is content for blue.'
+            paragraph: ''
         },
         yellow: {
             header: 'Back End',
-            paragraph: 'This is content for yellow.'
+            paragraph: ''
         },
         white: {
             header: 'Front End',
-            paragraph: 'Some of my front end skills'
+            paragraph: ''
         },
         orange: {
             header: 'Game Dev',
-            paragraph: 'This is content for orange.'
+            paragraph: ''
         }
     };
 

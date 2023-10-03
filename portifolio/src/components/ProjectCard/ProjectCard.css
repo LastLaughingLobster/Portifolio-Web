@@ -1,0 +1,50 @@
+.project-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: #D7D7D7;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  margin:  30vh auto;
+  max-width: 800px;
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5rem;
+  cursor: pointer;
+  background-color: #ffffff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.arrow.left {
+  left: -20px;
+}
+
+.arrow.right {
+  right: -20px;
+}
+.project-description {
+  margin-top: 20px;
+}
+
+.stack-list {
+  display: flex;
+  margin-top: 20px;
+  gap: 15px;
+}
+
+.stack-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

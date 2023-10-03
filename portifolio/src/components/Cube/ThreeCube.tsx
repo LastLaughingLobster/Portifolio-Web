@@ -86,6 +86,8 @@ const ThreeCube = ({ focusColor }: Props) => {
 
     const [shouldRenderSpecialFace, setShouldRenderSpecialFace] = useState(false);
 
+    const canvasRef = useRef(null);
+
 
     useEffect(() => {
         // Initialize cubesMatrix and planesMatrix when component mounts
@@ -297,9 +299,9 @@ const ThreeCube = ({ focusColor }: Props) => {
         }
 
         const handleMouseDown = (event: MouseEvent) => {
-            if (isRotating || shouldRotateCamera) {
-                return;
-            }
+            if (isRotating || shouldRotateCamera) return;
+            if (!canvasRef.current || event.target !== canvasRef.current) return;
+            
 
             const canvas = event.target as HTMLCanvasElement;
             const rect = canvas.getBoundingClientRect();
@@ -541,15 +543,17 @@ const ThreeCube = ({ focusColor }: Props) => {
 
 
         useEffect(() => {
-            window.addEventListener('pointerdown', handleMouseDown);
+            if ( canvasRef.current){
+                window.addEventListener('pointerdown', handleMouseDown);
 
-            isRotatingRef.current = isRotating;
-            rotationRef.current = rotation;
+                isRotatingRef.current = isRotating;
+                rotationRef.current = rotation;
 
-            return () => {
-                window.removeEventListener('pointerdown', handleMouseDown);
+                return () => {
+                    window.removeEventListener('pointerdown', handleMouseDown);
 
-            };
+                };
+            }
         }, [handleMouseDown, isRotating, rotation]);
 
         useFrame(() => {
@@ -927,7 +931,7 @@ const ThreeCube = ({ focusColor }: Props) => {
 
     return (
         <>
-            <Canvas camera={{
+            <Canvas ref={canvasRef} camera={{
                 position: INITIAL_CAMERA_POSITION,
                 near: 2.0,
                 far: 10

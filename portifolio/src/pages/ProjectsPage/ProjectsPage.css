@@ -1,5 +1,3 @@
-/* ProjectsCarousel.css */
-
 .carousel-container {
     display: flex;
     flex-direction: row;
@@ -7,9 +5,9 @@
     align-items: center;
     position: relative;
     margin: 3rem 0;
-    padding: 2rem 5%; /* padding around the carousel */
+    padding: 2rem 5%;
     background: #D7D7D7;
-    border-radius: 20px; /* adding rounded corners */
+    border-radius: 20px;
 }
 
 .carousel-button {
@@ -18,12 +16,12 @@
     color: #D7D7D7;
     font-family: 'Raleway', sans-serif;
     font-weight: 700;
-    font-size: 1.2rem;
+    font-size: 2rem;
     padding: 0.5rem 1.5rem;
     cursor: pointer;
     transition: transform 0.3s ease;
-    z-index: 5; /* Keep the buttons above the cards */
-    border-radius: 30px; /* Making the buttons rounder */
+    z-index: 5;
+    border-radius: 30px;
 }
 
 .carousel-button:hover {
@@ -33,41 +31,103 @@
 .carousel-card {
     flex: 1;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
     position: relative;
     padding: 2rem;
     background: #D7D7D7;
-    border-radius: 15px; /* adding rounded corners */
+    border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-.project-image {
-    width: 70%;
-    height: auto;
-    margin-bottom: 1.5rem;
-    border-radius: 15px;
-    object-fit: cover;
+.left-section {
+    width: 50%;
+    display: flex;
+    align-items: flex-end;  /* This aligns the children to the right */
+    flex-direction: column;
+    gap: 2rem; /* Space between logos and stack section */
+}
+
+.logos-section {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    padding: 2rem;
+    gap: 2rem;
+}
+
+.logos-section img{
+    width: 80px;
+    height: 80px;
+}
+
+.details-section {
+    width: 50%;
+    padding: 2rem;
+}
+
+
+.stack-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding-left: 2rem;
+    border-radius: 10px;
+}
+
+.carousel-card h2,
+.carousel-card p {
+    width: 100%;
+    color: #011526;
+    font-family: 'Raleway', sans-serif;
+    text-align: center;
 }
 
 .carousel-card h2 {
-    color: #011526;
-    text-align: center;
     font-size: 2rem;
-    font-family: 'Raleway', sans-serif;
     font-weight: 700;
     margin-bottom: 1rem;
 }
 
 .carousel-card p {
-    color: #909090;
-    text-align: center;
     font-size: 1.2rem;
-    font-family: 'Raleway', sans-serif;
     font-weight: 400;
     margin-bottom: 2rem;
+    text-align: justify; /* Added this property */
 }
+
+.project-logo {
+    width: 50px;
+    height: 50px;
+}
+
+.stack-item {
+    width: 80%; 
+    height: 25%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    background: #F6F6F6;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+.stack-item p {
+    text-align: center; /* Adjust this value as necessary */
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.stack-item img {
+    align-self: center;
+    width: 30px;
+    height: 30px;
+}
+
 
 .project-links {
     display: flex;
@@ -88,12 +148,109 @@
     color: #D7D7D7;
 }
 
-.carousel-prev {
+.carousel-prev,
+.carousel-next {
     position: absolute;
-    left: 10px; /* Move the button 10px away from the left edge */
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.carousel-prev {
+    left: 10px;
 }
 
 .carousel-next {
-    position: absolute;
-    right: 10px; /* Move the button 10px away from the right edge */
+    right: 10px;
 }
+
+.carousel-prev-mobile,
+.carousel-next-mobile {
+    display: none;
+}
+
+/* ... (the rest of your existing CSS) ... */
+
+@media only screen and (max-width: 768px) {
+    .carousel-container {
+        padding: 1rem;
+    }
+
+    .carousel-card {
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem;  /* Reduce padding for mobile */
+    }
+
+    .details-section,
+    .left-section {
+        width: 100%;
+        padding: 0.5rem; /* Reduce padding for mobile */
+    }
+
+    .carousel-card p {
+        font-size: 0.9rem;
+    }
+
+    .stack-item {
+        width: 100%;
+    }
+
+    .project-logo {
+        width: 40px;
+        height: 40px;
+        margin: 0 10px;
+    }
+
+    .stack-item img {
+        width: 25px;
+        height: 25px;
+    }
+
+
+    .logos-section {
+        width: 100%;
+        justify-content: center;  
+        align-items: center;      
+        padding: 1rem 0;          
+    }
+
+    .logos-section img{
+        width: 50px;
+        height: 50px;
+    }
+
+    .stack-section {
+        width: 100%;             
+        padding-left: 0;        
+        align-items: center;   
+
+    }
+
+    .stack-item {
+        max-width: 90%;      
+    }
+
+    .carousel-prev,
+    .carousel-next {
+        display: none;
+    }
+
+    .carousel-prev-mobile,
+    .carousel-next-mobile {
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+    }
+    
+
+    .mobile-buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;  /* Adjust button spacing */
+        width: 100%;  /* Set a width for the container */
+        padding: 1rem 2rem;  /* Adjust padding for the top and bottom, and sides */
+    }
+    
+}
+
+
