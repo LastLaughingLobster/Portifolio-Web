@@ -3,14 +3,17 @@ import React, { FunctionComponent } from 'react';
 import './TopLandingPage.css';
 import SocialButton from '../../../components/SocialButton/SocialButton';
 import LandingPageBackground from '../../Usefull/Backgrounds/LandingPage/LandingPageBackground';
+import CubyBackGround from '../../../components/CubyBackGround/Cuby';
+import GridTillesBackground from '../../../components/CubyBackGround/GridTillesBackground';
+import RubiksImageGenerator from '../../../components/CubyBackGround/RubiksImageGenerator';
+import ProjectCard from '../../../components/ProjectCard/ProjectCard';
 
 const TopLandingPage: FunctionComponent = () => {
   return (
-    <>
-      <LandingPageBackground/>
+    <>  
       <div className="top-landing-page">
         <div className="empty-section">
-          <img src={ process.env.PUBLIC_URL + "/images/Photos/me.png"} alt="Your Name" />
+         <RubiksImageGenerator imagePath={`${process.env.PUBLIC_URL}/images/Photos/me_white.png`} />
         </div>
         <div className="text-section">
           <div className="text-group">

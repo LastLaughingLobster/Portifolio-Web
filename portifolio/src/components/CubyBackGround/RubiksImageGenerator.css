@@ -1,0 +1,11 @@
+.rubiks-canvas-container {
+    /* The height will be set dynamically based on the image, so you can remove the fixed height */
+    max-width: 100%; /* This ensures the div doesn't overflow its parent container */
+    overflow: hidden; /* This hides any overflow content */
+}
+
+.rubiks-canvas-container canvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+}

@@ -13,11 +13,12 @@
   width: 40%;
 }
 
+
 .text h1 {
-  color: #011526;
+  color: var(--neutrals-800, #25272A);
   text-align: center;
   font-size: 60px;
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Source Sans Pro', sans-serif;
   font-weight: 700;
   margin-bottom: 20px; /* added margin to create space below the heading */
   margin-top: 30%;
@@ -26,7 +27,7 @@
 .text p {
   text-align: center;
   font-size: 20px;
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   margin-bottom: 20px; /* added margin to create space below the heading */
   margin-top: 20px;
 }

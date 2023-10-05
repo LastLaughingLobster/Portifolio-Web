@@ -1,44 +1,44 @@
 import React from 'react';
 import './ProjectCard.css';
 
-interface Project {
+type Technology = {
+  techName: string;
+  fileName: string;
+};
+
+type ProjectCardProps = {
+  technologies: Technology[];
   title: string;
-  description: string;
-  stack: { tech: string, imgSrc: string }[];
-  companies: { name: string, imgSrc: string }[];
-}
+  textDescription: string;
+  imagePath: string;
+};
 
-interface Props {
-  project: Project;
-}
+const LogosPath = process.env.PUBLIC_URL + "/images/logos/";
 
-const ProjectCard: React.FC<Props> = ({ project }) => {
-    return (
-      <div className="project-card">
-        <span className="arrow left">←</span>
-  
-        <div className="card-header">
-          {project.companies.map((company, index) => (
-            <img key={index} src= { process.env.PUBLIC_URL + company.imgSrc} alt={company.name} className="company-logo" />
-          ))}
-          <h2 className="project-title">{project.title}</h2>
-        </div>
-        
-        <p className="project-description">{project.description}</p>
-        
-        <div className="stack-list">
-          {project.stack.map((techItem, index) => (
-            <div key={index} className="stack-item">
-              <img src={ process.env.PUBLIC_URL + techItem.imgSrc} alt={techItem.tech} />
-              <span>{techItem.tech}</span>
+const ProjectCard: React.FC<ProjectCardProps> = ({ technologies, title, textDescription, imagePath }) => {
+  return (
+    <div className="project-card">
+      <img className="project-card-image" src={imagePath} alt={title} />
+      <div className="project-card-content">
+        <h3 className="project-card-title">{title}</h3>
+        <p className="project-card-description">{textDescription}</p>
+        <div className="project-card-technologies">
+          {technologies.map((tech, index) => (
+            <div key={index} className="project-card-technology">
+              <img 
+                className="tech-icon" 
+                src={LogosPath + tech.fileName} 
+                alt={tech.techName} 
+                width="20" 
+                height="20"
+              />
+              <span>{tech.techName}</span>
             </div>
           ))}
         </div>
-  
-        <span className="arrow right">→</span>
       </div>
-    );
-  };
-  
+    </div>
+  );
+};
 
 export default ProjectCard;

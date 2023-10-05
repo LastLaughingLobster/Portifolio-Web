@@ -1,0 +1,53 @@
+.contact-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  background-color: #000; /* Black background like in the image */
+  color: #fff; /* White text */
+  border-radius: 25px; /* Rounded corners */
+  text-decoration: none; /* Remove the underline */
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  font-size: 16px; /* Adjust based on your design */
+  font-weight: 500; /* Adjust based on your design */
+  transition: background-color 0.2s ease;
+  z-index: 2;
+}
+
+.contact-button:hover {
+  background-color: #333; /* Slightly lighter color on hover for feedback */
+}
+
+.svg-icon {
+  margin-left: 10px; /* Spacing between text and SVG */
+}
+
+.svg-icon img {
+  width: 20px; /* Adjust based on your design */
+  height: 20px;
+}
+
+
+/* Responsive styles for screen widths 960px or less */
+@media (max-width: 960px) {
+  .contact-button {
+    width: 50px;       /* Making it a fixed size square */
+    height: 50px;
+    padding: 0;        /* Removing padding */
+    border-radius: 50%; /* Full roundness for a circle */
+    justify-content: center; /* Centering the SVG */
+  }
+
+  .contact-button > span:first-child {
+    display: none;    /* Hide the text span */
+}
+
+
+  .svg-icon img {
+    width: 30px;      /* Slightly larger SVG */
+    height: 30px;
+    margin-left: 0;   /* Removing margin */
+  }
+}
