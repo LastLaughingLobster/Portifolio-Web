@@ -1,4 +1,3 @@
-// SocialButton.tsx
 import React, { FunctionComponent } from 'react';
 import './SocialButton.css';
 
@@ -10,10 +9,11 @@ interface SocialButtonProps {
 
 const SocialButton: FunctionComponent<SocialButtonProps> = ({ image, alt, url }) => {
   return (
-    <a href={url} target="_blank" rel="noopener noreferrer">
-      <button className="social-button">
+    <a href={url} target="_blank" rel="noopener noreferrer" className="social-button-anchor">
+      <div className="social-button">
         <img src={image} alt={alt} />
-      </button>
+        <span>{alt}</span>
+      </div>
     </a>
   );
 };
