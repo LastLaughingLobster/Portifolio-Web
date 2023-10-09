@@ -1,86 +1,86 @@
-/* Contact.css */
-
-.contact-page {
-    font-family: 'Raleway', sans-serif;
-    color: #011526;
+.center-container {
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;  /* take full viewport height */
-    padding: 10px;
+    height: 100vh;
 }
 
-.contact-header {
-    top: 12%;
-    width: 100%;
+.contact-container {
+    width: 70%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.header-class {
     text-align: center;
-    justify-content: center;
-    font-size: 24px;
-    font-weight: 700;
-    color: #011526;
-}
-
-
-.personal-info {
-    background-color: rgba(255, 190, 0, 0.1);  /* light yellow background for emphasis */
-    padding: 40px;  /* Increase padding */
-    width: 100%;  /* Set width to occupy 80% of parent container's width */
-    max-width: 600px;  /* Limit the width to 800px */
-    border-radius: 20px;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
-    font-size: 18px;  /* Increase font size */
-    margin: 0 auto;  /* Center the block if its parent is not a flex or grid container */
-}
-
-
-.personal-info p {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .contact-form {
-    width: 100%;
-    max-width: 600px;  /* maximum width for the form */
-    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
 }
 
-.contact-form input,
-.contact-form textarea,
-.contact-form button {
-    display: block;
-    width: 100%;
-    padding: 10px;
+.contact-form input, .contact-form textarea {
     margin-bottom: 15px;
+    padding: 12px;
+    border: 1px solid #e1e1e1;
     border-radius: 5px;
-    font-size: 17px;
-    border: 1px solid #D7D7D7;
+    outline: none;
 }
 
 .contact-form button {
-    background-color: #FFBE00;
-    color: #011526;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-    font-weight: 700;
+    background-color: #f8a51b;
+    color: #fff;
+    padding: 10px 15px;
     border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 .contact-form button:hover {
-    transform: scale(1.1);
+    background-color: #f78d0b;
 }
 
-.social-media {
+.social-buttons {
+    display: flex;
+    justify-content: center;
     margin-top: 20px;
 }
 
-.social-media a {
-    margin: 0 15px;
+.social-icon {
+    width: 30px;
+    height: 30px;
+    margin: 0 10px;
+    transition: transform 0.3s;
 }
 
-.contact-footer {
-    position: absolute;
-    bottom: 10px;
-    width: 100%;
-    text-align: center;
+.social-icon:hover {
+    transform: scale(1.1);
 }
 
+@media only screen and (max-width: 960px) {
+    .contact-container {
+        width: 90%;  /* Override the width for mobile */
+        padding: 10px;
+    }
+    .social-buttons {
+        display: flex;
+        justify-content: center;
+        align-items: center; /* Center items vertically */
+        margin-top: 20px;
+        flex-wrap: wrap; /* Allow items to wrap onto the next line if there's not enough space */
+    }
+
+    .social-icon {
+        width: 30px;
+        height: 30px;
+        margin: 5px 10px; /* Add a bit of vertical margin for spacing between wrapped items */
+        transition: transform 0.3s;
+    }
+}

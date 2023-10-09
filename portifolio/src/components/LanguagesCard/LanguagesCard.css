@@ -1,0 +1,25 @@
+.languages-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    background: #FFF;
+    box-shadow: 0px 1px 2px 0px rgba(199, 199, 199, 0.08),
+                0px 3px 3px 0px rgba(199, 199, 199, 0.07),
+                0px 6px 4px 0px rgba(199, 199, 199, 0.04),
+                0px 11px 4px 0px rgba(199, 199, 199, 0.01),
+                0px 17px 5px 0px rgba(199, 199, 199, 0.00);
+    padding: 24px;
+    max-width: 568px;
+  }
+  
+  .languages-card-header {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 16px;
+  }
+  
+  .language-item {
+    margin: 8px 0;
+    color: #757575;
+    font-size: 1rem;
+  }
+  

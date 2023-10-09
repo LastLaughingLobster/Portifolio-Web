@@ -11,8 +11,8 @@ import ProjectsPage from './pages/ProjectsPage/ProjectsPage';
 import GridTillesBackground from './components/CubyBackGround/GridTillesBackground';
 import './App.css';
 
-
 const Main: FunctionComponent = () => {
+  
   return (
     <>
       <Header />
@@ -25,7 +25,7 @@ const Main: FunctionComponent = () => {
         <Route path="/projects" element={<ProjectsPage />} />
       </Routes>
   
-      <ContactButton />
+      {/* <ContactButton /> */}
     </>
   );
 };

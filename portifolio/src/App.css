@@ -14,7 +14,10 @@
 }
 
 body {
-  background-color: #D7D7D7; /* Set the background color of the page */
+  background-image: var(--background-image-url);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 .App-header {
@@ -54,9 +57,6 @@ body {
   border-radius: 6px;       /* Half of the width to make it fully rounded */
 }
 
-body:hover::-webkit-scrollbar-thumb {
-  background: #888; 
-}
 
 /* For Firefox */
 * {

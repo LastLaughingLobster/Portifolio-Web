@@ -33,7 +33,7 @@ nav ul li a {
     display: inline-block;
     color: #D7D7D7;
     font-size: 17px;
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Source Sans Pro', sans-serif;
     font-weight: 700;
     padding: 10px 20px;
     border-radius: 25px; /* Increased to make it more rounded */
@@ -68,14 +68,78 @@ nav ul li:nth-child(4) a.active {
     border-radius: 5px; /* Making it more squared */
 }
 
-/* Responsive styling - Adjust this part based on your needs */
+.contact-button {
+    display: flex;
+    align-items: center; /* Vertically align content in the middle */
+    justify-content: center; /* Horizontally align content in the center */
+    background-color: #333;
+    color: #D7D7D7;
+    text-decoration: none;
+    font-size: 17px;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 700;
+    padding: 10px 20px;
+    border-radius: 10px; 
+    transition: background 0.3s ease, transform 0.3s ease, color 0.3s ease;
+}
+
+.contact-button .svg-icon {
+    margin-left: 10px;
+}
+
+.contact-button:hover {
+    transform: scale(1.05); /* Subtle scale on hover */
+}
+
+.separate-contact {
+    position: absolute;
+    right: 10px;
+    top: 15px; /* Adjust as needed for positioning */
+}
 @media only screen and (max-width: 768px) {
     .gradient-nav {
         padding: 5px 10px;
+        width: 100%;  /* Ensure the nav takes full width */
+    }
+
+    nav ul {
+        justify-content: space-between; /* Distribute items evenly */
+    }
+
+    nav ul li {
+        width: 20%; /* Distribute the space equally among menu items */
+        margin: 0; /* Remove margin between items */
+        text-align: center; /* Center the items */
     }
 
     nav ul li a {
-        font-size: 15px;
-        padding: 5px 10px;
+        font-size: 12px; /* Reduce font size for mobile */
+        padding: 5px 5px; /* Reduce padding */
+    }
+
+    .contact-button {
+        display: flex;
+        align-items: center; /* Vertically align items */
+        justify-content: center; /* Horizontally center items */
+        font-size: 12px; /* Reduce font size for mobile */
+        padding: 5px 5px; /* Reduce padding for mobile */
+        width: 40px;
+        margin-left: 20px;
+    }
+
+    .contact-button .svg-icon {
+        display: flex;
+        align-items: center; /* Vertically align the SVG within its container */
+        justify-content: center; /* Horizontally center the SVG within its container */
+    }
+
+    .contact-button .svg-icon img {
+        width: 14px; /* Reduce the size of the icon */
+        height: auto; /* Keep the aspect ratio */
+        margin-right: 10px;
+    }
+
+    .separate-contact {
+        display: none;
     }
 }

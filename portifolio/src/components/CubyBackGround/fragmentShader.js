@@ -32,7 +32,8 @@ void main() {
 }
 `
 
-const fragment = `
+const fragmentShaderno = `
+uniform vec2 resolution;
 uniform float time; // Elapsed time
 
 varying vec2 vUv;
@@ -76,17 +77,18 @@ void main() {
     }
     
     // Calculate cell age based on time and randomness
-    float cellAge = mod(time + random(floor(gridUV)) * 60.0, 60.0); // Increased the multipliers for less frequent changes
+    float cellAge = mod(time + random(floor(gridUV)) * 10.0, 20.0); // Adjust the multipliers to control rate and duration
 
-    // If the fragment is not part of a line and its age is within a narrow range, assign a random color
-    if (color == colors[0] && cellAge > 28.0 && cellAge < 29.0) { // Narrowed the age range
-        float rand = random(floor(gridUV));
+    // If the fragment is not part of a line and its age is within a range, assign a random color
+    if (color == colors[0] && cellAge > 5.0 && cellAge < 15.0) {
+        float rand = random(floor(gridUV + time));
         int index = int(rand * 6.0);
         color = colors[index];
     }
     
     gl_FragColor = vec4(color, 1.0);
 }
+
 `
 
 export default fragmentShader
