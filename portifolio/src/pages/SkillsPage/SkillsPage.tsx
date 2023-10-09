@@ -36,7 +36,7 @@ const SkillsPage = () => {
     return (
         <div className='skills-page'>
             <div className="content-left">
-                <div className="text">
+                <div className="skills-text">
                     {/* Displaying content based on the focusColor */}
                     <h1>{focusColor ? colorContentMapping[focusColor].header : 'Skills'}</h1>
                     <p>{focusColor ? colorContentMapping[focusColor].paragraph : 'According to the Cambridge Dictionary, a skill is defined as "an ability to perform an activity or job proficiently, especially through practice." Analogous to mastering a Rubik\'s cube, the essence lies in consistent practice. On the cube, you will find a selection of skills I have honed and continue to cultivate as a computer scientist and developer for the past 5 years. You can also play with it : )'}</p>

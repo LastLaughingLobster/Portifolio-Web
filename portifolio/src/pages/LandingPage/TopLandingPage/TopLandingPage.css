@@ -83,6 +83,27 @@
   object-fit: contain;
 }
 
+.lower-part {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch; /* Ensures items stretch to the same height */
+  margin: 1% auto; /* This centers the .lower-part horizontally */
+  max-width: 1200px; /* Adjust this value as needed */
+}
+
+.education-card {
+  flex: 1; /* Take up the full space available */
+  margin-left: 5%; /* Or any gap you'd like between the two sections */
+}
+
+.right-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* Gap between ProjectCard and LanguagesCard */
+  flex: 1; /* Take up the full space available */
+}
+
+
 /* ... existing styles ... */
 
 @media only screen and (max-width: 960px) {
@@ -90,6 +111,10 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+  }
+
+  .empty-section {
+    margin-top: 8%;
   }
 
   .text-section {
@@ -138,4 +163,22 @@
     width: 50px;
     height: 50px;
   }
+
+  .lower-part {
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+    max-width: 100%; /* Take full available width */
+    padding: 0 10px; /* Add some padding to left and right */
+  }
+
+  .education-card {
+    margin-bottom: 16px; /* Add space between this and the next component */
+    width: 100%; /* Take full available width */
+    margin-left: 0; /* Or any gap you'd like between the two sections */
+  }
+
+  .right-section {
+    margin-bottom: 16px; /* Add space between this and the next component */
+  }
+
 }

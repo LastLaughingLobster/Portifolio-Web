@@ -3,7 +3,8 @@ import './ProjectCard.css';
 
 type Technology = {
   techName: string;
-  fileName: string;
+  emoji?: string; // optional field for emoji
+  fileName?: string; // optional field for image filename
 };
 
 type ProjectCardProps = {
@@ -25,13 +26,17 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ technologies, title, textDesc
         <div className="project-card-technologies">
           {technologies.map((tech, index) => (
             <div key={index} className="project-card-technology">
-              <img 
-                className="tech-icon" 
-                src={LogosPath + tech.fileName} 
-                alt={tech.techName} 
-                width="20" 
-                height="20"
-              />
+              {tech.emoji ? (
+                <span className="tech-icon">{tech.emoji}</span>
+              ) : (
+                <img 
+                  className="tech-icon" 
+                  src={LogosPath + tech.fileName} 
+                  alt={tech.techName} 
+                  width="20" 
+                  height="20"
+                />
+              )}
               <span>{tech.techName}</span>
             </div>
           ))}

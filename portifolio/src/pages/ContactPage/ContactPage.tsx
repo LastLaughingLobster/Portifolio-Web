@@ -6,8 +6,6 @@ import SocialButton from '../../components/SocialButton/SocialButton';
 import emailjs from 'emailjs-com';
 
 const ContactPage: React.FC = () => {
-
-
     const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
@@ -20,60 +18,22 @@ const ContactPage: React.FC = () => {
     };
 
     return (
-        <div className="contact-page">
-
-            {/* Header */}
-            <header className="contact-header">
-                <h1>Let's get in touch!</h1>
-            </header>
-
-            {/* Personal Info */}
-            <section className="personal-info">
-                <h2>My Information</h2>
-                <p><strong>Name:</strong> Henrique Joaquim Ferreira Cruz Neto</p>
-                <p><strong>Position:</strong> Software Engineer / Researcher</p>
-                <p><strong>Email:</strong> henriquecruz_neto@icloud.com</p>
-                <p><strong>Phone:</strong> +55 81 988580711</p>
-                <p><strong>Address:</strong> Recife, Brazil</p>
-            </section>
-
-            {/* Contact Form */}
-            <section className="contact-form">
-                <h2>Contact Me</h2>
-                <form onSubmit={sendEmail}>
-                    <input type="text" name="name" placeholder="Name" required />
-                    <input type="email" name="email" placeholder="Email" required />
-                    <input type="text" name="subject" placeholder="Subject" required />
-                    <textarea name="message" placeholder="Your message..." required></textarea>
+        <div className="center-container">
+            <div className="contact-container">
+                <h2 className='header-class'>Contact Me</h2>
+                <form className="contact-form">
+                    <input type="text" placeholder="Name" />
+                    <input type="email" placeholder="Email" />
+                    <input type="text" placeholder="Subject" />
+                    <textarea placeholder="Your message..."></textarea>
                     <button type="submit">Send Message</button>
                 </form>
-            </section>
-            
-
-            {/* Social Media Links */}
-            
-            <div className="social-buttons">
-                <SocialButton image= { process.env.PUBLIC_URL + "/images/logos/twitter.png" } alt="Twitter" url="https://twitter.com/?lang=en" />
-                <SocialButton image= { process.env.PUBLIC_URL + "/images/logos/git.png" } alt="GitHub" url="https://github.com" />
-                <SocialButton image= { process.env.PUBLIC_URL + "/images/logos/linkedin.png" } alt="LinkedIn" url="https://linkedin.com" />
-            </div>
-
-            {/* Optional Map */}
-            {/* Uncomment and add your map embed code if required */}
-            {/* 
-            <section className="location-map">
-                <h2>Our Location</h2>
-                <div className="map">
-                    // Embed your map here
+                <div className="social-buttons">
+                    <SocialButton image={process.env.PUBLIC_URL + "/images/logos/twitter.png"} alt="Twitter" url="https://twitter.com/?lang=en" />
+                    <SocialButton image={process.env.PUBLIC_URL + "/images/logos/git.png"} alt="GitHub" url="https://github.com" />
+                    <SocialButton image={process.env.PUBLIC_URL + "/images/logos/linkedin.png"} alt="LinkedIn" url="https://linkedin.com" />
                 </div>
-            </section> 
-            */}
-
-            {/* Footer */}
-            <footer className="contact-footer">
-                <p>© 2023 Henrique Cruz Neto. All rights reserved.</p>
-            </footer>
-
+            </div>
         </div>
     );
 }

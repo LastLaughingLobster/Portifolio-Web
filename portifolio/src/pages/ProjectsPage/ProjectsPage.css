@@ -8,4 +8,5 @@
     padding: 16px; /* Padding around the grid */
     max-height: 90vh; /* Adjust based on your requirements */
     margin-top: 6%;
+    padding-bottom: 20px;
 }

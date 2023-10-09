@@ -20,7 +20,7 @@ const Playground: React.FC = () => {
 
   const yellow = "#FFBE00"
   const black = "#011526"
-  const grey = "#D7D7D7"
+  const grey = "#fffef2"
 
   const liveCellColor = "#FFBE00" // Yellow
   const borderColor = black // black
@@ -33,28 +33,27 @@ const Playground: React.FC = () => {
   let height;
 
   const setup = (p5: p5Types, canvasParentRef: Element) => {
-    p5Ref.current = p5;
+      p5Ref.current = p5;
+      p5.frameRate(60);
 
-    p5.frameRate(60);
+      width = canvasRef.current?.offsetWidth || 1280;
+      height = canvasRef.current?.offsetHeight || 600;
 
-    width = canvasRef.current?.offsetWidth || 1280;
-    height = (width * 9) / 16;
+      const canvas = p5.createCanvas(width, height);
+      canvas.parent(canvasParentRef);
 
-    const canvas = p5.createCanvas(width, height);
-    canvas.parent(canvasParentRef);
+      setColumns(Math.floor(width / w));
+      setRows(Math.floor(height / w));
 
-    setColumns(Math.floor(width / w));
-    setRows(Math.floor(height / w));
-
-    init(p5);
-
-    canvas.elt.oncontextmenu = () => false;
+      init(p5);
+      canvas.elt.oncontextmenu = () => false;
   };
+
 
   const draw = (p5: p5Types) => {
     p5.background(backgroundColor);
 
-    if (looperIncrement % 6 == 0){
+    if (looperIncrement % 6 == 0) {
       if (!isPaused) generate(p5);
     }
 
@@ -62,7 +61,7 @@ const Playground: React.FC = () => {
 
     looperIncrement++
 
-    if (looperIncrement > 60){
+    if (looperIncrement > 60) {
       looperIncrement = 0;
     }
 
@@ -73,23 +72,23 @@ const Playground: React.FC = () => {
 
   const handleReset = () => {
     if (p5Ref.current) {
-        init(p5Ref.current);
+      init(p5Ref.current);
     }
   };
 
   const flipCellState = (p5: p5Types) => {
     const x = Math.floor(p5.mouseX / w);
     const y = Math.floor(p5.mouseY / w);
-    
+
     // Check if x and y are within the valid range before accessing board's indices
     if (x >= 0 && x < columns && y >= 0 && y < rows) {
-        if (p5.mouseButton === p5.LEFT) {
-            board.current[x][y] = 1; // activate cell
-        } else if (p5.mouseButton === p5.RIGHT) {
-            board.current[x][y] = 0; // deactivate cell
-        }
+      if (p5.mouseButton === p5.LEFT) {
+        board.current[x][y] = 1; // activate cell
+      } else if (p5.mouseButton === p5.RIGHT) {
+        board.current[x][y] = 0; // deactivate cell
+      }
     }
-};
+  };
 
   const mousePressed = (p5: p5Types) => {
     flipCellState(p5);
@@ -97,9 +96,9 @@ const Playground: React.FC = () => {
   };
 
   const mouseReleased = (p5: p5Types) => {
-      setIsMouseHeld(false); // reset mouse hold state
+    setIsMouseHeld(false); // reset mouse hold state
   };
-  
+
 
   const init = (p5: p5Types) => {
     const width = canvasRef.current?.offsetWidth || 1280;
@@ -162,7 +161,7 @@ const Playground: React.FC = () => {
       }
     }
   };
-  
+
   const render = (p5: p5Types) => {
     for (let i = 0; i < columns; i++) {
       for (let j = 0; j < rows; j++) {
@@ -177,21 +176,46 @@ const Playground: React.FC = () => {
     }
   };
 
+  const windowResized = (p5: p5Types) => {
+    if (canvasRef.current) {
+      const newWidth = canvasRef.current.offsetWidth;
+      const newHeight = canvasRef.current.offsetHeight;
+
+      p5.resizeCanvas(newWidth, newHeight);
+
+      console.log("I AM HERE");
+
+      setColumns(Math.floor(newWidth / w));
+      setRows(Math.floor(newHeight / w));
+
+      init(p5);
+    }
+};
+
+
+
   return (
     <div className="playground-container">
       <h2>🔨 This page is still under construction! 🔨</h2>
       <h3>In the mean time you can interact with this Conway's Game of Life Implementation 😄</h3>
       <div className="canvas-and-controls">
-          <div className="canvas-container" ref={canvasRef}>
-              <Sketch setup={setup} draw={draw} mousePressed={mousePressed} mouseReleased={mouseReleased} />
-          </div>
-          <div className="control-buttons">
-              <button onClick={handleReset}>Reset</button>
-              <button onClick={() => setIsPaused(!isPaused)}>
-                  {isPaused ? "Resume" : "Pause / Draw"}
-              </button>
-              <button onClick={erase}>Erase</button>
-          </div>
+        <div className="canvas-container" ref={canvasRef}>
+          <Sketch
+            setup={setup}
+            draw={draw}
+            mousePressed={mousePressed}
+            mouseReleased={mouseReleased}
+            windowResized={windowResized}
+          />
+
+        </div>
+        <div className="control-buttons">
+          <button onClick={handleReset}>Reset</button>
+          <button onClick={() => setIsPaused(!isPaused)}>
+            {isPaused ? "Resume" : "Pause / Draw"}
+          </button>
+          <button onClick={erase}>Erase</button>
+        </div>
       </div>
     </div>
 

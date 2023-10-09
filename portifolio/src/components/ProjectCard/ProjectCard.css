@@ -6,9 +6,11 @@
   flex-direction: column;
   max-width: 568px;
   /* New properties */
-  background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white */
-  backdrop-filter: blur(20px); /* Gaussian blur */
-  -webkit-backdrop-filter: blur(20px); /* For Safari */
+  border-radius: 10px;
+  border: 1px solid var(--neutrals-100, #EBEDF0);
+  background: #FFF;
+  box-shadow: 0px 1px 2px 0px rgba(199, 199, 199, 0.08), 0px 3px 3px 0px rgba(199, 199, 199, 0.07), 0px 6px 4px 0px rgba(199, 199, 199, 0.04), 0px 11px 4px 0px rgba(199, 199, 199, 0.01), 0px 17px 5px 0px rgba(199, 199, 199, 0.00);
+
 }
 
 .project-card-image {

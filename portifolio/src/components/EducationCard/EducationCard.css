@@ -1,0 +1,59 @@
+/* EducationCard.css */
+
+.education-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    background: #FFF;
+    box-shadow: 0px 1px 2px 0px rgba(199, 199, 199, 0.08), 0px 3px 3px 0px rgba(199, 199, 199, 0.07), 0px 6px 4px 0px rgba(199, 199, 199, 0.04), 0px 11px 4px 0px rgba(199, 199, 199, 0.01), 0px 17px 5px 0px rgba(199, 199, 199, 0.00);
+    padding: 24px;
+    max-width: 568px;
+  }
+  
+  .education-card-header {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 16px;
+  }
+  
+  .education-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .education-node::before {
+    content: '';
+    position: absolute;
+    left: -9px; /* Adjust according to your design */
+    top: 0;
+    width: 16px;  /* Updated width for a square */
+    height: 16px; /* Updated height for a square */
+    background-color: #FFBE00;
+    border-radius: 2px;
+    /* Removed the border-radius to make it a square */
+}
+
+  
+  .education-node {
+    border-left: 2px solid #e0e0e0;
+    padding-left: 16px;
+    position: relative;
+  }
+  
+  
+  .education-node-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .education-node-years {
+    color: #757575;
+    font-size: 1rem;
+    margin: 8px 0;
+  }
+  
+  .education-node-paragraph {
+    margin: 8px 0;
+    color: #757575;
+  }
+  
