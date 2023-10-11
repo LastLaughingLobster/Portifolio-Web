@@ -32,7 +32,7 @@ void main() {
 }
 `
 
-const fragmentShaderno = `
+const fragmentShaderd = `
 uniform vec2 resolution;
 uniform float time; // Elapsed time
 

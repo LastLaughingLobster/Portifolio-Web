@@ -6,6 +6,7 @@ import RubiksImageGenerator from '../../../components/CubyBackGround/RubiksImage
 import EducationCard from '../../../components/EducationCard/EducationCard';
 import ProjectCard from '../../../components/ProjectCard/ProjectCard';
 import LanguagesCard from '../../../components/LanguagesCard/LanguagesCard';
+import SkillSticker from '../../../components/SkillSticker/SkillSticker';
 
 const educationData = [
   {

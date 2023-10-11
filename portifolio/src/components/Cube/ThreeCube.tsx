@@ -23,6 +23,7 @@ type ColorMapping = {
 
 interface Props {
     focusColor?: CubeColors;
+    cameraPositionFromParent?: THREE.Vector3;
 }
 
 type PlaneRefWithColor = {
@@ -31,7 +32,7 @@ type PlaneRefWithColor = {
 };
   
 
-const ThreeCube = ({ focusColor }: Props) => {
+const ThreeCube = ({ focusColor, cameraPositionFromParent = new THREE.Vector3(3, 3, 4.5)}: Props) => {
     const [cubesMatrix, setCubesMatrix] = useState<React.ReactElement[]>([]);
     const [planesMatrix, setPlanesMatrix] = useState<React.ReactElement[]>([]);
     const [trackBallEnabled, setTrackBallEnabled] = useState(true);
@@ -57,7 +58,7 @@ const ThreeCube = ({ focusColor }: Props) => {
 
     const rotationDuration = 0.2; //in seconds
     const transitionDuration = 1000;
-    const INITIAL_CAMERA_POSITION = new THREE.Vector3(3, 3, 4.5);
+    const [cameraPositionProp, setCameraPositionProp] = useState<THREE.Vector3>(cameraPositionFromParent);
 
 
     const moveStringRef = useRef<string>('');
@@ -71,13 +72,13 @@ const ThreeCube = ({ focusColor }: Props) => {
 
     const prevFocusColor = useRef<CubeColors>("black");
 
-    const colorToPositionMapping: ColorMapping = {
-        'red': new THREE.Vector3(0, INITIAL_CAMERA_POSITION.length(), 0),
-        'green': new THREE.Vector3(INITIAL_CAMERA_POSITION.length(), 0, 0),
-        'blue': new THREE.Vector3(-INITIAL_CAMERA_POSITION.length(), 0, 0),
-        'orange': new THREE.Vector3(0, -INITIAL_CAMERA_POSITION.length(), 0),
-        'yellow': new THREE.Vector3(0, 0, -INITIAL_CAMERA_POSITION.length()),
-        'white': new THREE.Vector3(0, 0, INITIAL_CAMERA_POSITION.length())
+    let colorToPositionMapping: ColorMapping = {
+        'red': new THREE.Vector3(0, cameraPositionProp.length(), 0),
+        'green': new THREE.Vector3(cameraPositionProp.length(), 0, 0),
+        'blue': new THREE.Vector3(-cameraPositionProp.length(), 0, 0),
+        'orange': new THREE.Vector3(0, -cameraPositionProp.length(), 0),
+        'yellow': new THREE.Vector3(0, 0, -cameraPositionProp.length()),
+        'white': new THREE.Vector3(0, 0, cameraPositionProp.length())
     }
 
     const [moveList, setMoveList ] = useState<string[]>([]);
@@ -87,7 +88,6 @@ const ThreeCube = ({ focusColor }: Props) => {
     const [shouldRenderSpecialFace, setShouldRenderSpecialFace] = useState(false);
 
     const canvasRef = useRef(null);
-
 
     useEffect(() => {
         // Initialize cubesMatrix and planesMatrix when component mounts
@@ -451,7 +451,6 @@ const ThreeCube = ({ focusColor }: Props) => {
             const allColors: CubeColors[] = ["red", "green", "blue", "yellow", "white", "orange"];
             
             const possibleColors = allColors.filter(c => c !== color && !isOppositeSide(color, c));
-            console.warn("Possible colors for", color, "-> " ,possibleColors);
             const randomIndex = Math.floor(Math.random() * possibleColors.length);
             return possibleColors[randomIndex];
         }
@@ -932,7 +931,7 @@ const ThreeCube = ({ focusColor }: Props) => {
     return (
         <>
             <Canvas ref={canvasRef} camera={{
-                position: INITIAL_CAMERA_POSITION,
+                position: cameraPositionProp,
                 near: 2.0,
                 far: 10
             }}>

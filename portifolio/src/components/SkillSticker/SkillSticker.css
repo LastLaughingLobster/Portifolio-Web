@@ -1,0 +1,94 @@
+.skill-sticker {
+    max-width: 180px;
+    max-height: 108px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 9px;
+    border-radius: 9px;
+    border: 1px solid var(--neutrals-100, #EBEDF0);
+    background: #FFF;
+    box-shadow: 0px 1px 2px 0px rgba(199, 199, 199, 0.08), 0px 3px 3px 0px rgba(199, 199, 199, 0.07), 0px 6px 4px 0px rgba(199, 199, 199, 0.04), 0px 11px 4px 0px rgba(199, 199, 199, 0.01), 0px 17px 5px 0px rgba(199, 199, 199, 0.00);
+}
+
+.skill-sticker-text {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    font-size: 18px;
+    font-family: 'Source Sans Pro', sans-serif;
+    padding-left: 9%;
+}
+
+.skill-logo {
+    width: 45px;
+    height: 45px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: center; 
+    margin-bottom: 9px;
+}
+
+.skill-bar {
+    width: 81px;
+    height: 27px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 9px;
+    background-color: black;
+    border-radius: 4.5px;
+}
+
+.skill-level {
+    width: 18px;
+    height: 18px;
+    border-radius: 4.5px;
+    margin: 0 4.5px;
+    transition: background-color 0.3s;
+}
+
+@media (max-width: 960px) {
+    .skill-sticker {
+        max-width: 160px;
+        max-height: 98px;
+        padding: 8px;
+        border-radius: 8px;
+       
+    }
+    
+    .skill-sticker-text {
+        font-size: 16px;
+        padding-left: 8%;
+    }
+    
+    .skill-logo {
+        width: 35px;
+        height: 35px;
+        object-fit: contain; /* This ensures the image maintains its proportions */
+        display: block;
+    }
+    
+    .header {
+        margin-bottom: 8px;
+    }
+    
+    .skill-bar {
+        width: 73px;
+        height: 24px;
+        margin-top: 8px;
+        border-radius: 4.05px;
+    }
+    
+    .skill-level {
+        width: 16px;
+        height: 16px;
+        border-radius: 4.05px;
+        margin: 0 4.05px;
+        
+    }
+}
