@@ -96,7 +96,7 @@ nav ul li:nth-child(4) a.active {
     right: 10px;
     top: 15px; /* Adjust as needed for positioning */
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 960px) {
     .gradient-nav {
         padding: 5px 10px;
         width: 100%;  /* Ensure the nav takes full width */

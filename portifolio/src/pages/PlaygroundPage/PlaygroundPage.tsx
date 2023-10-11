@@ -182,9 +182,6 @@ const Playground: React.FC = () => {
       const newHeight = canvasRef.current.offsetHeight;
 
       p5.resizeCanvas(newWidth, newHeight);
-
-      console.log("I AM HERE");
-
       setColumns(Math.floor(newWidth / w));
       setRows(Math.floor(newHeight / w));
 

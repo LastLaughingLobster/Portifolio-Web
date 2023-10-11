@@ -9,17 +9,17 @@ const Header: FunctionComponent = () => {
   const [activeTab, setActiveTab] = useState(location.pathname);
 
   // State for mobile view
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 960);
 
   useEffect(() => {
     window.addEventListener('resize', () => {
-      setIsMobile(window.innerWidth <= 768);
+      setIsMobile(window.innerWidth <= 960);
     });
 
     // Cleanup event listener on component unmount
     return () => {
       window.removeEventListener('resize', () => {
-        setIsMobile(window.innerWidth <= 768);
+        setIsMobile(window.innerWidth <= 960);
       });
     };
   }, []);

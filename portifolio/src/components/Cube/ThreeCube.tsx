@@ -94,8 +94,6 @@ const ThreeCube = ({ focusColor, cameraPositionFromParent = new THREE.Vector3(3,
         const initCubes = generateCubes();
         const initPlanes = generateInvisiblePlanes();  // Assuming generateInvisiblePlanes() returns an array of <mesh> JSX elements
         
-        console.log(initPlanes);
-        
         setCubesMatrix(initCubes);
         setPlanesMatrix(initPlanes);
         
@@ -324,7 +322,6 @@ const ThreeCube = ({ focusColor, cameraPositionFromParent = new THREE.Vector3(3,
                 const rotation = arrowRotationMap.get(clickedArrowPosition);
                 if (rotation) {
                     // Perform the rotation or handle the rotation command as per your system's design
-                    console.log(`Rotation: ${rotation}`);
                     setPlaneOpacityToZero();
                     clearArrows();
                     performMove(rotation);
@@ -377,12 +374,6 @@ const ThreeCube = ({ focusColor, cameraPositionFromParent = new THREE.Vector3(3,
 
                 setArrows(arrowElements);
 
-                console.log("Face normal --> ", clickedFaceNormal.current);
-                console.log("Cube", {
-                    "X": clickedCubelet.position.x,
-                    "Y": clickedCubelet.position.y,
-                    "Z": clickedCubelet.position.z
-                });
                 return;
             }
 
@@ -471,10 +462,6 @@ const ThreeCube = ({ focusColor, cameraPositionFromParent = new THREE.Vector3(3,
                         
             const start = colorToPositionMapping[prevFocusColor.current];
             const angle = getAngleBetweenVectors(start, camera.position);
-            
-            console.warn("Start:", start, 
-                         "\nCamera:", camera.position, 
-                         "\nAngle:", angle);
     
             const target = colorToPositionMapping[focusColor];
     
@@ -643,7 +630,7 @@ const ThreeCube = ({ focusColor, cameraPositionFromParent = new THREE.Vector3(3,
                 setRotation({ axis: 'Z', layer: 0, direction });
                 break;
             default:
-                console.warn("Unknown move:", move);
+                console.error("Unknown move:", move);
                 return;
         }
 
@@ -673,7 +660,6 @@ const ThreeCube = ({ focusColor, cameraPositionFromParent = new THREE.Vector3(3,
             movesList += getRandomMove() + ' ';
         }
 
-        console.log("Movelist", movesList.trim());
         moveStringRef.current = movesList.trim();
         return movesList.trim();
     }

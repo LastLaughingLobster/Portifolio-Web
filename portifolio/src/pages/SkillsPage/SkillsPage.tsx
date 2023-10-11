@@ -14,28 +14,46 @@ const SkillsPage = () => {
             header: 'Misc Skills',
             paragraph: 'These are some other skills. Shout Out to Rust my current favorite language.',
             skills : [
-                { fileName: 'js.png', skillName: 'JS', skillLevel: 3, color: '#F7DF1E' }
+                { fileName: 'docker.png', skillName: 'Docker', skillLevel: 2, color: '#1D63ED' },
+                { fileName: 'selenium.png', skillName: 'Selenium', skillLevel: 2, color: '#5aad47' },
+                { fileName: 'jenkins.png', skillName: 'Jenkins', skillLevel: 2, color: '#ecd6bb' },
+                { fileName: 'rust.png', skillName: 'Rust', skillLevel: 3, color: '#d44c31' },
+                { fileName: 'haskell.png', skillName: 'Haskell', skillLevel: 2, color: '#5b5083' },
+                { fileName: 'cpp.png', skillName: 'C++', skillLevel: 2, color: '#2d649e' }
             ]
         },
         green: {
             header: 'Data Science',
             paragraph: 'I relly like Data Science and Machine Learning. Using statistics and Computers to create inteligence facinates me',
             skills : [
-                { fileName: 'js.png', skillName: 'JS', skillLevel: 3, color: '#F7DF1E' }
+                { fileName: 'python.png', skillName: 'Python', skillLevel: 3, color: '#4b74a0' },
+                { fileName: 'scikit-learn.png', skillName: 'Scikit Learn', skillLevel: 2, color: '#ed9e54' },
+                { fileName: 'mediaPipe.png', skillName: 'Media Pipe', skillLevel: 1, color: '#4799a8' },
+                { fileName: 'tensorflow.png', skillName: 'Tensor Flow', skillLevel: 2, color: '#e29645' },
+                { fileName: 'numpy.png', skillName: 'NumPy', skillLevel: 2, color: '#5a7ecb' },
+                { fileName: 'opencv.png', skillName: 'OpenCV', skillLevel: 1, color: '#79f952' }
             ]
         },
         blue: {
             header: 'Quantum Computing',
             paragraph: 'My Bachlor\'s Thesis was building a Quantun Neural Network. Quantum Computing is the real computing',
             skills : [
-                { fileName: 'js.png', skillName: 'JS', skillLevel: 3, color: '#F7DF1E' }
+                { fileName: 'qiskit.png', skillName: 'Qiskit', skillLevel: 2, color: '#5b5083' },
+                { fileName: 'tensorflow.png', skillName: 'Tensor FlowQ', skillLevel: 1, color: '#e29645' }
             ]
         },
         yellow: {
             header: 'Back End',
             paragraph: 'Maybe where i shine more in web developemnt, is the area i have the bigges experience. APIs all the way down',
             skills : [
-                { fileName: 'js.png', skillName: 'JS', skillLevel: 3, color: '#F7DF1E' }
+                { fileName: 'net.png', skillName: '.NET', skillLevel: 3, color: '#503dce' },
+                { fileName: 'csharp.png', skillName: 'C#', skillLevel: 3, color: '#357ff6' },
+                { fileName: 'fastApi.png', skillName: 'Fast API', skillLevel: 2, color: '#499a8f' },
+                { fileName: 'springBoot.png', skillName: 'Spring Boot', skillLevel: 3, color: '#81b255' },
+                { fileName: 'sql.png', skillName: 'SQL', skillLevel: 3, color: '#F7DF1E' },
+                { fileName: 'firebase.png', skillName: 'Firebase', skillLevel: 2, color: '#f3aa43' },
+                { fileName: 'graphql.png', skillName: 'GraphQL', skillLevel: 2, color: '#d550aa' },
+                { fileName: 'rabbit.png', skillName: 'RabbitMQ', skillLevel: 3, color: '#ef7334' }
             ]
         },
         white: {
@@ -47,16 +65,16 @@ const SkillsPage = () => {
                 { fileName: 'html.png', skillName: 'HTML5', skillLevel: 3, color: '#E34F26' },
                 { fileName: 'angular.png', skillName: 'Angular', skillLevel: 2, color: '#B52E31' },
                 { fileName: 'react.png', skillName: 'React', skillLevel: 3, color: '#61DAFB' },
-                { fileName: 'css.png', skillName: 'CSS3', skillLevel: 3, color: '#1572B6' },
-                { fileName: 'react.png', skillName: 'React', skillLevel: 3, color: '#61DAFB' },
-                { fileName: 'css.png', skillName: 'CSS3', skillLevel: 3, color: '#1572B6' },
+                { fileName: 'css.png', skillName: 'CSS3', skillLevel: 3, color: '#1572B6' }
             ]
         },
         orange: {
             header: 'Game Dev',
             paragraph: "I\'ve implemented the cube using Three.js and some good'ol linear algebra. I Can't even belive i've built something so good. For comparison check Googles cube. P5 for when i wnat to have fun. And i am currently building a Noita style game with godot.",
             skills : [
-                { fileName: 'js.png', skillName: 'JS', skillLevel: 3, color: '#F7DF1E' }
+                { fileName: 'Godot.png', skillName: 'Godot', skillLevel: 1, color: '#5c8fbd' },
+                { fileName: 'p5js.png', skillName: 'P5.js', skillLevel: 3, color: '#dc4065' },
+                { fileName: 'threejs.svg', skillName: 'Three.js', skillLevel: 2, color: '#FFFFFF' }
             ]
         }
     };

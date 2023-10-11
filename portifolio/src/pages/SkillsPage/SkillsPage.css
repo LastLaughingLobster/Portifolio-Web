@@ -27,8 +27,13 @@
   width: 100%;
   max-height: 380px;
   margin-top: 10px;
+  margin-bottom: 20px;
 }
 
+.skill-stickers-container > * {
+  transform: translateY(20px); /* Start a bit below their final position */
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out; /* Fade-in and move up transition */
+}
 
 .skills-text h1 {
   color: var(--neutrals-800, #25272A);
@@ -118,13 +123,13 @@
 }
 
 /* Mobile responsive design */
-@media (max-width: 768px) {
+@media (max-width: 960px) {
   .skills-page {
       flex-direction: column;
       align-items: center;
       width: 100%;
       height: auto;
-      margin: 12% auto;
+      margin: 17% auto;
   }
 
   .content-left, .three-cube-class {
@@ -134,32 +139,41 @@
   .skills-text h1 {
     font-size: 40px;
     font-weight: 700;
+    margin: 0%;
   }
   
   .skills-text p {
     font-size: 15px;
+    padding-top: 0%;
+    padding-bottom: 0%;
   }
 
-  .color-buttons-container{
+  .color-buttons-container {
+    display: flex; /* Change grid to flex for mobile */
+    flex-wrap: nowrap; /* Prevent wrapping */
+    justify-content: space-between; /* Evenly space the buttons */
+    gap: 0; /* Remove any gaps */
+    width: 80%;
+    margin: auto;
     margin-bottom: 20px;
   }
 
   .color-buttons-container button {
-    border-radius: 5px;
-    width: 60px;
-    height: 60px;
+    width: 30px;
+    height: 30px;
+    border-radius: 3px;
   }
   
   .color-buttons-container button::before {
-    border-radius: 3px;
+    border-radius: 1.5px;
     content: "";
-    width: 50px;
+    width: 25px;
     max-width: 100px; 
-    height: 50px;
+    height: 25px;
   }
 
   .three-cube-class {
-    height: 500px;
+    height: 350px;
     background-color:rgb(38, 38, 38);
   }
 

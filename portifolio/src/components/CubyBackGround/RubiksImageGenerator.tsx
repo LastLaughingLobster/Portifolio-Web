@@ -60,7 +60,6 @@ const RubiksImageGenerator: React.FC<RubiksImageGeneratorProps> = ({
 
             p.setup = () => {
                 if (imageToDraw) {
-                    console.log(imageToDraw.width, imageToDraw.height);
                     p.createCanvas(imageToDraw.width, imageToDraw.height);
                     p.background(255, 254, 242);
 
@@ -69,16 +68,13 @@ const RubiksImageGenerator: React.FC<RubiksImageGeneratorProps> = ({
 
             p.draw = () => {
                 if (drawState == DRAW_STATES.INIT){
-                    console.log("Init??", drawState);
                     drawRandom(25, currentSeed, false);
                 }
 
                 if (drawState == DRAW_STATES.COMPLETED){
                     drawState = DRAW_STATES.WAITING;
-                    console.log("Stting state to waiting", drawState);
                     setTimeout(() => {
                         drawState = DRAW_STATES.INIT;
-                        console.log("Stting state to INIT", drawState);
                         currentSeed = getRandomIntInRange(1,719);
                     }, 5000);
                 }

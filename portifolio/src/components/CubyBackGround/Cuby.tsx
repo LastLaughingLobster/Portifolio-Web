@@ -129,7 +129,6 @@ const CubyBackGround: React.FC<RubiksBackgroundProps> = ({ width = 800, height =
                 imageToDraw = p.loadImage(path, () => {
                     // Initialize the renderedPixels array once the image is loaded
                     renderedPixels = Array(imageToDraw.width).fill(false).map(() => Array(imageToDraw.height).fill(false));
-                    console.log(renderedPixels);
                 });
             }
 
