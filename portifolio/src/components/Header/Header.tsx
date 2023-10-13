@@ -4,12 +4,12 @@ import './Header.css';
 
 const Header: FunctionComponent = () => {
   const location = useLocation();
-
-  // State for active tab
   const [activeTab, setActiveTab] = useState(location.pathname);
-
-  // State for mobile view
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 960);
+
+  useEffect(() => {
+    setActiveTab(location.pathname); 
+  }, [location.pathname]);
 
   useEffect(() => {
     window.addEventListener('resize', () => {

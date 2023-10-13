@@ -2,7 +2,6 @@
 import React, { FunctionComponent } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Header from './components/Header/Header';
-import ContactButton from './components/HomeButton/ContactButton';
 import LandingPage from './pages/LandingPage/LandingPage';
 import SkillsPage from './pages/SkillsPage/SkillsPage';
 import PlaygroundPage from './pages/PlaygroundPage/PlaygroundPage';
@@ -24,8 +23,6 @@ const Main: FunctionComponent = () => {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/projects" element={<ProjectsPage />} />
       </Routes>
-  
-      {/* <ContactButton /> */}
     </>
   );
 };
