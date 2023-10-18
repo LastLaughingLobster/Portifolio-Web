@@ -29,7 +29,7 @@ const Header: FunctionComponent = () => {
       <nav className="gradient-nav">
         <ul>
           <li>
-            <Link to="/Portifolio-Web" className={activeTab === '/Portifolio-Web' ? 'active' : ''} onClick={() => setActiveTab('/Portifolio-Web')}>About</Link>
+            <Link to="/" className={activeTab === '/' ? 'active' : ''} onClick={() => setActiveTab('/')}>About</Link>
           </li>
           <li>
             <Link to="/skills" className={activeTab === '/skills' ? 'active' : ''} onClick={() => setActiveTab('/skills')}>Skills</Link>

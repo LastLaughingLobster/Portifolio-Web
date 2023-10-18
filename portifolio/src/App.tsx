@@ -17,7 +17,7 @@ const Main: FunctionComponent = () => {
       <Header />
       <GridTillesBackground/>
       <Routes>
-        <Route path="/Portifolio-Web" element={<LandingPage />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/skills" element={<SkillsPage />} />
         <Route path="/playground" element={<PlaygroundPage />} />
         <Route path="/contact" element={<ContactPage />} />
