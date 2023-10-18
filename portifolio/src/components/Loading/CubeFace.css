@@ -1,0 +1,40 @@
+/* CubeFace.css */
+.cube-face {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    width: 100px;
+    height: 100px;
+    position: relative;
+    background-color: black;
+    box-sizing: border-box;
+    margin: auto;
+    border-radius: 5px;
+  }
+  
+  .cube-square {
+    position: absolute;
+    width: 28%; /* divide by 3 for 3x3 grid */
+    height: 28%;
+    border-radius: 3px;
+  }
+
+  /* 2.16666666*/
+  
+  .cube-square:nth-child(1) { top: 3.99999999%; left: 3.99999999%; }
+  .cube-square:nth-child(2) { top: 3.99999999%; left: 35.9999999%; }
+  .cube-square:nth-child(3) { top: 3.99999999%; left: 68%; }
+  .cube-square:nth-child(4) { top: 35.9999999%; left: 3.99999999%; }
+  .cube-square:nth-child(5) { top: 35.9999999%; left: 35.9999999%; }
+  .cube-square:nth-child(6) { top: 35.9999999%; left: 68%; }
+  .cube-square:nth-child(7) { top: 68%; left: 3.99999999%; }
+  .cube-square:nth-child(8) { top: 68%; left: 35.9999999%; }
+  .cube-square:nth-child(9) { top: 68%; left: 68%; }
+  
+  .cube-square.red { background-color: #C34443; }
+  .cube-square.green { background-color: #01AD4B; }
+  .cube-square.blue { background-color: #3155A4; }
+  .cube-square.orange { background-color: #FFB512; }
+  .cube-square.white { background-color: #EAEEF6; }
+  
+  

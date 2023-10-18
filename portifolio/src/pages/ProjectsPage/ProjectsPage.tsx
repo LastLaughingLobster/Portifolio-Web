@@ -25,7 +25,7 @@ const sampleProjects = [
             { techName: 'SpringBoot', fileName: 'springBoot.png' }
         ],
         title: 'Petrobras Flexboard',
-        textDescription: 'The Flex board was an innovative solution devised by C.E.S.A.R for Petrobras, the premier oil company in Brazil. Unfortunately, due to a binding non-disclosure agreement, I\'m unable to delve into the specifics of our solution. The technological stack was intriguing, being a fusion of diverse technologies such as React, Spring Boot, GraphQL, and Oracle. I must confess, however, that the organization\'s structure and the overall architecture left much to be desired. This, coupled with the associated stress, prompted my departure from C.E.S.A.R in pursuit of fresh opportunities.',
+        textDescription: "The Flex board was an innovative solution devised by C.E.S.A.R for Petrobras, the premier oil company in Brazil. I was a part of this project for 7 months. Unfortunately, due to a binding non-disclosure agreement, I'm unable to delve into the specifics of our solution. The technological stack was intriguing, being a fusion of diverse technologies such as React, Spring Boot, GraphQL, and Oracle. Most of my hands-on experience was with Spring Boot and SQL, especially in crafting high-performance queries and procedures. While the project offered substantial learning opportunities, it ultimately wasn't the right fit for me. I decided to depart from C.E.S.A.R in search of new experiences and opportunities.",
         imagePath: process.env.PUBLIC_URL + "/images/Photos/flex.jpg",
     },
     {

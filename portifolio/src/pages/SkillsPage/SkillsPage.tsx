@@ -7,6 +7,7 @@ import SkillSticker from '../../components/SkillSticker/SkillSticker';
 
 const SkillsPage = () => {
     const [focusColor, setFocusColor] = useState<"red" | "green" | "blue" | "yellow" | "white" | "orange">();
+    const [isAnimating, setIsAnimating] = useState(false);
 
     // TODO: Move this to an endpoint latter
     const colorContentMapping = {
@@ -119,20 +120,20 @@ const SkillsPage = () => {
                     </div>
                 }
                 <div className="color-buttons-container">
-                    <button className="white-button" onClick={() => setFocusColor("white")}></button>
-                    <button className="green-button" onClick={() => setFocusColor("green")}></button>
-                    <button className="blue-button" onClick={() => setFocusColor("blue")}></button>
-                    <button className="yellow-button" onClick={() => setFocusColor("yellow")}></button>
-                    <button className="red-button" onClick={() => setFocusColor("red")}></button>
-                    <button className="orange-button" onClick={() => setFocusColor("orange")}></button>
+                    <button className="white-button" onClick={() => setFocusColor("white")} disabled={isAnimating}></button>
+                    <button className="green-button" onClick={() => setFocusColor("green")} disabled={isAnimating}></button>
+                    <button className="blue-button" onClick={() => setFocusColor("blue")} disabled={isAnimating}></button>
+                    <button className="yellow-button" onClick={() => setFocusColor("yellow")} disabled={isAnimating}></button>
+                    <button className="red-button" onClick={() => setFocusColor("red")} disabled={isAnimating}></button>
+                    <button className="orange-button" onClick={() => setFocusColor("orange")} disabled={isAnimating}></button>
                 </div>
             </div>
             <div className="three-cube-class">
-                {
-                    windowWidth < 960 
-                    ? <ThreeCube focusColor={focusColor} cameraPositionFromParent={new Vector3(2, 2, 3.8)} />
-                    : <ThreeCube focusColor={focusColor} />
-                }
+            {
+                windowWidth < 960 
+                ? <ThreeCube focusColor={focusColor} cameraPositionFromParent={new Vector3(2, 2, 3.8)} setIsAnimating={setIsAnimating} />
+                : <ThreeCube focusColor={focusColor} setIsAnimating={setIsAnimating} />
+            }
             </div>
         </div>
     );

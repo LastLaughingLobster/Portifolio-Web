@@ -24,7 +24,9 @@ type ColorMapping = {
 interface Props {
     focusColor?: CubeColors;
     cameraPositionFromParent?: THREE.Vector3;
+    setIsAnimating?: (isAnimating: boolean) => void; // add this line
 }
+
 
 type PlaneRefWithColor = {
     ref: React.RefObject<THREE.Mesh>;
@@ -32,7 +34,7 @@ type PlaneRefWithColor = {
 };
   
 
-const ThreeCube = ({ focusColor, cameraPositionFromParent = new THREE.Vector3(3, 3, 4.5)}: Props) => {
+const ThreeCube = ({ focusColor, cameraPositionFromParent = new THREE.Vector3(3, 3, 4.5), setIsAnimating }: Props) => {
     const [cubesMatrix, setCubesMatrix] = useState<React.ReactElement[]>([]);
     const [planesMatrix, setPlanesMatrix] = useState<React.ReactElement[]>([]);
     const [trackBallEnabled, setTrackBallEnabled] = useState(true);
@@ -42,36 +44,22 @@ const ThreeCube = ({ focusColor, cameraPositionFromParent = new THREE.Vector3(3,
         direction: 1,
         layer: 0,
     });
-
     const initialMousePosition = useRef(new THREE.Vector2());
-
     const meshRefs = useRef<React.RefObject<THREE.Mesh>[]>([]);
     const planeMeshRefs = useRef<PlaneRefWithColor[]>([]);
-
-
     const [isRotating, setIsRotating] = useState(false);
-
+    const [isSolving, setIsSolving] = useState(false);
     const selectedCublet = useRef(new THREE.Mesh());
     const clickedFaceNormal = useRef(new THREE.Vector3());
-
     const [currentAngle, setCurrentAngle] = useState(0);
-
     const rotationDuration = 0.2; //in seconds
-    const transitionDuration = 1000;
     const [cameraPositionProp, setCameraPositionProp] = useState<THREE.Vector3>(cameraPositionFromParent);
-
-
     const moveStringRef = useRef<string>('');
-
     const arrowRefs = useRef<(THREE.Mesh | null)[]>([]);
     const [arrows, setArrows] = useState<JSX.Element[]>([]);
-
     const arrowRotationMap = useRef(new Map()).current;
-
     const [shouldRotateCamera, setShouldRotateCamera] = useState(false);
-
     const prevFocusColor = useRef<CubeColors>("black");
-
     let colorToPositionMapping: ColorMapping = {
         'red': new THREE.Vector3(0, cameraPositionProp.length(), 0),
         'green': new THREE.Vector3(cameraPositionProp.length(), 0, 0),
@@ -80,14 +68,11 @@ const ThreeCube = ({ focusColor, cameraPositionFromParent = new THREE.Vector3(3,
         'yellow': new THREE.Vector3(0, 0, -cameraPositionProp.length()),
         'white': new THREE.Vector3(0, 0, cameraPositionProp.length())
     }
-
     const [moveList, setMoveList ] = useState<string[]>([]);
-    const [isFakeCubeSolved, setIsFakeCubeSolved] = useState(false);
-    const [startedSolving, setStartedSolving] = useState(false);
-
     const [shouldRenderSpecialFace, setShouldRenderSpecialFace] = useState(false);
-
     const canvasRef = useRef(null);
+    const isSolvingRef = useRef(isSolving);
+    const rotationRef = useRef(rotation);
 
     useEffect(() => {
         // Initialize cubesMatrix and planesMatrix when component mounts
@@ -110,14 +95,8 @@ const ThreeCube = ({ focusColor, cameraPositionFromParent = new THREE.Vector3(3,
     // Create a child component for the raycasting logic
     function EventHandler() {
         const { camera, scene } = useThree();
-        const [cameraInitialized, setCameraInitialized] = useState(false);
         const raycaster = useRef(new THREE.Raycaster());
         const mouse = useRef(new THREE.Vector2());
-
-        const [targetPosition, setTargetPosition] = useState<THREE.Vector3 | null>(null);
-
-        const speed = 0.02;  // Adjust this value as needed for faster/slower interpolation
-
 
         raycaster.current.near = 0.1;
         raycaster.current.far = 10;
@@ -135,17 +114,13 @@ const ThreeCube = ({ focusColor, cameraPositionFromParent = new THREE.Vector3(3,
             const radialOffset = 0.65;
 
             if (normal.equals(new THREE.Vector3(1, 0, 0)) || normal.equals(new THREE.Vector3(-1, 0, 0))) {
-                // X-axis
-
-                //---------------------------------------------
-                // Up
                 arrows.push(new THREE.Mesh(arrowGeometry, arrowMaterial));
                 arrows[0].position.copy(new THREE.Vector3(
                     selectedCubletPosition.x + (offsetDistance * normal.x),
                     selectedCubletPosition.y + radialOffset,
                     selectedCubletPosition.z
                 ));
-                // I want to add these parts to a function
+
                 // Down
                 arrows.push(new THREE.Mesh(arrowGeometry, arrowMaterial));
                 arrows[1].rotation.x = Math.PI;
@@ -393,11 +368,10 @@ const ThreeCube = ({ focusColor, cameraPositionFromParent = new THREE.Vector3(3,
             meshRefs.current.forEach((ref) => {
                 const mesh = ref.current;
 
-                if (mesh) { //layer should determine wich x layer are we rotating. 
+                if (mesh) {
                     mesh.position.x = roundToNearestWhole(mesh.position.x);
                     mesh.position.y = roundToNearestWhole(mesh.position.y);
                     mesh.position.z = roundToNearestWhole(mesh.position.z);
-
                 }
             });
         }
@@ -445,10 +419,6 @@ const ThreeCube = ({ focusColor, cameraPositionFromParent = new THREE.Vector3(3,
             const randomIndex = Math.floor(Math.random() * possibleColors.length);
             return possibleColors[randomIndex];
         }
-        
-
-        const isRotatingRef = useRef(isRotating);
-        const rotationRef = useRef(rotation);
 
         const groupRef = useRef(new TWEEN.Group());
 
@@ -481,8 +451,8 @@ const ThreeCube = ({ focusColor, cameraPositionFromParent = new THREE.Vector3(3,
                     setTrackBallEnabled(true);
                     setShouldRotateCamera(false);
                     setShouldRenderSpecialFace(true);
-                    prevFocusColor.current = focusColor;
                     fakeCubeSolve(() => "");
+                    prevFocusColor.current = focusColor;
                 }
             };
 
@@ -522,17 +492,17 @@ const ThreeCube = ({ focusColor, cameraPositionFromParent = new THREE.Vector3(3,
         }
 
         useEffect(() => {
-            if (focusColor && prevFocusColor.current !== focusColor) {
+            if (focusColor && prevFocusColor.current !== focusColor && setIsAnimating) {
+                setIsAnimating(true);
                 tranlateCube(focusColor);
             }
-        }, [focusColor, groupRef, prevFocusColor]);
+        }, [focusColor, groupRef, prevFocusColor, ]);
 
 
         useEffect(() => {
             if ( canvasRef.current){
                 window.addEventListener('pointerdown', handleMouseDown);
 
-                isRotatingRef.current = isRotating;
                 rotationRef.current = rotation;
 
                 return () => {
@@ -710,8 +680,10 @@ const ThreeCube = ({ focusColor, cameraPositionFromParent = new THREE.Vector3(3,
         });
 
         setTimeout(() => {
-            if(focusColor)
+            if(focusColor && setIsAnimating){
                 setPlaneOpacityToOneByColor(focusColor.toUpperCase());
+                setIsAnimating(false);
+            }
         }, accumulatedDelay);
     }
 
@@ -846,7 +818,6 @@ const ThreeCube = ({ focusColor, cameraPositionFromParent = new THREE.Vector3(3,
         return planes;
     };
     
-    
     const setPlaneOpacityToZero = () => {
         planeMeshRefs.current.forEach(({ ref }) => {  // Destructuring to get 'ref'
             const mesh = ref.current;
@@ -864,7 +835,6 @@ const ThreeCube = ({ focusColor, cameraPositionFromParent = new THREE.Vector3(3,
         });
     };
     
-
     const setPlaneOpacityToOneByColor = (targetColor: string) => {
         planeMeshRefs.current.forEach(({ ref, color }) => {
           if (color !== targetColor) return;
@@ -884,8 +854,6 @@ const ThreeCube = ({ focusColor, cameraPositionFromParent = new THREE.Vector3(3,
         });
       };      
       
-    
-
     const generateCubes = () => {
         const out = [];
         // Step 1: Initial setup with old materials
@@ -930,7 +898,7 @@ const ThreeCube = ({ focusColor, cameraPositionFromParent = new THREE.Vector3(3,
                 />
                 <EventHandler />
                 {cubesMatrix}
-                {planesMatrix}  {/* Render the planes */}
+                {planesMatrix} 
                 {arrows}
             </Canvas>
         </>

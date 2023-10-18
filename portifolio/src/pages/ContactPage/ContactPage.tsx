@@ -20,7 +20,7 @@ const ContactPage: React.FC = () => {
     return (
         <div className="center-container">
             <div className="contact-container">
-                <h2 className='header-class'>Contact Me</h2>
+                <h2 className='header-class'>Let's Work Together</h2>
                 <form className="contact-form">
                     <input type="text" placeholder="Name" />
                     <input type="email" placeholder="Email" />
