@@ -35,11 +35,11 @@ const ContactPage: React.FC = () => {
             <div className="contact-container">
                 <h2 className='header-class'>Let's Work Together</h2>
                 <form className="contact-form" onSubmit={handleSubmit}>
-                    <input type="text" placeholder="Name" />
-                    <input type="email" placeholder="Email" />
-                    <input type="text" placeholder="Subject" />
-                    <textarea placeholder="Your message..."></textarea>
-                    <button type="submit">Send Message</button>
+                    <input type="text" name="name" placeholder="Name" />
+                    <input type="email" name="email" placeholder="Email (Optional)" />
+                    <input type="text" name="subject" placeholder="Subject" />
+                    <textarea name="message" placeholder="Your message..."></textarea>
+                    <button type="submit">Send Me an Email</button>
                 </form>
                 <div className="social-buttons">
                     <SocialButton image={process.env.PUBLIC_URL + "/images/logos/twitter.png"} alt="Twitter" url="https://twitter.com/?lang=en" />
