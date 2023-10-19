@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import './ContactPage.css';
 import SocialButton from '../../components/SocialButton/SocialButton';
 
 const ContactPage: React.FC = () => {
+    const formRef = useRef<HTMLFormElement>(null); // Step 1: Create a reference
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-    
+
         const formData = new FormData(event.currentTarget);
         const data = {
             name: formData.get("name") as string,
@@ -14,7 +15,7 @@ const ContactPage: React.FC = () => {
             subject: formData.get("subject") as string,
             message: formData.get("message") as string
         };
-    
+
         try {
             const response = await fetch('https://me7tkkvnqk.execute-api.eu-west-1.amazonaws.com/prod', {
                 method: 'POST',
@@ -25,6 +26,10 @@ const ContactPage: React.FC = () => {
             });
             const result = await response.json();
             console.log(result);
+
+            if (formRef.current) { // After email is sent, reset the form
+                formRef.current.reset();
+            }
         } catch (error) {
             console.error("Error sending email:", error);
         }
@@ -34,7 +39,7 @@ const ContactPage: React.FC = () => {
         <div className="center-container">
             <div className="contact-container">
                 <h2 className='header-class'>Let's Work Together</h2>
-                <form className="contact-form" onSubmit={handleSubmit}>
+                <form className="contact-form" onSubmit={handleSubmit} ref={formRef}> {/* Step 2: Assign the reference */}
                     <input type="text" name="name" placeholder="Name" />
                     <input type="email" name="email" placeholder="Email (Optional)" />
                     <input type="text" name="subject" placeholder="Subject" />
