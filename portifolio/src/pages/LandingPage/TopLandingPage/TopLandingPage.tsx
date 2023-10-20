@@ -57,8 +57,8 @@ const TopLandingPage: FunctionComponent = () => {
           </div>
           <div className="social-buttons">
             <SocialButton image={process.env.PUBLIC_URL + "/images/logos/twitter.png"} alt="Twitter" url="https://twitter.com/?lang=en" />
-            <SocialButton image={process.env.PUBLIC_URL + "/images/logos/git.png"} alt="GitHub" url="https://github.com" />
-            <SocialButton image={process.env.PUBLIC_URL + "/images/logos/linkedin.png"} alt="LinkedIn" url="https://linkedin.com" />
+            <SocialButton image={process.env.PUBLIC_URL + "/images/logos/git.png"} alt="GitHub" url="https://github.com/LastLaughingLobster" />
+            <SocialButton image={process.env.PUBLIC_URL + "/images/logos/linkedin.png"} alt="LinkedIn" url="https://www.linkedin.com/in/henrique-joaquim-cruz-916674116/" />
           </div>
         </div>
       </div>

@@ -234,7 +234,6 @@ const RubiksImageGenerator: React.FC<RubiksImageGeneratorProps> = ({
                     if (useOldBehavior) {
                         p.noLoop();
                     } else {
-                        console.log("Here on DRAW RANDOM");
                         resetRederedLogic()
                         drawState = DRAW_STATES.COMPLETED;
                     }

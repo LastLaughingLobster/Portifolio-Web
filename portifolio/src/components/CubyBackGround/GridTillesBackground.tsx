@@ -13,8 +13,6 @@ const Fragment = () => {
   const mesh = useRef<Mesh & { material: ShaderMaterial }>(null);
 
   const clock = new THREE.Clock();
-  console.log(window.innerWidth, window.innerHeight);
-
   useFrame(() => {
     if (mesh.current && mesh.current.material) {
         mesh.current.material.uniforms.time.value = clock.getElapsedTime();

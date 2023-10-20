@@ -25,7 +25,6 @@ const ContactPage: React.FC = () => {
                 body: JSON.stringify(data)
             });
             const result = await response.json();
-            console.log(result);
 
             if (formRef.current) { // After email is sent, reset the form
                 formRef.current.reset();
@@ -48,8 +47,8 @@ const ContactPage: React.FC = () => {
                 </form>
                 <div className="social-buttons">
                     <SocialButton image={process.env.PUBLIC_URL + "/images/logos/twitter.png"} alt="Twitter" url="https://twitter.com/?lang=en" />
-                    <SocialButton image={process.env.PUBLIC_URL + "/images/logos/git.png"} alt="GitHub" url="https://github.com" />
-                    <SocialButton image={process.env.PUBLIC_URL + "/images/logos/linkedin.png"} alt="LinkedIn" url="https://linkedin.com" />
+                    <SocialButton image={process.env.PUBLIC_URL + "/images/logos/git.png"} alt="GitHub" url="https://github.com/LastLaughingLobster" />
+                    <SocialButton image={process.env.PUBLIC_URL + "/images/logos/linkedin.png"} alt="LinkedIn" url="https://www.linkedin.com/in/henrique-joaquim-cruz-916674116/" />
                 </div>
             </div>
         </div>
