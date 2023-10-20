@@ -1,6 +1,7 @@
 // LoadingAnimation.tsx
 import React, { useState, useEffect } from 'react';
 import CubeFace from './CubeFace';
+import './Loading.css';
 
 const cubeColors = ['red', 'green', 'blue', 'orange', 'white'];
 
@@ -30,12 +31,14 @@ const LoadingAnimation: React.FC = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentFace((prev) => (prev + 1) % faceColors.length);
-    }, 500); // Change face every second
+    }, 800); // Change face every second
 
     return () => clearInterval(interval);
   }, []);
 
-  return <CubeFace colors={faceColors[currentFace]} />;
+  return <div>
+    <CubeFace colors={faceColors[currentFace]} />
+  </div>;
 };
 
 export default LoadingAnimation;

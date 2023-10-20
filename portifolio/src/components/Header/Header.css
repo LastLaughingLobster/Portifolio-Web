@@ -75,12 +75,12 @@ nav ul li:nth-child(4) a.active {
     background-color: #333;
     color: #D7D7D7;
     text-decoration: none;
+    width: 150px;
     font-size: 17px;
     font-family: 'Source Sans Pro', sans-serif;
     font-weight: 700;
     padding: 10px 20px;
     border-radius: 10px; 
-    transition: background 0.3s ease, transform 0.3s ease, color 0.3s ease;
 }
 
 .contact-button .svg-icon {
@@ -89,13 +89,21 @@ nav ul li:nth-child(4) a.active {
 
 .contact-button:hover {
     transform: scale(1.05); /* Subtle scale on hover */
+    transform-origin: top right;
 }
 
 .separate-contact {
-    position: absolute;
-    right: 10px;
-    top: 15px; /* Adjust as needed for positioning */
+    right: 0px;
+    top: 0px;
 }
+
+.contact-container-cube {
+    position: absolute;
+    right: 20px;
+    top: 20px; 
+    transition: opacity 0.3s ease;
+}
+
 @media only screen and (max-width: 960px) {
     .gradient-nav {
         padding: 5px 10px;

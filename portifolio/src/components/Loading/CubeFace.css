@@ -3,23 +3,34 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2px;
-    width: 100px;
-    height: 100px;
+    width: 50px;
+    height: 50px;
     position: relative;
     background-color: black;
     box-sizing: border-box;
     margin: auto;
-    border-radius: 5px;
+    border-radius: 3px;
   }
   
   .cube-square {
     position: absolute;
     width: 28%; /* divide by 3 for 3x3 grid */
     height: 28%;
-    border-radius: 3px;
+    border-radius: 1px;
   }
 
-  /* 2.16666666*/
+@media only screen and (max-width: 960px) {
+    .cube-face{
+        width: 22px;
+        height: 22px;
+        border-radius: 1.2px;
+    }
+
+    .cube-square {
+        border-radius: 0.5px;
+    }
+}
+
   
   .cube-square:nth-child(1) { top: 3.99999999%; left: 3.99999999%; }
   .cube-square:nth-child(2) { top: 3.99999999%; left: 35.9999999%; }

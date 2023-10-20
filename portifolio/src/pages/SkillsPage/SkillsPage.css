@@ -51,7 +51,7 @@
   text-align: justify; /* Full justification of the text */
   font-size: 20px;
   font-family: 'Montserrat', sans-serif;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
   margin-top: 20px;
   hyphens: auto; /* Helps with breaking words to give a more even justification */
   padding: 20px;

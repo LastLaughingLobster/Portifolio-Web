@@ -1,0 +1,6 @@
+.loading-animation {
+    position: absolute;
+    top: 0; 
+    right: 0;
+    background-color: transparent; /* ensure no background */
+}

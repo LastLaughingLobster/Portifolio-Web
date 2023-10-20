@@ -1,11 +1,13 @@
 import React, { useState, FunctionComponent, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import LoadingAnimation from '../Loading/Loading';
 import './Header.css';
 
 const Header: FunctionComponent = () => {
   const location = useLocation();
   const [activeTab, setActiveTab] = useState(location.pathname);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 960);
+  const [showContact, setShowContact] = useState(false);
 
   useEffect(() => {
     setActiveTab(location.pathname); 
@@ -52,12 +54,22 @@ const Header: FunctionComponent = () => {
         </ul>
       </nav>
       {!isMobile && (
-        <Link to="/contact" className="contact-button separate-contact">
-          Let's get in touch
-          <span className="svg-icon">
-            <img src={process.env.PUBLIC_URL + "/images/icons/paper_plane.svg"} alt="Contact" />
-          </span>
-        </Link>
+        <div 
+          onMouseEnter={() => setShowContact(true)}
+          onMouseLeave={() => setShowContact(false)}
+          className="contact-container-cube"
+        >
+          {showContact ? (
+            <Link to="/contact" className="contact-button separate-contact">
+              Let's get in touch
+              <span className="svg-icon">
+                <img src={process.env.PUBLIC_URL + "/images/icons/paper_plane.svg"} alt="Contact" />
+              </span>
+            </Link>
+          ) : (
+            <LoadingAnimation/>
+          )}
+        </div>
       )}
     </header>
   );

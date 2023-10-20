@@ -6,11 +6,17 @@ import SkillSticker from '../../components/SkillSticker/SkillSticker';
 
 
 const SkillsPage = () => {
-    const [focusColor, setFocusColor] = useState<"red" | "green" | "blue" | "yellow" | "white" | "orange">();
+    const [focusColor, setFocusColor] = useState<"red" | "green" | "blue" | "yellow" | "white" | "orange" | "black" >("black");
     const [isAnimating, setIsAnimating] = useState(false);
 
     // TODO: Move this to an endpoint latter
     const colorContentMapping = {
+        black: {
+            header: 'Skills',
+            paragraph: 'According to the Cambridge Dictionary, a skill is defined as "an ability to perform an activity or job proficiently, especially through practice." Analogous to mastering a Rubik\'s cube, the essence lies in consistent practice. On the cube, you will find a selection of skills I have honed and continue to cultivate as a computer scientist and developer for the past 5 years. You can also play with it : ). The skill experience goes from 1 to 3 and can be seeing in the cards bellow',
+            skills : [
+            ]
+        },
         red: {
             header: 'Misc Skills',
             paragraph: 'These are some other skills. Shout Out to Rust my current favorite language.',
@@ -103,10 +109,10 @@ const SkillsPage = () => {
             <div className="content-left">
                 <div className="skills-text">
                     {/* Displaying content based on the focusColor */}
-                    <h1>{focusColor ? colorContentMapping[focusColor].header : 'Skills'}</h1>
-                    <p>{focusColor ? colorContentMapping[focusColor].paragraph : 'According to the Cambridge Dictionary, a skill is defined as "an ability to perform an activity or job proficiently, especially through practice." Analogous to mastering a Rubik\'s cube, the essence lies in consistent practice. On the cube, you will find a selection of skills I have honed and continue to cultivate as a computer scientist and developer for the past 5 years. You can also play with it : )'}</p>
+                    <h1>{focusColor && colorContentMapping[focusColor].header }</h1>
+                    <p>{focusColor && colorContentMapping[focusColor].paragraph }</p>
                 </div>
-                {focusColor && colorContentMapping[focusColor].skills &&
+                {focusColor && colorContentMapping[focusColor].skills && 
                     <div className="skill-stickers-container">
                         {colorContentMapping[focusColor].skills.map((skill, index) => (
                             <SkillSticker 
